@@ -7,9 +7,7 @@
 ### Besoin  fonctionnel
 ### Super admin(extends admin)
 * crud : admins , soft delete(archivage) , 
-    |
-    | extends
-    v
+ 
 * fonction(nb_workers,hidden):nb_admins
 ### Admin
 *  adding new workers manually to the plateform (formulaire,cv_parser(perspectives))
