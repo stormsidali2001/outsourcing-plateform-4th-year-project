@@ -38,7 +38,9 @@ public class Woker {
 
     private Address address;
 
-    
+    private Collection<Certification> collections;
+
+
 
 
 
