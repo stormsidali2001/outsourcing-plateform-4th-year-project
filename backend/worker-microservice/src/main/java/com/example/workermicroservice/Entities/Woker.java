@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 
 @Document(value="worker")
@@ -28,4 +29,6 @@ public class Woker {
     private Integer publicPrice;
 
     private Date signUpDate;
+
+    private Collection<WorkExperience> workExperiences;
 }
