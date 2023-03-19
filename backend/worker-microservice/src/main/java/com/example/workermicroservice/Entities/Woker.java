@@ -31,4 +31,6 @@ public class Woker {
     private Date signUpDate;
 
     private Collection<WorkExperience> workExperiences;
+
+    private Collection<EducationDetail> educationDetails;
 }
