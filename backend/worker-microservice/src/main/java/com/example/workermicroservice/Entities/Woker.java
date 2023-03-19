@@ -33,4 +33,8 @@ public class Woker {
     private Collection<WorkExperience> workExperiences;
 
     private Collection<EducationDetail> educationDetails;
+
+    private Collection<PortfolioProject> portfolioProjects;
+
+
 }
