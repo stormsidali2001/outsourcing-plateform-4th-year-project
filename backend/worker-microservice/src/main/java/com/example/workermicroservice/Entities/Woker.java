@@ -36,5 +36,12 @@ public class Woker {
 
     private Collection<PortfolioProject> portfolioProjects;
 
+    private Address address;
+
+    private Collection<Certification> collections;
+
+
+
+
 
 }
