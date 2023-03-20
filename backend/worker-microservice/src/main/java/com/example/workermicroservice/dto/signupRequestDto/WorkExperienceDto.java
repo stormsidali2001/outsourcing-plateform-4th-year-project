@@ -1,8 +1,10 @@
 package com.example.workermicroservice.dto.signupRequestDto;
 
 import com.example.workermicroservice.Entities.worker.Skill;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
@@ -14,7 +16,7 @@ import java.util.Collection;
 import java.util.Date;
 
 
-@Builder @Data
+@Builder @Data @NoArgsConstructor @AllArgsConstructor
 public class WorkExperienceDto {
 
     @NotBlank(message = "title is required ")

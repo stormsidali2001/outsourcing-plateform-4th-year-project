@@ -14,6 +14,7 @@ public class WorkerService {
 
     @Autowired
     private WorkerRepository workerRepository;
+
     public void signUpWorker(SignUpRequestDto sq){
         Worker worker = Worker.builder()
                 .firstName(sq.getFirstName())
