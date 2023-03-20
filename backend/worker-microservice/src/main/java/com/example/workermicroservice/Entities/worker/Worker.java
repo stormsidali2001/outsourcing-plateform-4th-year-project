@@ -31,9 +31,8 @@ public class Worker {
     private Integer publicPrice; //by hour
 
 
-    @Field()
-    private WorkerStatus status = WorkerStatus.PENDING;
-    private Date signUpDate = new Date();
+    private WorkerStatus status;
+    private Date signUpDate;
 
     private Collection<WorkExperience> workExperiences;
 
