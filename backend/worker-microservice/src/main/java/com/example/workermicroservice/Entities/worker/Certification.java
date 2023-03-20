@@ -1,7 +1,8 @@
-package com.example.workermicroservice.Entities;
+package com.example.workermicroservice.Entities.worker;
 
 import lombok.Builder;
 
+import java.util.Collection;
 import java.util.Date;
 
 @Builder
@@ -13,4 +14,6 @@ public class Certification {
     private Date issuedAt;
 
     private String companyName;
+
+    private Skill skill;
 }

@@ -1,9 +1,10 @@
-package com.example.workermicroservice.Entities;
+package com.example.workermicroservice.Entities.worker;
 
 import lombok.Builder;
 import lombok.Data;
 
 import java.beans.Transient;
+import java.util.Collection;
 
 @Builder @Data
 public class PortfolioProject {
@@ -14,6 +15,8 @@ public class PortfolioProject {
     private String projectGoal;
 
     private String projectSolution;
+
+    private Collection<Skill> skills;
 
 
 }

@@ -1,11 +1,11 @@
-package com.example.workermicroservice.Entities;
+package com.example.workermicroservice.dto.signupRequestDto;
 
-import lombok.Builder;
+import com.example.workermicroservice.Entities.worker.Skill;
 
+import java.util.Collection;
 import java.util.Date;
 
-@Builder
-public class WorkExperience {
+public class WorkExperienceDto {
     private String title;
 
     private Date startDate;
@@ -19,4 +19,6 @@ public class WorkExperience {
     private String location;
 
     private String type;
+    private Collection<SkillDto> skills;
+
 }
