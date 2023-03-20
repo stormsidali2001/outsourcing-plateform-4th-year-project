@@ -1,10 +1,14 @@
 package com.example.workermicroservice.dto.signupRequestDto;
 
 import com.example.workermicroservice.Entities.worker.Skill;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.Collection;
 import java.util.Date;
 
+
+@Builder @Data
 public class WorkExperienceDto {
     private String title;
 
