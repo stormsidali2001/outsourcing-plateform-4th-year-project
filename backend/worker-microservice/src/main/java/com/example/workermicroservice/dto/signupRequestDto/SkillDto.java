@@ -7,4 +7,6 @@ import lombok.Data;
 public class SkillDto {
     private String name;
 
+    private String category;
+
 }
