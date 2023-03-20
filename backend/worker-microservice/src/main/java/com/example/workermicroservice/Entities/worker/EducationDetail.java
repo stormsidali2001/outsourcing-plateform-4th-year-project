@@ -2,6 +2,7 @@ package com.example.workermicroservice.Entities.worker;
 
 import lombok.Builder;
 
+import java.util.Collection;
 import java.util.Date;
 
 @Builder
@@ -17,4 +18,6 @@ public class EducationDetail {
     private String location;
 
     private String field;
+
+    private Collection<Skill> skills;
 }
