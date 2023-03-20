@@ -3,8 +3,10 @@ package com.example.workermicroservice.dto.signupRequestDto;
 
 import com.example.workermicroservice.Entities.worker.*;
 import com.example.workermicroservice.types.WorkerStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -14,7 +16,7 @@ import javax.validation.constraints.Positive;
 import java.util.Collection;
 import java.util.Date;
 
-@Builder @Data
+@Builder @Data @NoArgsConstructor @AllArgsConstructor
 public class SignUpRequestDto {
     @NotBlank(message = "FirstName is required")
     private String firstName;
