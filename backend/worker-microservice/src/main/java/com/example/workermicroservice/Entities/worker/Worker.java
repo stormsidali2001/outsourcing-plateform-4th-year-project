@@ -3,9 +3,15 @@ package com.example.workermicroservice.Entities.worker;
 import com.example.workermicroservice.types.WorkerStatus;
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import java.util.Collection;
 import java.util.Date;
 
@@ -21,13 +27,13 @@ public class Worker {
 
     private String phoneNumber;
 
-    private WorkerStatus status;
 
-    private Integer intialPrice;//by hour
+    private Integer publicPrice; //by hour
 
-    private Integer publicPrice;
 
-    private Date signUpDate;
+    @Field()
+    private WorkerStatus status = WorkerStatus.PENDING;
+    private Date signUpDate = new Date();
 
     private Collection<WorkExperience> workExperiences;
 
@@ -37,7 +43,7 @@ public class Worker {
 
     private Address address;
 
-    private Collection<Certification> collections;
+    private Collection<Certification> certifications;
 
     private Collection<Skill> skills;
 
