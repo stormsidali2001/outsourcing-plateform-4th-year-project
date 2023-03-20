@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Document(value="worker")
 @Builder @Data
-public class Woker {
+public class Worker {
     @Id
     private String id;
 
