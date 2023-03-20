@@ -41,7 +41,7 @@ public class SignUpRequestDto {
     @Valid
     private AddressDto address;
 
-    private Collection<CertificationDto> collections;
+    private Collection<CertificationDto> certifications;
 
     @NotEmpty(message = "At least one skill is required")
     @Valid

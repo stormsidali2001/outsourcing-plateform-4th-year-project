@@ -43,7 +43,7 @@ public class Worker {
 
     private Address address;
 
-    private Collection<Certification> collections;
+    private Collection<Certification> certifications;
 
     private Collection<Skill> skills;
 
