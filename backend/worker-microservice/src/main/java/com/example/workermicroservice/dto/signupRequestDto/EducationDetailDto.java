@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Builder @Data
 public class EducationDetailDto {
+
     private String description;
 
     private Date startDate;
