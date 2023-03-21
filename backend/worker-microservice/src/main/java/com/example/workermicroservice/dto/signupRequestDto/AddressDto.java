@@ -1,11 +1,13 @@
 package com.example.workermicroservice.dto.signupRequestDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
-@Builder @Data
+@Builder @Data @NoArgsConstructor @AllArgsConstructor
 public class AddressDto {
     @NotBlank(message = "Wilaya is required")
     private String wilaya;

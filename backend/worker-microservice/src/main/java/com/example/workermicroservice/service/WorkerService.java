@@ -2,18 +2,27 @@ package com.example.workermicroservice.service;
 
 import com.example.workermicroservice.Entities.worker.*;
 import com.example.workermicroservice.dto.signupRequestDto.*;
+import com.example.workermicroservice.repositpries.WorkerRepository;
+import com.example.workermicroservice.types.WorkerStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Date;
 import java.util.stream.Collectors;
 
 @Service
 public class WorkerService {
 
+    @Autowired
+    private WorkerRepository workerRepository;
+
     public void signUpWorker(SignUpRequestDto sq){
         Worker worker = Worker.builder()
                 .firstName(sq.getFirstName())
                 .lastName(sq.getLastName())
+                .status(WorkerStatus.PENDING)
+                .signUpDate(new Date())
                 .educationDetails(sq.getEducationDetails().stream().map(this::mapEducationDetail).toList())
                 .address(mapToAddress(sq.getAddress()))
                 .publicPrice(sq.getPublicPrice())
@@ -23,6 +32,8 @@ public class WorkerService {
                 .certifications(sq.getCertifications().stream().map(this::mapToCertification).toList())
                 .workExperiences(sq.getWorkExperiences().stream().map(this::mapToWorkExperience).toList())
                 .build();
+        workerRepository.save(worker);
+
     }
 
     public EducationDetail mapEducationDetail(EducationDetailDto ed){
