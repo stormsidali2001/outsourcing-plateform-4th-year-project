@@ -1,0 +1,112 @@
+@import "./../mixins";
+@import "./../variables";
+
+.talent {
+  @include boxsize(25vh, 55vw);
+  @include flex(center);
+  @include flex-directions(row);
+  background-color: $bg-white-color;
+  border: 1.5px $praimary-color solid;
+  margin-bottom: 10%;
+  border-radius: 15px;
+
+  .talent-picture {
+    @include flex(center);
+    @include boxsize(100%, 100%);
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    flex: 25%;
+    div {
+      @include boxsize(68%, 68%);
+      border-radius: 100%;
+      background-image: url("./../../assets/profil.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+  .talent-skills {
+    @include boxsize(100%, 100%);
+    @include flex-directions(column);
+    flex: 40%;
+    &__rating {
+      @include flex-directions(row);
+      @include boxsize(100%, 100%);
+      flex: 25%;
+      div {
+        @include boxsize(100%, 100%);
+        @include font-size(text1);
+        @include font-weight(meduim);
+        padding-top: 10%;
+        &:first-child {
+          flex: 20%;
+          padding-left: 10%;
+        }
+        &:last-child {
+          padding-left: 3%;
+        }
+      }
+    }
+    &__name {
+      @include flex-directions(column);
+      @include boxsize(100%, 100%);
+      flex: 45%;
+
+      div {
+        @include boxsize(100%, 100%);
+        display: flex;
+        padding-left: 10%;
+        &:first-child {
+          padding-top: 3%;
+        }
+        &:last-child > h4 {
+          @include font-size(text0);
+          padding-top: 2%;
+          font-weight: 600;
+          color: #3e3e3ee5;
+        }
+      }
+    }
+    &__skill {
+      @include flex-directions(row);
+      @include boxsize(100%, 100%);
+      @include flex(flex-start);
+      padding-left: 8%;
+      flex: 40%;
+    }
+  }
+  .talent-visit {
+    @include flex(center);
+    @include boxsize(100%, 100%);
+    flex: 35%;
+
+    button {
+      @include boxsize(23%, 70%);
+      border: none;
+      border-radius: 7px;
+      background-color: #3e3e3e9c;
+      cursor: pointer;
+      p {
+        // @include boxsize(100%, 100%);
+        @include flex(center);
+        @include font-size(text1);
+        @include font-weight(meduim);
+        color: $bg-white-color;
+      }
+      &:hover {
+        background-color: $praimary-color;
+      }
+    }
+  }
+}
+.skill{
+    border-radius: 5px;
+    margin: 2%;
+    padding: 2%;
+    box-sizing: border-box;
+    background-color: #EBEBEB;
+    p{
+        color: #3e3e3e9c;
+        text-align: justify;
+    }
+}

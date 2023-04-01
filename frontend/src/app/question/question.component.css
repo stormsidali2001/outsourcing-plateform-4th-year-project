@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Montserrat;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Montserrat;
+}
+
+@keyframes fleche-right {
+  from {
+    padding-left: 0;
+  }
+  to {
+    padding-left: 3%;
+  }
+}
+.question-div {
+  height: 16vh;
+  width: 55vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: #ffffff;
+  border: 0.5px #002a58 solid;
+  cursor: pointer;
+  margin: 5%;
+}
+.question-div div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.question-div div:first-child {
+  flex: 80%;
+  padding-left: 3%;
+}
+.question-div div:first-child p {
+  font-size: 14pt;
+  font-weight: 400;
+  color: #002a58;
+}
+.question-div div:last-child {
+  flex: 20%;
+  background-repeat: no-repeat;
+}
+.question-div:hover div:last-child {
+  animation: fleche-right 0.5s ease-in-out forwards;
+}/*# sourceMappingURL=question.component.css.map */
