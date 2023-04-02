@@ -1,0 +1,62 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Montserrat;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Montserrat;
+}
+
+.categorie {
+  height: 38vh;
+  width: 38vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 5vh;
+}
+.categorie__picture {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px 10px 0px 0px;
+  flex: 75%;
+  background-image: url("./../../assets/cat.png");
+}
+.categorie__picture img {
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+.categorie__name {
+  height: 100%;
+  width: 100%;
+  box-shadow: 1px;
+  position: relative;
+  top: 5%;
+  padding-left: 5%;
+  flex: 25%;
+}
+.categorie__name p {
+  font-size: 13pt;
+  font-weight: 400;
+}
+.categorie:hover {
+  transition: all 0.2s ease-in-out;
+  border-radius: 10px;
+  background-color: #002a58;
+}
+.categorie:hover p {
+  transition: all 0.2s ease-in-out;
+  font-size: 12pt;
+  font-weight: 600;
+  color: #ffffff;
+}/*# sourceMappingURL=categories.component.css.map */

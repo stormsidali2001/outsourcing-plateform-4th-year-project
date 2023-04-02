@@ -1,0 +1,43 @@
+@import "./../mixins";
+@import "./../variables";
+
+.categorie {
+  @include boxsize(38vh, 38vh);
+  @include flex-directions(column);
+  margin-right: 5vh;
+
+  &__picture {
+    @include boxsize(100%, 100%);
+    @include flex(center);
+    border-radius: 10px 10px 0px 0px;
+    flex: 75%;
+    background-image: url("./../../assets/cat.png");
+    img {
+      background-size: cover;
+      @include boxsize(100%, 100%);
+    }
+  }
+  &__name {
+    @include boxsize(100%, 100%);
+    box-shadow: 1px ;
+    position: relative;
+    top: 5%;
+    padding-left: 5%;
+    flex: 25%;
+    p{
+        @include font-size(text1);
+        @include font-weight(regular);
+    }
+  }
+  &:hover {
+    @include transition-ease;
+    border-radius: 10px;
+    background-color: $secondary-color;
+   p {
+    @include transition-ease;
+        font-size: 12pt;
+        font-weight: 600;
+        color: $bg-white-color;
+    }
+  }
+}

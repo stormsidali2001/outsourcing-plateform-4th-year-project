@@ -1,0 +1,72 @@
+@import "../variables";
+@import "../mixins";
+
+@function font($text){
+    @return map-get($font-sizes , $text )
+};
+@function font-weight($key){
+    @return map-get($font-weights , $key )
+};
+
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 10%;
+  z-index: 1000;
+  background-color: $bg-white-color;
+  @include flex-directions(row);
+
+  .nav-logo {
+    @include flex(left);
+    @include boxsize(100%, 100%);
+    padding-left: 5%;
+    font-weight: font-weight(bold);
+    flex: 30%;
+  }
+  .nav-ul {
+    @include flex(center);
+    @include boxsize(100%, 100%);
+    flex: 70%;
+
+
+
+    .nav-menu {
+      @include flex(right);
+      @include boxsize(100%,100%);
+      flex-flow: row wrap;
+      list-style: none;
+      padding-right: 6%;
+
+      &__item{
+        padding-left: 5%;
+
+        &:last-child{
+            background-color: $praimary-color;
+            border-radius: 5px;
+            padding: 10px;
+            padding-top: 13px;
+            padding-bottom: 13px;
+            width: 10%;
+            margin-left: 5%;
+            @include flex(center);
+
+            &:last-child>a{
+                color: $bg-white-color;
+            }
+        }
+      }
+      &__link{
+        text-decoration: none;
+        color: $gray-color;
+        font-size: font(text1);
+        font-weight: font-weight(bold);
+
+        &:hover{
+          color: $praimary-color;
+        }
+
+      }
+    }
+  }
+}
