@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class JwrService {
+public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
@@ -21,7 +21,7 @@ public class JwrService {
 
         return Keys.hmacShaKeyFor(keyBytes);
     }
-    private String createToken(Map<String,Object> claims ,String username){
+    public String createToken(Map<String,Object> claims ,String username){
         return Jwts.builder()
                 .setClaims(claims) //payload
                 .setSubject(username)
@@ -29,12 +29,12 @@ public class JwrService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
-    private String generateToken(String username){
+    public String generateToken(String username){
         Map<String , Object> claims = new HashMap<>();
         return createToken(claims,username);
     }
 
-    private Jwt<Header, Claims> validateToken(final String token){
+    public Jwt<Header, Claims> validateToken(final String token){
         return  Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJwt(token);
     }
 }
