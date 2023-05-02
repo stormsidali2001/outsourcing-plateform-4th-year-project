@@ -4,14 +4,10 @@ import com.example.authmicroservice.Entity.UserCredentials;
 import com.example.authmicroservice.Repository.UserCredentialsRepository;
 import com.example.authmicroservice.dto.UserCredentialsDto;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwt;
-import org.apache.http.HttpException;
+import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -39,7 +35,7 @@ public class UserCredentialsService {
 
         return jwtService.generateToken(data.getUsername());
     }
-    public Jwt<Header, Claims> validateToken(final String token){
+    public Jws<Claims> validateToken(final String token){
         return jwtService.validateToken(token);
     }
 }
