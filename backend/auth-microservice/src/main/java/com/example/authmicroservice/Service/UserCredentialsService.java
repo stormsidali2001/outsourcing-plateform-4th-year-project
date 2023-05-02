@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.ws.rs.core.Response;
 
 @Service
 public class UserCredentialsService {
@@ -37,15 +36,8 @@ public class UserCredentialsService {
     }
 
     public String generateToken(UserCredentialsDto data){
-        UserCredentials user = userCredentialsRepository.findByEmail(data.getEmail());
-        if(user != null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"user not found");
-        }
-        boolean match = passwordEncoder.matches(data.getPassword(), user.getPassword());
-        if(!match){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"wrong credentials");
-        }
-        return jwtService.generateToken(user.getUsername());
+
+        return jwtService.generateToken(data.getUsername());
     }
     public Jwt<Header, Claims> validateToken(final String token){
         return jwtService.validateToken(token);

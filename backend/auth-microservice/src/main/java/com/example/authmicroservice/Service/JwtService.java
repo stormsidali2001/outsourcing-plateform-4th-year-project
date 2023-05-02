@@ -1,9 +1,11 @@
 package com.example.authmicroservice.Service;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoder;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import io.jsonwebtoken.io.Decoders;
 
 import java.security.Key;
 import java.util.Base64;
@@ -17,7 +19,7 @@ public class JwtService {
     private String secret;
 
     private Key getSignInKey(){
-        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
 
         return Keys.hmacShaKeyFor(keyBytes);
     }
