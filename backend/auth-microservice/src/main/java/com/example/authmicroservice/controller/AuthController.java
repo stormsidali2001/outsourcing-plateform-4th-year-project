@@ -3,9 +3,12 @@ package com.example.authmicroservice.controller;
 import com.example.authmicroservice.Service.UserCredentialsService;
 import com.example.authmicroservice.dto.RegisterUserDto;
 import com.example.authmicroservice.dto.UserCredentialsDto;
+import com.example.authmicroservice.dto.WorkerDto;
 import com.example.authmicroservice.dto.WorkerSignUpRequestDto;
+import com.example.authmicroservice.types.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,16 +28,19 @@ public class AuthController {
     @Autowired
     private UserCredentialsService userCredentialsService;
 
-    @PostMapping("register")
-    public String registerUser(@RequestBody RegisterUserDto user){
-        userCredentialsService.save(user);
-        kafkaTemplate.send("hi","hiiiiiiiiiiiiiiiiiiii worker");
-        return "user registered succesfully";
-    }
+//    @PostMapping("register")
+//    public String registerUser(@RequestBody RegisterUserDto user){
+//        userCredentialsService.save(user);
+//        kafkaTemplate.send("worker-user-signed-up","hiiiiiiiiiiiiiiiiiiii worker");
+//        return "user registered succesfully";
+//    }
+
     @PostMapping("registration/worker")
-    public String registerWorker(@RequestBody WorkerSignUpRequestDto data){
-        userCredentialsService.save(data.getUser());
-        kafkaTemplate.send("worker-user-signed-up",data.getWorker());
+    public String registerWorker(@Valid  @RequestBody WorkerSignUpRequestDto data){
+        String id = userCredentialsService.save(data.getUser(), Role.WORKER);
+        WorkerDto worker = data.getWorker();
+        worker.setUserId(id);
+        kafkaTemplate.send("worker-user-signed-up",worker);
         return  "user registered succesfully";
     }
 

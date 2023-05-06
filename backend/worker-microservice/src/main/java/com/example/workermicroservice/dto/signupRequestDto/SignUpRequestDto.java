@@ -50,6 +50,7 @@ public class SignUpRequestDto {
     @Valid
     private Collection<SkillDto> skills;
 
-
+    @NotBlank(message = "userId is required")
+    private String userId;
 
 }

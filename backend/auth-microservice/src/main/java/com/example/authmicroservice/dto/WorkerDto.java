@@ -28,6 +28,7 @@ public class WorkerDto  {
     @Positive(message = "public price must be ")
     private Integer publicPrice; //by hour
 
+
     @Valid
     private Collection<WorkExperienceDto> workExperiences;
 
@@ -39,13 +40,15 @@ public class WorkerDto  {
 
     @Valid
     private AddressDto address;
-
+//
     @Valid
     private Collection<CertificationDto> certifications;
 
     @NotEmpty(message = "At least one skill is required")
     @Valid
     private Collection<SkillDto> skills;
+
+    private String userId;
 
 
 

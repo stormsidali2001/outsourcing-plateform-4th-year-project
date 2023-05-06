@@ -46,8 +46,7 @@ public class Worker {
 
     private Collection<Skill> skills;
 
-
-
+    private String userId;
 
 
 }

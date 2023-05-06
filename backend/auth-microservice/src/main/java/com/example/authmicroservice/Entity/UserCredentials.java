@@ -20,8 +20,8 @@ import java.util.List;
 @Builder @NoArgsConstructor @AllArgsConstructor @Data
 public class UserCredentials implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
 
     private String password;

@@ -4,6 +4,7 @@ import com.example.authmicroservice.Entity.UserCredentials;
 import com.example.authmicroservice.Repository.UserCredentialsRepository;
 import com.example.authmicroservice.dto.RegisterUserDto;
 import com.example.authmicroservice.dto.UserCredentialsDto;
+import com.example.authmicroservice.types.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +25,16 @@ public class UserCredentialsService {
   @Autowired
   private JwtService jwtService;
 
-    public void save(RegisterUserDto userData){
+    public String save(RegisterUserDto userData, Role role){
         System.out.println("PasswordEncoder: " + passwordEncoder.getClass().getName());
 
-        userCredentialsRepository.save(
+       return  userCredentialsRepository.save(
                 UserCredentials.builder()
                         .email(userData.getEmail())
                         .password(passwordEncoder.encode(userData.getPassword()))
-                        .role(userData.getRole())
+                        .role(role)
                         .build()
-        );
+        ).getId();
     }
 
     public String generateToken(UserCredentialsDto data){

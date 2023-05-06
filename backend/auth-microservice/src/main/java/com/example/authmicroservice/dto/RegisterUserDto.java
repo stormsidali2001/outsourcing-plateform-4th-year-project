@@ -2,6 +2,7 @@ package com.example.authmicroservice.dto;
 
 import com.example.authmicroservice.types.Role;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +18,4 @@ public class RegisterUserDto {
     @NotBlank(message = "email is required")
     private String email;
 
-    private Role role;
 }
