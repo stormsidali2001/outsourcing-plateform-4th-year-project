@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class KafkaListeners {
     @Autowired
     private WorkerService workerService;
 
+
+    @Autowired
+    private KafkaTemplate<Object,Object> kafkaTemplate;
 
 
     @KafkaListener(
@@ -74,8 +78,15 @@ public class KafkaListeners {
             List<Category> categoriesDb = categoryRepository.findAllByName(categories.stream().toList());
 
             List<Skill> skillsDb = skillRepository.findAllByName(skills.stream().toList());
+
+            if(categoriesDb.size() != categories.size() || skillsDb.size() != skills.size()){
+                kafkaTemplate.send("worker-unvalid",worker.getUserId());
+
+                        return;
+            }
             workerService.signUpWorker(worker);
             System.out.println("data saved in db...");
+
 
         } catch (Exception e) {
             e.printStackTrace();

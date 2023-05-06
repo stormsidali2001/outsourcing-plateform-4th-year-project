@@ -13,4 +13,10 @@ public class KafkaConfig {
                 .name("worker-user-signed-up")
                 .build();
     }
+    @Bean
+    public NewTopic getTopic1(){
+        return TopicBuilder
+                .name("worker-unvalid")
+                .build();
+    }
 }
