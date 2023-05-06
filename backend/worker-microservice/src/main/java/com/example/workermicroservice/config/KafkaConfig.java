@@ -10,7 +10,7 @@ public class KafkaConfig {
     @Bean
     public NewTopic getTopic(){
         return TopicBuilder
-                .name("hi")
+                .name("worker-user-signed-up")
                 .build();
     }
 }

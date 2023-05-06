@@ -3,6 +3,7 @@ package com.example.authmicroservice.controller;
 import com.example.authmicroservice.Service.UserCredentialsService;
 import com.example.authmicroservice.dto.RegisterUserDto;
 import com.example.authmicroservice.dto.UserCredentialsDto;
+import com.example.authmicroservice.dto.WorkerSignUpRequestDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,12 @@ public class AuthController {
         userCredentialsService.save(user);
         kafkaTemplate.send("hi","hiiiiiiiiiiiiiiiiiiii worker");
         return "user registered succesfully";
+    }
+    @PostMapping("registration/worker")
+    public String registerWorker(@RequestBody WorkerSignUpRequestDto data){
+        userCredentialsService.save(data.getUser());
+        kafkaTemplate.send("worker-user-signed-up",data.getWorker());
+        return  "user registered succesfully";
     }
 
     @PostMapping("signin")
