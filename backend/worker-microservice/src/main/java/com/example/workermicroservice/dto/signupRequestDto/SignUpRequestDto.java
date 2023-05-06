@@ -53,4 +53,7 @@ public class SignUpRequestDto {
     @NotBlank(message = "userId is required")
     private String userId;
 
+    @NotBlank(message = "category is required")
+    private String category;
+
 }

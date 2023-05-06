@@ -50,6 +50,9 @@ public class WorkerDto  {
 
     private String userId;
 
+    @NotBlank(message = "category is required")
+    private String category;
+
 
 
 }
