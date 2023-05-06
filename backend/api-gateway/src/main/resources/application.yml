@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: worker
+          uri: lb://worker-microservice
+          predicates:
+            - Path=/workers/**
+          filters:
+            - RewritePath=/api/(?<s>.*), /${s}
+            - AuthorizationFilter
+
+
+        - id: auth-microservice
+          uri: lb://auth-microservice
+          predicates:
+            - Path=/auth/**
+          filters:
+            - RewritePath=auth/(?<s>.*), /${s}

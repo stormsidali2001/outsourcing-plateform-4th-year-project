@@ -7,17 +7,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="api-gateway" />
         <module name="registry" />
-        <module name="worker-microservice" />
         <module name="auth-microservice" />
+        <module name="backend" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="outsourcing-plateform" target="17" />
+      <module name="swiggy-gateway" target="17" />
+      <module name="worker-microservice" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway" options="-parameters" />
       <module name="auth-microservice" options="-parameters" />
+      <module name="backend" options="-parameters" />
       <module name="outsourcing-plateform" options="-parameters" />
       <module name="registry" options="-parameters" />
+      <module name="swiggy-gateway" options="-parameters" />
       <module name="worker-microservice" options="-parameters" />
     </option>
   </component>

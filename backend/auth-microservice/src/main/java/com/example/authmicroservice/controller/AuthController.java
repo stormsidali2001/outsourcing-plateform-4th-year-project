@@ -1,6 +1,7 @@
 package com.example.authmicroservice.controller;
 
 import com.example.authmicroservice.Service.UserCredentialsService;
+import com.example.authmicroservice.dto.RegisterUserDto;
 import com.example.authmicroservice.dto.UserCredentialsDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -11,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api")
 public class AuthController {
 
     @Autowired
@@ -20,14 +20,14 @@ public class AuthController {
     private UserCredentialsService userCredentialsService;
 
     @PostMapping("register")
-    public String registerUser(@RequestBody UserCredentialsDto user){
+    public String registerUser(@RequestBody RegisterUserDto user){
         userCredentialsService.save(user);
         return "user registered succesfully";
     }
 
     @PostMapping("signin")
     public String signinUser(@RequestBody UserCredentialsDto user){
-        Authentication authentication  = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
+        Authentication authentication  = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
         if(!authentication.isAuthenticated()){
             throw new RuntimeException("invalide access");
         }
@@ -37,6 +37,11 @@ public class AuthController {
     @GetMapping("validate-token")
     public Jws<Claims> validateToken(@RequestParam("token") String token ){
         return this.userCredentialsService.validateToken(token);
+    }
+
+    @GetMapping("users")
+    public Object[] getUsers(){
+        return this.userCredentialsService.getUsers();
     }
 
 }

@@ -16,12 +16,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserCredentialsRepository userCredentialsRepository;
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserCredentials> user =  userCredentialsRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<UserCredentials> user =  userCredentialsRepository.findByEmail(email);
         System.out.println(user);
         if(user.isEmpty()) throw new RuntimeException("user not  found");
-
-        return new CustomUserDetails(user.get());
+        return user.get();
 
     }
 }
