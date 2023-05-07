@@ -44,12 +44,15 @@ public class KafkaListeners {
 
               Optional<CompanyField> optC =  companyFieldRepository.findByName(company.getField());
               if(optC.isEmpty()){
-                  System.out.println("company-unvalid ");
+                  System.out.println("field "+company.getField());
+                  System.out.println("field db "+optC.isPresent());
+                  System.out.println("company-unvalid ------> kafka");
                   kafkaTemplate.send("company-unvalid",company.getUserId());
                   return;
               }
 
           }catch (Exception e){
+              System.out.println("company-unvalid ------> kafka");
               kafkaTemplate.send("company-unvalid",company.getUserId());
               e.printStackTrace();
           }

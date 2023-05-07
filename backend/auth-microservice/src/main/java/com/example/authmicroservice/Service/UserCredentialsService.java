@@ -7,11 +7,13 @@ import com.example.authmicroservice.dto.UserCredentialsDto;
 import com.example.authmicroservice.types.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -25,9 +27,10 @@ public class UserCredentialsService {
   @Autowired
   private JwtService jwtService;
 
-    public String save(RegisterUserDto userData, Role role){
+    public String save(RegisterUserDto userData, Role role) throws HttpException {
         System.out.println("PasswordEncoder: " + passwordEncoder.getClass().getName());
-
+        Optional<UserCredentials> userOp = userCredentialsRepository.findByEmail(userData.getEmail());
+        if(userOp.isPresent()) throw new HttpException("Email already exist");
        return  userCredentialsRepository.save(
                 UserCredentials.builder()
                         .email(userData.getEmail())

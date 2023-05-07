@@ -6,6 +6,7 @@ import com.example.authmicroservice.types.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import jakarta.validation.Valid;
+import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,7 +35,7 @@ public class AuthController {
 //    }
 
     @PostMapping("registration/worker")
-    public String registerWorker( @RequestBody @Valid WorkerSignUpRequestDto data){
+    public String registerWorker( @RequestBody @Valid WorkerSignUpRequestDto data) throws HttpException {
         String id = userCredentialsService.save(data.getUser(), Role.WORKER);
         WorkerDto worker = data.getWorker();
         worker.setUserId(id);
@@ -42,7 +43,7 @@ public class AuthController {
         return  "user registered succesfully";
     }
     @PostMapping("registration/company")
-    public String registerCompany( @RequestBody @Valid CompanySignUpDto data){
+    public String registerCompany( @RequestBody @Valid CompanySignUpDto data) throws HttpException {
         String id = userCredentialsService.save(data.getUser(), Role.COMPANY);
         CompanyDto company = data.getCompany();
         company.setUserId(id);

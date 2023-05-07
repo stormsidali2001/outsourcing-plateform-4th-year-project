@@ -21,6 +21,6 @@ public class KafkaListeners {
         String userId = (String) data.value();
         userId= userId.substring(1,userId.length()-1); // removing the "<userId>"
         userCredentialsRepository.deleteById(userId);
-        System.out.println("worker-unvalid event ---> user : "+userId+" deleted sucessfully");
+        System.out.println("user unvalid event ---> user : "+userId+" deleted sucessfully");
     }
 }
