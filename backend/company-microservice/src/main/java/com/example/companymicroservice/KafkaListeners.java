@@ -1,6 +1,8 @@
 package com.example.companymicroservice;
 
+import com.example.companymicroservice.Entities.companyField.CompanyField;
 import com.example.companymicroservice.dto.SignUpCompanyDto;
+import com.example.companymicroservice.repositpries.CompanyFieldRepository;
 import com.example.companymicroservice.service.CompanyService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class KafkaListeners {
@@ -22,6 +26,9 @@ public class KafkaListeners {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private CompanyFieldRepository companyFieldRepository;
+
     @KafkaListener(
             groupId = "group5",
             topics = "company-user-signed-up"
@@ -34,7 +41,13 @@ public class KafkaListeners {
           System.out.println("parse completed into a company object "+company.toString());
           try{
               companyService.signupCompany(company);
-              company.getField()
+
+              Optional<CompanyField> optC =  companyFieldRepository.findByName(company.getField());
+              if(optC.isEmpty()){
+                  System.out.println("company-unvalid ");
+                  kafkaTemplate.send("company-unvalid",company.getUserId());
+                  return;
+              }
 
           }catch (Exception e){
               kafkaTemplate.send("company-unvalid",company.getUserId());

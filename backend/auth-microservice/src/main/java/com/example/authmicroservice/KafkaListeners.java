@@ -15,7 +15,7 @@ public class KafkaListeners {
 
     @KafkaListener(
             groupId = "group2",
-            topics = "worker-unvalid"
+            topics = {"worker-unvalid","company-unvalid"}
     )
     public void listener(ConsumerRecord data){
         String userId = (String) data.value();

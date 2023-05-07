@@ -22,6 +22,7 @@ public class CompanyMicroserviceApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		if(companyFieldRepository.count() > 0) return;
 		companyFieldRepository.saveAll(
 				List.of(
 						CompanyField.builder()
