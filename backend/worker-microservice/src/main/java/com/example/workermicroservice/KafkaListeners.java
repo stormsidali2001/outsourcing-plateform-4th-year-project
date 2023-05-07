@@ -81,6 +81,12 @@ public class KafkaListeners {
 
             if(categoriesDb.size() != categories.size() || skillsDb.size() != skills.size()){
                 kafkaTemplate.send("worker-unvalid",worker.getUserId());
+                System.out.println("worker-unvalid...");
+                System.out.println("request skills: "+skills.toString());
+                System.out.println("db skills: "+skillsDb.toString());
+                System.out.println("-----------------------------------");
+                System.out.println("request categories: "+categoriesDb.toString());
+                System.out.println("db categories: "+categoriesDb.toString());
 
                         return;
             }
