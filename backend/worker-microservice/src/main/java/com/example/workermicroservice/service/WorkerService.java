@@ -31,6 +31,8 @@ public class WorkerService {
                 .portfolioProjects(sq.getPortfolioProjects().stream().map(this::mapToPortfolioProject).toList())
                 .certifications(sq.getCertifications().stream().map(this::mapToCertification).toList())
                 .workExperiences(sq.getWorkExperiences().stream().map(this::mapToWorkExperience).toList())
+                .userId(sq.getUserId())
+                .category(sq.getCategory())
                 .build();
         workerRepository.save(worker);
 

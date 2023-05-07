@@ -1,10 +1,10 @@
-package com.example.outsourcingplateform;
+package com.example.apigateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OutsourcingPlateformApplicationTests {
+class ApiGatewayApplicationTests {
 
 	@Test
 	void contextLoads() {

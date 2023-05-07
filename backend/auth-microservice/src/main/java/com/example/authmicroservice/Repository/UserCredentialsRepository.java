@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserCredentialsRepository extends JpaRepository<UserCredentials,Long> {
-    public Optional<UserCredentials> findByUsername(String username);
+public interface UserCredentialsRepository extends JpaRepository<UserCredentials,String> {
+    public Optional<UserCredentials> findByEmail(String email);
 }

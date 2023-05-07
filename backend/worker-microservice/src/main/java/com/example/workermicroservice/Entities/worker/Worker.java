@@ -23,6 +23,8 @@ public class Worker {
 
     private String firstName;
 
+    private String category;
+
     private String lastName;
 
     private String phoneNumber;
@@ -46,8 +48,7 @@ public class Worker {
 
     private Collection<Skill> skills;
 
-
-
+    private String userId;
 
 
 }

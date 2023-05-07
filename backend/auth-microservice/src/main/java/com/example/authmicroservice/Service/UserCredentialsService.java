@@ -2,16 +2,16 @@ package com.example.authmicroservice.Service;
 
 import com.example.authmicroservice.Entity.UserCredentials;
 import com.example.authmicroservice.Repository.UserCredentialsRepository;
+import com.example.authmicroservice.dto.RegisterUserDto;
 import com.example.authmicroservice.dto.UserCredentialsDto;
+import com.example.authmicroservice.types.Role;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwt;
-import org.apache.http.HttpException;
+import io.jsonwebtoken.Jws;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 
 @Service
@@ -25,21 +25,27 @@ public class UserCredentialsService {
   @Autowired
   private JwtService jwtService;
 
-    public void save(UserCredentialsDto userData){
-        userCredentialsRepository.save(
+    public String save(RegisterUserDto userData, Role role){
+        System.out.println("PasswordEncoder: " + passwordEncoder.getClass().getName());
+
+       return  userCredentialsRepository.save(
                 UserCredentials.builder()
-                        .username(userData.getUsername())
                         .email(userData.getEmail())
                         .password(passwordEncoder.encode(userData.getPassword()))
+                        .role(role)
                         .build()
-        );
+        ).getId();
     }
 
     public String generateToken(UserCredentialsDto data){
 
-        return jwtService.generateToken(data.getUsername());
+        return jwtService.generateToken(data.getEmail());
     }
-    public Jwt<Header, Claims> validateToken(final String token){
+    public Jws<Claims> validateToken(final String token){
         return jwtService.validateToken(token);
+    }
+
+    public Object[] getUsers(){
+        return new List[]{this.userCredentialsRepository.findAll()};
     }
 }
