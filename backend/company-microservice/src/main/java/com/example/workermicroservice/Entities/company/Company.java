@@ -23,8 +23,6 @@ public class Company {
 
     private CompanyType type;
 
-    private String companyField;
-
     private Integer size;
 
     private Collection<SocialMediaLink> socialMediaLinks;

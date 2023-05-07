@@ -93,7 +93,6 @@ public class KafkaListeners {
             workerService.signUpWorker(worker);
             System.out.println("data saved in db...");
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }

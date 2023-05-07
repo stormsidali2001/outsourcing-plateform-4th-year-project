@@ -1,5 +1,8 @@
 package com.example.workermicroservice;
 
+import com.example.workermicroservice.dto.SignUpCompanyDto;
+import com.example.workermicroservice.repositpries.CompanyRepository;
+import com.example.workermicroservice.service.CompanyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +19,15 @@ public class KafkaListeners {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private CompanyService companyService;
 
     @Autowired
     private KafkaTemplate<Object,Object> kafkaTemplate;
 
 
     @KafkaListener(
-            topics = "worker-user-signed-up",
+            topics = "company-user-signed-up",
             groupId = "test"
 
     )
@@ -30,6 +35,9 @@ public class KafkaListeners {
         System.out.println("...............................");
         String message = (String) data.value();
         try {
+            SignUpCompanyDto company = objectMapper.readValue(message, SignUpCompanyDto.class);
+            companyService.signupCompany(company);
+            System.out.println("company saved into db");
 
 
 
