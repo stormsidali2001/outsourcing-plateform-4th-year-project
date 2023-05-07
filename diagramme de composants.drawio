@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-05-07T10:27:53.229Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="sNfbktVpECLEwefrmn_0" version="21.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-07T10:30:06.931Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="7eFDUzOjmCRnoUUnQmph" version="21.2.9" type="github">
   <diagram name="Page-1" id="Kv_a7wYcTD_mvLx6k0sK">
     <mxGraphModel dx="1050" dy="483" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -57,7 +57,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="caiXQSe67OJi1p_gfBw7-9" value="«Microservice»&lt;br&gt;&lt;b&gt;Company&lt;/b&gt;" style="html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="1">
-          <mxGeometry x="900" y="300" width="180" height="90" as="geometry" />
+          <mxGeometry x="960" y="300" width="180" height="90" as="geometry" />
         </mxCell>
         <mxCell id="caiXQSe67OJi1p_gfBw7-10" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="caiXQSe67OJi1p_gfBw7-9">
           <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
@@ -88,8 +88,23 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="caiXQSe67OJi1p_gfBw7-21" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
-          <mxGeometry x="90" y="690" width="60" height="80" as="geometry" />
+        <mxCell id="caiXQSe67OJi1p_gfBw7-22" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="400" y="410" width="45" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-23" value="mongodb" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="460" y="425" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-24" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="190" y="410" width="45" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-25" value="mongodb" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="250" y="425" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-27" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="770" y="410" width="45" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-28" value="mongodb" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="830" y="425" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
