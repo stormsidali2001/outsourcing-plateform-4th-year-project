@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface SkillRepository extends MongoRepository<Skill,String> {
-    List<Skill> findAllByName(List<String> names);
+    List<Skill> findAllByNameIn(List<String> names);
 }

@@ -75,9 +75,9 @@ public class KafkaListeners {
                     skills.add(s.getName());
                 });
             });
-            List<Category> categoriesDb = categoryRepository.findAllByName(categories.stream().toList());
+            List<Category> categoriesDb = categoryRepository.findAllByNameIn(categories.stream().toList());
 
-            List<Skill> skillsDb = skillRepository.findAllByName(skills.stream().toList());
+            List<Skill> skillsDb = skillRepository.findAllByNameIn(skills.stream().toList());
 
             if(categoriesDb.size() != categories.size() || skillsDb.size() != skills.size()){
                 kafkaTemplate.send("worker-unvalid",worker.getUserId());
@@ -85,7 +85,7 @@ public class KafkaListeners {
                 System.out.println("request skills: "+skills.toString());
                 System.out.println("db skills: "+skillsDb.toString());
                 System.out.println("-----------------------------------");
-                System.out.println("request categories: "+categoriesDb.toString());
+                System.out.println("request categories: "+categories.toString());
                 System.out.println("db categories: "+categoriesDb.toString());
 
                         return;

@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends MongoRepository<Category,String> {
-    List<Category> findAllByName(List<String> name);
+    List<Category> findAllByNameIn(List<String> name);
 }
