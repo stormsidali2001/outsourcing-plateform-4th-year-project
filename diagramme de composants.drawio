@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-07T10:32:04.750Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="XeHExSP1CBRpGh8bmH8h" version="21.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-07T10:34:01.775Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="7UjxiqEPYhXewRumCt5u" version="21.2.9" type="github">
   <diagram name="Page-1" id="Kv_a7wYcTD_mvLx6k0sK">
-    <mxGraphModel dx="1050" dy="483" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1050" dy="1652" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -125,6 +125,30 @@
         </mxCell>
         <mxCell id="caiXQSe67OJi1p_gfBw7-37" value="mysql" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1340" y="425" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="caiXQSe67OJi1p_gfBw7-38" target="caiXQSe67OJi1p_gfBw7-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-38" value="«FrontendClient»&lt;br&gt;&lt;b&gt;Clients app&lt;/b&gt;" style="html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="340" y="-280" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-39" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="caiXQSe67OJi1p_gfBw7-38">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="caiXQSe67OJi1p_gfBw7-40" target="caiXQSe67OJi1p_gfBw7-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="630" y="-10" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-40" value="«Frontend client»&lt;br&gt;&lt;b&gt;Admin app&lt;/b&gt;" style="html=1;dropTarget=0;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="620" y="-280" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-41" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="caiXQSe67OJi1p_gfBw7-40">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
