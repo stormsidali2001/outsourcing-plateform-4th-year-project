@@ -12,8 +12,6 @@ import java.util.List;
 @EnableWebMvc
 public class CompanyMicroserviceApplication implements CommandLineRunner {
 
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(CompanyMicroserviceApplication.class, args);
 	}
