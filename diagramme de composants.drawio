@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-07T10:35:11.143Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="O3YaxhG3izsSmjS_91Cb" version="21.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-07T10:37:08.703Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="eK8j2Pf45lXuxQrN2t6O" version="21.2.9" type="github">
   <diagram name="Page-1" id="Kv_a7wYcTD_mvLx6k0sK">
-    <mxGraphModel dx="2625" dy="2377" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1750" dy="1974" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -172,6 +172,21 @@
         <mxCell id="caiXQSe67OJi1p_gfBw7-41" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="caiXQSe67OJi1p_gfBw7-40">
           <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
             <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="390" as="sourcePoint" />
+            <mxPoint x="990" y="770" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="400" y="610" />
+              <mxPoint x="990" y="610" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="caiXQSe67OJi1p_gfBw7-50" value="pub/sub" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="caiXQSe67OJi1p_gfBw7-49">
+          <mxGeometry x="-0.4636" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
       </root>
