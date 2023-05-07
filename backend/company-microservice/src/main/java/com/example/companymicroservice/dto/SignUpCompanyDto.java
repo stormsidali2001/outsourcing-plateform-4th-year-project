@@ -33,4 +33,7 @@ public class SignUpCompanyDto {
     @Valid
     private Collection<SocialMediaLinkDto> socialMediaLinks;
 
+    @NotBlank(message = "type is required")
+    private String userId;
+
 }

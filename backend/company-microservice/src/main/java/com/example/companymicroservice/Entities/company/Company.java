@@ -27,4 +27,6 @@ public class Company {
 
     private Collection<SocialMediaLink> socialMediaLinks;
 
+    private String userdId;
+
 }
