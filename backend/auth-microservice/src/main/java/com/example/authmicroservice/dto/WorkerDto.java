@@ -54,5 +54,4 @@ public class WorkerDto  {
     private String category;
 
 
-
 }
