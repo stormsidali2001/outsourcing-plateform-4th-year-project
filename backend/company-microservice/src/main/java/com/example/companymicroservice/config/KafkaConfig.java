@@ -1,4 +1,4 @@
-package com.example.authmicroservice.config;
+package com.example.companymicroservice.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
@@ -10,13 +10,13 @@ public class KafkaConfig {
     @Bean
     public NewTopic getTopic(){
         return TopicBuilder
-                .name("worker-user-signed-up")
+                .name("company-user-signed-up")
                 .build();
     }
     @Bean
     public NewTopic getTopic1(){
         return TopicBuilder
-                .name("company-user-signed-up")
+                .name("company-unvalid")
                 .build();
     }
 }

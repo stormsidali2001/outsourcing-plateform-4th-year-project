@@ -1,10 +1,7 @@
 package com.example.authmicroservice.controller;
 
 import com.example.authmicroservice.Service.UserCredentialsService;
-import com.example.authmicroservice.dto.RegisterUserDto;
-import com.example.authmicroservice.dto.UserCredentialsDto;
-import com.example.authmicroservice.dto.WorkerDto;
-import com.example.authmicroservice.dto.WorkerSignUpRequestDto;
+import com.example.authmicroservice.dto.*;
 import com.example.authmicroservice.types.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -28,6 +25,7 @@ public class AuthController {
     @Autowired
     private UserCredentialsService userCredentialsService;
 
+
 //    @PostMapping("register")
 //    public String registerUser(@RequestBody RegisterUserDto user){
 //        userCredentialsService.save(user);
@@ -36,12 +34,21 @@ public class AuthController {
 //    }
 
     @PostMapping("registration/worker")
-    public String registerWorker(@Valid  @RequestBody WorkerSignUpRequestDto data){
+    public String registerWorker( @RequestBody @Valid WorkerSignUpRequestDto data){
         String id = userCredentialsService.save(data.getUser(), Role.WORKER);
         WorkerDto worker = data.getWorker();
         worker.setUserId(id);
         kafkaTemplate.send("worker-user-signed-up",worker);
         return  "user registered succesfully";
+    }
+    @PostMapping("registration/company")
+    public String registerCompany( @RequestBody @Valid CompanySignUpDto data){
+        String id = userCredentialsService.save(data.getUser(), Role.COMPANY);
+        CompanyDto company = data.getCompany();
+        company.setUserId(id);
+        kafkaTemplate.send("company-user-signed-up",company);
+        return  "user registered succesfully";
+
     }
 
     @PostMapping("signin")
