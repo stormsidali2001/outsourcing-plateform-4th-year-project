@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="api-gateway" />
         <module name="registry" />
+        <module name="storage-microservice" />
         <module name="auth-microservice" />
         <module name="backend" />
       </profile>
@@ -26,6 +27,7 @@
       <module name="backend" options="-parameters" />
       <module name="outsourcing-plateform" options="-parameters" />
       <module name="registry" options="-parameters" />
+      <module name="storage-microservice" options="-parameters" />
       <module name="swiggy-gateway" options="-parameters" />
       <module name="worker-microservice" options="-parameters" />
     </option>
