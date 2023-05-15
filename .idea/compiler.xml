@@ -10,13 +10,14 @@
         <module name="api-gateway" />
         <module name="registry" />
         <module name="auth-microservice" />
-        <module name="backend" />
+        <module name="company-microservice" />
+        <module name="worker-microservice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="backend" target="17" />
       <module name="outsourcing-plateform" target="17" />
       <module name="swiggy-gateway" target="17" />
-      <module name="worker-microservice" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -24,6 +25,7 @@
       <module name="api-gateway" options="-parameters" />
       <module name="auth-microservice" options="-parameters" />
       <module name="backend" options="-parameters" />
+      <module name="company-microservice" options="-parameters" />
       <module name="outsourcing-plateform" options="-parameters" />
       <module name="registry" options="-parameters" />
       <module name="swiggy-gateway" options="-parameters" />

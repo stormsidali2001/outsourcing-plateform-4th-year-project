@@ -2,10 +2,12 @@ package com.example.companymicroservice.service;
 
 import com.example.companymicroservice.Entities.worker.*;
 import com.example.companymicroservice.dto.signupRequestDto.*;
+import com.example.companymicroservice.repositpries.SkillRepository;
 import com.example.companymicroservice.repositpries.WorkerRepository;
 import com.example.companymicroservice.types.WorkerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.util.Date;
 
@@ -14,6 +16,9 @@ public class WorkerService {
 
     @Autowired
     private WorkerRepository workerRepository;
+
+    @Autowired
+    private SkillRepository skillRepository;
 
     public void signUpWorker(SignUpRequestDto sq){
         Worker worker = Worker.builder()
@@ -34,6 +39,10 @@ public class WorkerService {
                 .build();
         workerRepository.save(worker);
 
+    }
+
+    public List<com.example.companymicroservice.Entities.skill.Skill> getSkills(){
+        return skillRepository.findAll();
     }
 
     public EducationDetail mapEducationDetail(EducationDetailDto ed){

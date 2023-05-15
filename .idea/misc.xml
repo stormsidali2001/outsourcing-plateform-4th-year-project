@@ -8,6 +8,8 @@
         <option value="$PROJECT_DIR$/backend/auth-microservice/pom.xml" />
         <option value="$PROJECT_DIR$/backend/api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/backend/registry/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/company-microservice/pom.xml" />
+        <option value="$PROJECT_DIR$/backend/worker-microservice/pom.xml" />
       </list>
     </option>
   </component>
