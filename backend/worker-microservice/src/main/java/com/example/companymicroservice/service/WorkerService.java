@@ -1,15 +1,22 @@
 package com.example.companymicroservice.service;
 
 import com.example.companymicroservice.Entities.worker.*;
+import com.example.companymicroservice.Proxy.Interaction.InteractionProxy;
 import com.example.companymicroservice.dto.signupRequestDto.*;
+import com.example.companymicroservice.models.ClickModel;
+import com.example.companymicroservice.models.ImpressionModel;
+import com.example.companymicroservice.models.WishModel;
 import com.example.companymicroservice.repositpries.SkillRepository;
 import com.example.companymicroservice.repositpries.WorkerRepository;
 import com.example.companymicroservice.types.WorkerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Date;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class WorkerService {
@@ -19,6 +26,11 @@ public class WorkerService {
 
     @Autowired
     private SkillRepository skillRepository;
+    @Autowired
+    private InteractionProxy interactionProxy;
+
+
+
 
     public void signUpWorker(SignUpRequestDto sq){
         Worker worker = Worker.builder()
@@ -106,4 +118,99 @@ public class WorkerService {
                 .build();
     }
 
+
+    public Worker WorkerInteractions(String idWorker) {
+        System.out.println("worker >>>>>> :: "+idWorker);
+        Worker worker=workerRepository.findById(idWorker)
+                .orElse(null);
+        if (worker != null) {
+            CompletableFuture<List<ImpressionModel>> impressionsFuture =
+                    CompletableFuture.supplyAsync(() -> interactionProxy.getImpressions(idWorker, "toWorker"));
+            CompletableFuture<List<WishModel>> wishesFuture =
+                    CompletableFuture.supplyAsync(() -> interactionProxy.getWishes(idWorker, "WishToWorker"));
+
+            List<ClickModel> clicks = new ArrayList<>(interactionProxy.getClicks(idWorker, "ClickToWorker"));
+            worker.setClicks(clicks);
+
+            // Wait for the impressions and wishes futures to complete
+            List<ImpressionModel> impressions = impressionsFuture.join();
+            List<WishModel> wishes = wishesFuture.join();
+
+            worker.setImpressions(impressions);
+            worker.setWishes(wishes);
+        }
+           return worker;
+
+    }
+
+   public List<Worker> getWorkersWithInteractions(String workerIds){
+       // Split the comma-separated IDs into an array
+       String[] ids = workerIds.split(",");
+       List<Worker> workers = new ArrayList<>();
+
+       // Process the array of IDs and retrieve the workers
+       for (String id : ids) {
+           Worker worker = WorkerInteractions(id);
+           workers.add(worker);
+       }
+
+
+       return workers;
+   }
+
+    public Worker WorkerWishes(String idWorker) {
+        System.out.println("worker >>>>>> :: "+idWorker);
+        Worker worker=workerRepository.findById(idWorker)
+                .orElse(null);
+        if (worker != null) {
+            List<WishModel> wishes =
+                    new ArrayList<>(interactionProxy.getWishes(idWorker, "WishToWorker"));
+            worker.setWishes(wishes);
+        }
+        return worker;
+
+    }
+
+    public List<Worker> getWorkersWithWishes(String workerIds){
+        // Split the comma-separated IDs into an array
+        String[] ids = workerIds.split(",");
+        List<Worker> workers = new ArrayList<>();
+
+        // Process the array of IDs and retrieve the workers
+        for (String id : ids) {
+            Worker worker = WorkerWishes(id);
+            workers.add(worker);
+        }
+
+
+        return workers;
+    }
+    public Worker WorkerClicks(String idWorker) {
+        System.out.println("worker >>>>>> :: "+idWorker);
+        Worker worker=workerRepository.findById(idWorker)
+                .orElse(null);
+        if (worker != null) {
+            List<ClickModel> clicks =
+                    new ArrayList<>(interactionProxy.getClicks(idWorker, "ClickToWorker"));
+            worker.setClicks(clicks);
+        }
+        return worker;
+
+    }
+
+    public List<Worker> getWorkersWithClicks(String workerIds){
+        // Split the comma-separated IDs into an array
+        String[] ids = workerIds.split(",");
+        List<Worker> workers = new ArrayList<>();
+
+        // Process the array of IDs and retrieve the workers
+        for (String id : ids) {
+            Worker worker = WorkerClicks(id);
+            workers.add(worker);
+        }
+
+
+        return workers;
+    }
 }
+

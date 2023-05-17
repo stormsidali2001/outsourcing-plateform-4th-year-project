@@ -1,10 +1,11 @@
 package com.example.companymicroservice.Entities.worker;
 
 import lombok.Builder;
+import lombok.Data;
 
 import java.util.Date;
 
-@Builder
+@Builder @Data
 public class Certification {
     private String title;
 

@@ -53,4 +53,5 @@ public class SignUpRequestDto {
     @NotBlank(message = "category is required")
     private String category;
 
+
 }

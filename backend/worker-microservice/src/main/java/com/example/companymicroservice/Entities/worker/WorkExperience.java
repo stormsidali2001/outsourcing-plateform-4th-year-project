@@ -1,11 +1,12 @@
 package com.example.companymicroservice.Entities.worker;
 
 import lombok.Builder;
+import lombok.Data;
 
 import java.util.Collection;
 import java.util.Date;
 
-@Builder
+@Builder @Data
 public class WorkExperience {
     private String title;
 

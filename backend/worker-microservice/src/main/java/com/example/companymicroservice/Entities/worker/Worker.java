@@ -1,16 +1,22 @@
 package com.example.companymicroservice.Entities.worker;
 
+import com.example.companymicroservice.models.ClickModel;
+import com.example.companymicroservice.models.ImpressionModel;
+import com.example.companymicroservice.models.WishModel;
 import com.example.companymicroservice.types.WorkerStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Collection;
 import java.util.Date;
 
 @Document(value="worker")
-@Builder @Data
+@Builder @Data  @AllArgsConstructor@NoArgsConstructor
 public class Worker {
     @Id
     private String id;
@@ -45,5 +51,10 @@ public class Worker {
 
     private String userId;
 
-
+    @Transient
+    private Collection<ImpressionModel> impressions;
+    @Transient
+    private Collection<WishModel> wishes;
+    @Transient
+    private Collection<ClickModel> clicks;
 }

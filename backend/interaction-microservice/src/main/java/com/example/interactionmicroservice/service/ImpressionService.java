@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ImpressionService {
@@ -17,22 +16,21 @@ public class ImpressionService {
     @Autowired
     private ImpressionRepo impressionRepo;
 
-    public ResponseEntity<String> newImpression(ImpressionDto impressionDto){
+    public void newImpression(ImpressionDto impressionDto){
+        String Id = UUID.randomUUID().toString();
         Impression impression= Impression.builder()
-                .idImpression(impressionDto.getIdImpression())
+                .idImpression(Id)
+                .idWorker(impressionDto.getIdWorker())
+                .idCompany(impressionDto.getIdCompany())
                 .createdAt(new Date())
                 .build();
 
         impressionRepo.save(impression);
-
-
-
-        return ResponseEntity.ok("Impression added successfully");
     }
 
-    public List<Object[]> getImpressionByIdWorker(String idWorker){
+    public List<Impression> getImpressionsByIdWorker(String idWorker){
 
-        List<Object[]> impressions=impressionRepo.findImpressionsByIdWorker(idWorker);
+        List<Impression> impressions= impressionRepo.findImpressionsByIdWorker(idWorker) ;
         System.out.println("size"+impressions.size());
         return impressions;
     }
