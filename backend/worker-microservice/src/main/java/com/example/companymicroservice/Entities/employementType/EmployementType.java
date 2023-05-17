@@ -1,4 +1,4 @@
-package com.example.companymicroservice.Entities.employementType;
+package com.example.workermicroservice.Entities.employementType;
 
 import lombok.Builder;
 import lombok.Data;

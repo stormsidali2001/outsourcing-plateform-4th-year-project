@@ -1,4 +1,4 @@
-package com.example.companymicroservice.types;
+package com.example.workermicroservice.types;
 
 public enum WorkerStatus {
     PENDING,

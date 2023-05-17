@@ -1,4 +1,4 @@
-package com.example.companymicroservice.Entities.category;
+package com.example.workermicroservice.Entities.category;
 
 
 import lombok.Builder;
