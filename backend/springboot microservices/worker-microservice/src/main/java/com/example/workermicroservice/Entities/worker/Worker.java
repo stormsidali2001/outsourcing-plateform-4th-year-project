@@ -1,8 +1,5 @@
 package com.example.workermicroservice.Entities.worker;
 
-import com.example.companymicroservice.models.ClickModel;
-import com.example.companymicroservice.models.ImpressionModel;
-import com.example.companymicroservice.models.WishModel;
 import com.example.companymicroservice.types.WorkerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,10 +48,10 @@ public class Worker {
 
     private String userId;
 
-    @Transient
-    private Collection<ImpressionModel> impressions;
-    @Transient
-    private Collection<WishModel> wishes;
-    @Transient
-    private Collection<ClickModel> clicks;
+//    @Transient
+//    private Collection<ImpressionModel> impressions;
+//    @Transient
+//    private Collection<WishModel> wishes;
+//    @Transient
+//    private Collection<ClickModel> clicks;
 }
