@@ -4,6 +4,10 @@ import { Model } from 'mongoose';
 import { JobRequest } from './schemas/job-request.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Eureka } from 'eureka-js-client';
+import { DiscoveryService ,EurekaModule} from 'nestjs-eureka';
+import { HttpService } from '@nestjs/axios';
+import { AxiosRequestConfig } from 'axios';
+import { LoadBalancerService } from './eureka/LoadBalancer.service';
 
 
 @Injectable()
@@ -11,7 +15,8 @@ export class AppService {
 
   constructor(
     @InjectModel(JobRequest.name) private readonly jobRequestModel:Model<JobRequest>,
-    @Inject(Eureka) private eureka: Eureka
+    private loadBalancerService:LoadBalancerService,
+    private readonly httpService:HttpService
   ){}
   getHello(): string {
    
@@ -20,6 +25,7 @@ export class AppService {
 
   
   async create({companyId,workerIds}:JobRequestDto){
-    console.log("eureka" +this.eureka)
+    const workerInstanceIds = this.loadBalancerService.getInstanceIds("WORKER-MICROSERVICE");
+    console.log("eureka" +JSON.stringify(workerInstanceIds))
   }
 }
