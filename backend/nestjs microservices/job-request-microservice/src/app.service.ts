@@ -28,11 +28,18 @@ export class AppService {
   async create({companyId,workerIds}:JobRequestDto){
     const workerInstanceId = this.loadBalancerService.getInstanceId("WORKER-MICROSERVICE");
     
-    const url = "http://"+workerInstanceId+`/workers-exist?workerIds=${workerIds.join(",")}`;
-    console.log("full url : "+url)
     try{
+      const url = "http://"+workerInstanceId+`/workers-exist?workerIds=${workerIds.join(",")}`;
+      console.log("full url : "+url)
       const res =  await this.httpService.axiosRef.get(url)
       const workersStatus:WorkerStatusResponse[] =  res.data;
+
+      console.log("workersStatus ",workersStatus)
+
+      const companyInstanceId = this.loadBalancerService.getInstanceId("COMPANY-MICROSERVICE");
+      const companyUrl =  "http://"+companyInstanceId+`/company-exists/${companyId}`;
+      const res1 =  await this.httpService.axiosRef.get(companyUrl)
+      console.log("company ",res1.data)
 
     }catch(err){
       console.error(err)

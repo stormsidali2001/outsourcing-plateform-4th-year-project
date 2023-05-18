@@ -7,6 +7,7 @@ import com.example.companymicroservice.dto.SocialMediaLinkDto;
 import com.example.companymicroservice.repositpries.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
@@ -27,14 +28,16 @@ public class CompanyService {
                         .website(company.getWebsite())
                         .type(company.getType())
                         .size(company.getSize())
-                        .userdId(company.getUserId())
+                        .userId(company.getUserId())
                         .socialMediaLinks(company.getSocialMediaLinks().stream().map(this::mapToSocialMediaLink).toList())
                 .build()
         );
 
         return "company registered succesfully";
     }
-
+    public boolean getCompanyExists( String userId){
+        return this.companyRepository.findByUserId(userId).isPresent();
+    }
     private SocialMediaLink mapToSocialMediaLink(SocialMediaLinkDto s){
         return SocialMediaLink.builder()
                 .name(s.getName())
