@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.example.worker-microservice' is invalid and this project uses 'com.example.workermicroservice' instead.
+* The original package name 'com.example.worker-microservice' is invalid and this project uses 'com.example.companymicroservice' instead.
 
 # Getting Started
 
