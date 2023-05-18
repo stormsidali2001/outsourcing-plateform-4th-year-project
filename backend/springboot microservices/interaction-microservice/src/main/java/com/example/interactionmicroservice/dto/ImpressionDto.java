@@ -14,11 +14,14 @@ import java.util.Date;
 @Data  @AllArgsConstructor@NoArgsConstructor
 public class ImpressionDto {
 
+        private String idImpression;
+//    @EmbeddedId
+//    private InteractionId idImpression;
+      @NotBlank(message = "worker  is required")
+         private String idWorker;
+       @NotBlank(message = "company  is required")
+       private String idCompany;
 
-    @EmbeddedId
-    private InteractionId idImpression;
-
-//    @NotBlank(message = "Date of creation  is required")
-     private Date createdAt;
+//     private Date createdAt;
 
 }

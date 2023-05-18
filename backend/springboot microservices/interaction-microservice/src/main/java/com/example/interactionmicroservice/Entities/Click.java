@@ -6,16 +6,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
 
 @Builder @Data @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Click {
-    @EmbeddedId
-    private InteractionId idClick;
+    @Id
+    private String idClick;
+
+    private String idWorker;
+
+    private String idCompany;
+//    @EmbeddedId
+//    private InteractionId idClick/**/;
 
     private Date createdAt;
 

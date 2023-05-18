@@ -17,9 +17,12 @@ import java.util.Date;
 public class WishDto {
 
 
-    @EmbeddedId
-    private InteractionId idWish;
+    private String idWish;
 
-    @NotBlank(message = "Date of creation  is required")
-    private Date createdAt;
+    @NotBlank(message = "worker  is required")
+    private String idWorker;
+    @NotBlank(message = "company  is required")
+    private String idCompany;
+
+//    private Date createdAt;
 }

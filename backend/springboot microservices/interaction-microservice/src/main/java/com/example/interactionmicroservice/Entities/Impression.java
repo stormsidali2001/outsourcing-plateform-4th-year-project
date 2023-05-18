@@ -7,18 +7,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
 
 @Builder @Data
 @Entity@AllArgsConstructor@NoArgsConstructor
 public class Impression {
-    @EmbeddedId
-    private InteractionId idImpression;
 
+    @Id
+    private String idImpression;
+
+    private String idWorker;
+
+    private String idCompany;
 
     private Date createdAt;
+//    @EmbeddedId
+//    private InteractionId idImpression;
+
+
+
 
 
 

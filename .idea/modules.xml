@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/backend/api-gateway/api-gateway.iml" filepath="$PROJECT_DIR$/backend/api-gateway/api-gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/auth-microservice/auth-microservice.iml" filepath="$PROJECT_DIR$/backend/auth-microservice/auth-microservice.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/company-microservice/company-microservice.iml" filepath="$PROJECT_DIR$/backend/company-microservice/company-microservice.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/outsourcing-plateform-4th-year-project.iml" filepath="$PROJECT_DIR$/.idea/outsourcing-plateform-4th-year-project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/registry/registry.iml" filepath="$PROJECT_DIR$/backend/registry/registry.iml" />
-      <module fileurl="file://$PROJECT_DIR$/backend/worker-microservice/worker-microservice.iml" filepath="$PROJECT_DIR$/backend/worker-microservice/worker-microservice.iml" />
     </modules>
   </component>
 </project>

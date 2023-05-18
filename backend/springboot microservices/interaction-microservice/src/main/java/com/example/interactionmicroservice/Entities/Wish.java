@@ -7,8 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
 
 @Builder @Data @Entity
@@ -16,8 +15,15 @@ import java.util.Date;
 @NoArgsConstructor
 public class Wish {
 
-    @EmbeddedId
-    private InteractionId idWish;
+    @Id
+    private String idWish;
+
+    private String idWorker;
+
+    private String idCompany;
+
+//    @EmbeddedId
+//    private InteractionId idWish;
 
     private Date createdAt;
 
