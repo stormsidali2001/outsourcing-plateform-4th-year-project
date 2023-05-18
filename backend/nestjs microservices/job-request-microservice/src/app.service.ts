@@ -8,6 +8,7 @@ import { DiscoveryService ,EurekaModule} from 'nestjs-eureka';
 import { HttpService } from '@nestjs/axios';
 import { AxiosRequestConfig } from 'axios';
 import { LoadBalancerService } from './eureka/LoadBalancer.service';
+import { WorkerStatusResponse } from './types/worker-status-reponse';
 
 
 @Injectable()
@@ -25,7 +26,17 @@ export class AppService {
 
   
   async create({companyId,workerIds}:JobRequestDto){
-    const workerInstanceIds = this.loadBalancerService.getInstanceIds("WORKER-MICROSERVICE");
-    console.log("eureka" +JSON.stringify(workerInstanceIds))
+    const workerInstanceId = this.loadBalancerService.getInstanceId("WORKER-MICROSERVICE");
+    
+    const url = "http://"+workerInstanceId+`/workers-exist?workerIds=${workerIds.join(",")}`;
+    console.log("full url : "+url)
+    try{
+      const res =  await this.httpService.axiosRef.get(url)
+      const workersStatus:WorkerStatusResponse[] =  res.data;
+
+    }catch(err){
+      console.error(err)
+    }
+   
   }
 }

@@ -5,11 +5,14 @@ import { DiscoveryService } from 'nestjs-eureka';
 export class LoadBalancerService {
   constructor(@Inject(DiscoveryService) private eureka: DiscoveryService) {}
 
-  getInstanceIds(serviceName: string) {
+  getInstanceId(serviceName: string) {
     //@ts-ignore
-    const instanceIds = this.eureka.client
-      .getInstancesByAppId(serviceName)
-      .map((el) => el.instanceId);
-    return instanceIds;
+    const instances = this.eureka.client
+    .getInstancesByAppId(serviceName);
+    console.log("eureka" +JSON.stringify(instances))
+    const instanceIds = instances
+      .map((el) => el.ipAddr +":"+el.port.$);
+      console.log("eureka" +JSON.stringify(instanceIds))
+    return instanceIds[Math.floor(Math.random() * instanceIds.length)];
   }
 }

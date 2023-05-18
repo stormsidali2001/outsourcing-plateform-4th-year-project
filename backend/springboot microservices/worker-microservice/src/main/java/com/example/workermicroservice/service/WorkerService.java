@@ -1,17 +1,18 @@
 package com.example.workermicroservice.service;
-import com.example.companymicroservice.types.WorkerStatus;
 import com.example.workermicroservice.Entities.worker.*;
 import com.example.workermicroservice.dtos.*;
 import com.example.workermicroservice.repositpries.SkillRepository;
 import com.example.workermicroservice.repositpries.WorkerRepository;
+import com.example.workermicroservice.types.WorkerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Date;
-import java.util.concurrent.CompletableFuture;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class WorkerService {
@@ -50,6 +51,33 @@ public class WorkerService {
     public List<Skill> getSkills(){
         return skillRepository.findAll();
     }
+
+    public List<WorkerExistsResponseDto> getWorkersExist( List<String> workerIds){
+        AtomicInteger i = new AtomicInteger();
+        List<Optional<Worker>> workers =   this.workerRepository.findAllByUserIdIn(workerIds);
+
+        return workerIds.stream().map((String id)->{
+            int index =  i.getAndIncrement();
+            boolean b = (index <= workers.size()-1);
+            if(b){
+                b = workers.get(index).isPresent();
+            }
+
+            return WorkerExistsResponseDto.builder()
+                    .workerId(id)
+                    .exists(b)
+                    .status(b? ( workers.get(index)).get().getStatus():null)
+                    .build();
+        }).toList();
+
+    }
+    public WorkerExistsResponseDto mapToExistResponse(Optional<Worker> worker,String workerId){
+        return WorkerExistsResponseDto.builder()
+                .exists(worker.isPresent())
+                .workerId(workerId)
+                .build();
+    }
+
 
     public EducationDetail mapEducationDetail(EducationDetailDto ed){
         return EducationDetail.builder()

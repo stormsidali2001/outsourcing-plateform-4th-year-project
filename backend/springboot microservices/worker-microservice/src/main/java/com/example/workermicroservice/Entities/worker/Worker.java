@@ -1,6 +1,6 @@
 package com.example.workermicroservice.Entities.worker;
 
-import com.example.companymicroservice.types.WorkerStatus;
+import com.example.workermicroservice.types.WorkerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
