@@ -1,6 +1,6 @@
 export enum JobRequestStatus{
     PENDING = 'pending',
-    UNDER_REVIEW = 'reviewed',
+    REVIEWED = 'reviewed',
     REJECTED = 'rejected', //by company
     ACCEPTED = 'accepted'  // by company
 

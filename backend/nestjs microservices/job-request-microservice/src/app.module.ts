@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { JobRequest, JobRequestSchema } from './schemas/job-request.schema';
 import { EurekaWrapperModule } from './eureka/eurekaWrapper.module';
 import { HttpModule } from '@nestjs/axios';
+import { Contract, ContractSchema } from './schemas/contract.schema';
 @Module({
   imports: [
     EurekaWrapperModule,
@@ -13,6 +14,7 @@ import { HttpModule } from '@nestjs/axios';
     MongooseModule.forRoot('mongodb://localhost:27017/job-requests-db'),
     MongooseModule.forFeature([
       { name: JobRequest.name, schema: JobRequestSchema },
+      {name:Contract.name,schema:ContractSchema}
     ]),
   ],
   controllers: [AppController],

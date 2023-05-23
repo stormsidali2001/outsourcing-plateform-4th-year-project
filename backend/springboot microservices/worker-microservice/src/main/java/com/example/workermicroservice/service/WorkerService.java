@@ -5,9 +5,12 @@ import com.example.workermicroservice.repositpries.SkillRepository;
 import com.example.workermicroservice.repositpries.WorkerRepository;
 import com.example.workermicroservice.types.WorkerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 import java.util.Date;
@@ -25,6 +28,21 @@ public class WorkerService {
 
 
 
+    public List<PaginatedWorkerResponse> getAllWorkers (PaginationFilterDto filter){
+
+        Page<Worker> workers =  this.workerRepository.findAll(PageRequest.of(filter.getPage(), filter.getPageSize()));
+        return workers.stream().map((Worker w) ->{
+            return PaginatedWorkerResponse.builder()
+                    .firstName(w.getFirstName())
+                    .lastName(w.getLastName())
+                    .status(w.getStatus())
+                    .phoneNumber(w.getPhoneNumber())
+                    .signUpDate(w.getSignUpDate())
+                    .publicPrice(w.getPublicPrice())
+                    .category(w.getCategory())
+                    .build();
+        }).toList();
+    }
 
 
     public void signUpWorker(SignUpRequestDto sq){
@@ -51,6 +69,7 @@ public class WorkerService {
     public List<Skill> getSkills(){
         return skillRepository.findAll();
     }
+
 
     public List<WorkerExistsResponseDto> getWorkersExist( List<String> workerIds){
         AtomicInteger i = new AtomicInteger();
