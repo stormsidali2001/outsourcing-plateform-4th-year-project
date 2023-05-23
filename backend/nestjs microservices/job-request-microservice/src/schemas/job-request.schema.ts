@@ -1,32 +1,43 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { HiringType } from 'src/types/hiring-type';
+import { JobRequestStatus } from 'src/types/job-request-status.enum';
 export type JobRequestDocument = HydratedDocument<JobRequest>;
 
 class Worker{
-    @Prop()
+    @Prop({required:true})
     workerId: string;
 
-    @Prop()
+    @Prop({required:true})
     startDate: Date;
 
-    @Prop()
+    @Prop({required:true})
     endDate: Date;
 
-    @Prop({enum:HiringType})
-    hringType: HiringType;
+    @Prop({enum:HiringType,required:true})
+    hiringType: HiringType;
+
+    @Prop({required:true})
+    publicPrice: number;
 
     @Prop()
-    contractUrl:string;
+    removed?:Date;
+
 }
 
 @Schema()
 export class JobRequest{
-    @Prop()
+    @Prop({required:true})
     companyId: string;
 
     @Prop([Worker])
     workers:Worker[];
+
+    @Prop({enum:JobRequestStatus,default:JobRequestStatus.PENDING})
+    status:JobRequestStatus;
+
+    @Prop()
+    observation?:string;
 
 }
 

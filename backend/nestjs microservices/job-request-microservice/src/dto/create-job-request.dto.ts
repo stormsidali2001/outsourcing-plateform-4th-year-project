@@ -1,13 +1,42 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsUUID,IsArray } from "class-validator";
+import { IsUUID,IsArray, IsEnum, IsNumber, Min, IsDateString, ValidateNested } from "class-validator";
+import { HiringType } from "src/types/hiring-type";
+class WorkerDto{
+    @ApiProperty({example:"id"})
+    @IsUUID(4)
+    workerId: string;
 
+    @ApiProperty()
+    @IsDateString()
+    startDate: string;
+
+    @ApiProperty()
+    @IsDateString()
+    endDate: string;
+
+    @ApiProperty({type:"enum",enum:HiringType})
+    @IsEnum(HiringType)
+    hiringType: HiringType;
+
+
+
+}
 export class JobRequestDto{
     @ApiProperty({example:"companyId"})
     @IsUUID()
     companyId:string;
 
-    @ApiProperty({example:["id1","id2"],type:Array})
+    
+    @ApiProperty({type:Array,example:[
+        {
+            workerId:"id",
+            startDate:(new Date).toISOString(),
+            endDate:(new Date).toISOString(),
+            hiringType:HiringType.PARTTIME,
+
+        }
+    ]})
     @IsArray()
-    @IsUUID(4,{each:true})
-    workerIds:string[];
+    @ValidateNested()
+    workers:WorkerDto[];
 }

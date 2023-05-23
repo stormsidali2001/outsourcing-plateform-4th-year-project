@@ -55,7 +55,7 @@ public class WorkerService {
     public List<WorkerExistsResponseDto> getWorkersExist( List<String> workerIds){
         AtomicInteger i = new AtomicInteger();
         List<Optional<Worker>> workers =   this.workerRepository.findAllByUserIdIn(workerIds);
-
+        System.out.println("worker found "+workers.toString());
         return workerIds.stream().map((String id)->{
             int index =  i.getAndIncrement();
             boolean b = (index <= workers.size()-1);
@@ -67,16 +67,12 @@ public class WorkerService {
                     .workerId(id)
                     .exists(b)
                     .status(b? ( workers.get(index)).get().getStatus():null)
+                    .publicPrice(b? ( workers.get(index)).get().getPublicPrice():null)
                     .build();
         }).toList();
 
     }
-    public WorkerExistsResponseDto mapToExistResponse(Optional<Worker> worker,String workerId){
-        return WorkerExistsResponseDto.builder()
-                .exists(worker.isPresent())
-                .workerId(workerId)
-                .build();
-    }
+
 
 
     public EducationDetail mapEducationDetail(EducationDetailDto ed){

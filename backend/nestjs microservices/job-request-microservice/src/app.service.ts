@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable ,BadRequestException,InternalServerErrorException} from '@nestjs/common';
 import { JobRequestDto } from './dto/create-job-request.dto';
 import { Model } from 'mongoose';
 import { JobRequest } from './schemas/job-request.schema';
@@ -9,6 +9,7 @@ import { HttpService } from '@nestjs/axios';
 import { AxiosRequestConfig } from 'axios';
 import { LoadBalancerService } from './eureka/LoadBalancer.service';
 import { WorkerStatusResponse } from './types/worker-status-reponse';
+import { ApiInternalServerErrorResponse } from '@nestjs/swagger';
 
 
 @Injectable()
@@ -25,15 +26,21 @@ export class AppService {
   }
 
   
-  async create({companyId,workerIds}:JobRequestDto){
+  async create({companyId,workers}:JobRequestDto){
     const workerInstanceId = this.loadBalancerService.getInstanceId("WORKER-MICROSERVICE");
     
     try{
+      const workerIds = workers.map(w=>w.workerId)
       const url = "http://"+workerInstanceId+`/workers-exist?workerIds=${workerIds.join(",")}`;
       console.log("full url : "+url)
       const res =  await this.httpService.axiosRef.get(url)
       const workersStatus:WorkerStatusResponse[] =  res.data;
-
+      console.log("worker status",workersStatus)
+      workersStatus.forEach(w=>{
+        if(!w.exists || w.status !== "APPROVED"){
+          throw new BadRequestException("one of the requested workers does not exist");
+        }
+      })
       console.log("workersStatus ",workersStatus)
 
       const companyInstanceId = this.loadBalancerService.getInstanceId("COMPANY-MICROSERVICE");
@@ -41,8 +48,20 @@ export class AppService {
       const res1 =  await this.httpService.axiosRef.get(companyUrl)
       console.log("company ",res1.data)
 
+      return await this.jobRequestModel.create({
+        companyId:companyId,
+        workers:workers.map(w=>({
+          workerId:w.workerId,
+          startDate:w.startDate,
+          endDate:w.endDate,
+          hiringType:w.hiringType,
+          publicPrice:workersStatus.find(ws=>ws.workerId === w.workerId)?.publicPrice
+        }))
+      })
+
     }catch(err){
       console.error(err)
+      throw new InternalServerErrorException(err);
     }
    
   }

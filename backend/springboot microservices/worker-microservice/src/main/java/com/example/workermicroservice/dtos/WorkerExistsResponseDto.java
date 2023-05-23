@@ -11,4 +11,5 @@ public class WorkerExistsResponseDto {
     private String workerId;
     private boolean exists;
     private WorkerStatus status;
+    private Integer publicPrice;
 }
