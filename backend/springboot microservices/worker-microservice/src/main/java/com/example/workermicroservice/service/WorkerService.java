@@ -28,9 +28,9 @@ public class WorkerService {
 
 
 
-    public List<PaginatedWorkerResponse> getAllWorkers (PaginationFilterDto filter){
+    public List<PaginatedWorkerResponse> getAllWorkers (Integer page , Integer pageSize){
 
-        Page<Worker> workers =  this.workerRepository.findAll(PageRequest.of(filter.getPage(), filter.getPageSize()));
+        Page<Worker> workers =  this.workerRepository.findAll(PageRequest.of(page, pageSize));
         return workers.stream().map((Worker w) ->{
             return PaginatedWorkerResponse.builder()
                     .firstName(w.getFirstName())

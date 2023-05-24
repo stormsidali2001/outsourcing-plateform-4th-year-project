@@ -28,9 +28,8 @@ public class WorkerController {
     }
 
     @GetMapping("")
-    public List<PaginatedWorkerResponse> getAllWorkers(   @Valid PaginationFilterDto filter){
-        System.out.println("filters"+filter.toString());
-        return this.workerService.getAllWorkers(filter);
+    public List<PaginatedWorkerResponse> getAllWorkers( @RequestParam("page")  Integer page , @RequestParam("pageSize") Integer pageSize){
+        return this.workerService.getAllWorkers(page,pageSize);
     }
 
 
