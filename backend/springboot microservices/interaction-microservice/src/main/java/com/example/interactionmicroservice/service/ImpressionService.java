@@ -28,13 +28,20 @@ public class ImpressionService {
         impressionRepo.save(impression);
     }
 
-    public List<Impression> getImpressionsByIdWorker(String idWorker){
+    public int getImpressionsCountByIdWorker(String idWorker){
 
-        List<Impression> impressions= impressionRepo.findImpressionsByIdWorker(idWorker) ;
-        System.out.println("size"+impressions.size());
-        return impressions;
+        int NbrImpressions= impressionRepo.countImpressionByIdWorker(idWorker) ;
+        System.out.println("size"+NbrImpressions);
+        return NbrImpressions;
     }
+  public List<Object[]> getWorkersNbrImpressions(String workerIds){
 
+      // Split the comma-separated IDs into an array
+      String[] ids = workerIds.split(",");
+
+      return impressionRepo.getImpressionCountByWorkers(List.of(ids));
+
+  }
 
 
 }

@@ -26,11 +26,21 @@ public class WishService {
         wishRepo.save(wish);
     }
 
-    public List<Wish> getWishesByIdWorker(String idWorker){
 
-        List<Wish> wishes= wishRepo.findWishesByIdWorker(idWorker) ;
-        System.out.println("size"+wishes.size());
-        return wishes;
+
+    public int getWishesCountByIdWorker(String idWorker){
+
+        int NbrWishes= wishRepo.countWishByIdWorker(idWorker) ;
+        System.out.println("size"+NbrWishes);
+        return NbrWishes;
+    }
+    public List<Object[]> getWorkersNbrWishes(String workerIds){
+
+        // Split the comma-separated IDs into an array
+        String[] ids = workerIds.split(",");
+
+        return wishRepo.getWishCountByWorkers(List.of(ids));
+
     }
 
 

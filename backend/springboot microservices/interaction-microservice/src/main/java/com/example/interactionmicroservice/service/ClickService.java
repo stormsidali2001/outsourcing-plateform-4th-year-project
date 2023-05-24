@@ -31,11 +31,19 @@ public class ClickService {
         clickRepo.save(click);
     }
 
-    public List<Click> getClicksByIdWorker(String idWorker){
+    public int getClicksCountByIdWorker(String idWorker){
 
-        List<Click> clicks=  clickRepo.findClicksByIdWorker(idWorker);
-        System.out.println("size"+clicks.size());
-        return clicks;
+        int NbrClicks= clickRepo.countClickByIdWorker(idWorker) ;
+        System.out.println("size"+NbrClicks);
+        return NbrClicks;
+    }
+    public List<Object[]> getWorkersNbrClicks(String workerIds){
+
+        // Split the comma-separated IDs into an array
+        String[] ids = workerIds.split(",");
+
+        return clickRepo.getClickCountByWorkers(List.of(ids));
+
     }
 
 

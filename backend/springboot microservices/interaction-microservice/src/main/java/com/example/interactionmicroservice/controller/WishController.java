@@ -22,9 +22,23 @@ public class WishController {
         wishService.newWish(wishDto);
         return  ResponseEntity.ok("Wish added successfully");
     }
-    @GetMapping("/wish")
-    public List<Wish> getWish(@RequestParam("idWorker") String idWorker ){
-        return wishService.getWishesByIdWorker(idWorker);
+//    @GetMapping("/wish")
+//    public List<Wish> getWish(@RequestParam("idWorker") String idWorker ){
+//        return wishService.getWishesByIdWorker(idWorker);
+//
+//    }
+
+    @GetMapping("/nbrOfWishes/{idWorker}")
+    public int nbrOfWishes(@PathVariable String idWorker){
+        System.out.println("body>>>>>"+idWorker);
+        return wishService.getWishesCountByIdWorker(idWorker);
 
     }
+
+    @GetMapping("/WorkersNbrWishes")
+    public List<Object[]> WorkerNbrWishes(@RequestParam String Workers){
+        return wishService.getWorkersNbrWishes(Workers);
+
+    }
+
 }

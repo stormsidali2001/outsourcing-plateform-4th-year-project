@@ -24,9 +24,24 @@ public class ClickController {
         clickService.newClick(clickDto);
         return  ResponseEntity.ok("Click added successfully");
     }
-    @GetMapping("/click")
-    public List<Click> getClick(@RequestParam("idWorker") String idWorker ){
-        return clickService.getClicksByIdWorker(idWorker);
+//    @GetMapping("/click")
+//    public List<Click> getClick(@RequestParam("idWorker") String idWorker ){
+//        return clickService.getClicksByIdWorker(idWorker);
+//
+//    }
+
+
+
+    @GetMapping("/nbrOfClicks/{idWorker}")
+    public int nbrOfClicks(@PathVariable String idWorker){
+        System.out.println("body>>>>>"+idWorker);
+        return clickService.getClicksCountByIdWorker(idWorker);
+
+    }
+
+    @GetMapping("/WorkersNbrClicks")
+    public List<Object[]> WorkerNbrClicks(@RequestParam String Workers){
+        return clickService.getWorkersNbrClicks(Workers);
 
     }
 }

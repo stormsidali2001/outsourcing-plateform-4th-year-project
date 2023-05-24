@@ -1,7 +1,6 @@
 package com.example.interactionmicroservice.Entities;
 
 
-import com.example.interactionmicroservice.types.InteractionId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,12 +21,6 @@ public class Impression {
     private String idCompany;
 
     private Date createdAt;
-//    @EmbeddedId
-//    private InteractionId idImpression;
-
-
-
-
 
 
 }

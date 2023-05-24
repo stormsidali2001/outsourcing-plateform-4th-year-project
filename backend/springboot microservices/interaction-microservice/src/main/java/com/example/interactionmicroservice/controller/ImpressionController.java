@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api")
@@ -23,11 +24,25 @@ public class ImpressionController {
         impressionService.newImpression(impressionDto);
       return  ResponseEntity.ok("Impression added successfully");
     }
-    @GetMapping("/impression")
-    public List<Impression> getImpression(@RequestParam("idWorker") String idWorker ){
+//    @GetMapping("/impression")
+//    public int nbrOfImpressions(@RequestParam("idWorker") String idWorker ){
+//        System.out.println("body>>>>>"+idWorker);
+//       return impressionService.getImpressionsCountByIdWorker(idWorker);
+//
+//    }
+    @GetMapping("/nbrOfImpressions/{idWorker}")
+    public int nbrOfImpressions(@PathVariable String idWorker){
         System.out.println("body>>>>>"+idWorker);
-       return impressionService.getImpressionsByIdWorker(idWorker);
+        return impressionService.getImpressionsCountByIdWorker(idWorker);
 
     }
+
+    @GetMapping("/WorkersNbrImpressions")
+    public List<Object[]> WorkerNbrImpressions(@RequestParam String Workers){
+        return impressionService.getWorkersNbrImpressions(Workers);
+
+    }
+
+
 
 }
