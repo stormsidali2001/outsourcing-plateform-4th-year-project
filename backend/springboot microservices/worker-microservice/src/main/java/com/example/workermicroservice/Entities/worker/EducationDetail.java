@@ -20,5 +20,4 @@ public class EducationDetail {
 
     private String field;
 
-    private Collection<Skill> skills;
 }

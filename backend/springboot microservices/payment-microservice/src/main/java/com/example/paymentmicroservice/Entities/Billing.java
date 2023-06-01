@@ -22,7 +22,6 @@ public class Billing {
     private Long idBill;
 
 
-    @Column(unique = true)
     private String idCompany;
 
     private double billAmount;

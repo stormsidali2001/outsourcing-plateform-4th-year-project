@@ -48,7 +48,7 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                     System.out.println("authenticating using token "+authHeader);
                     System.out.println("-------------------------------------------------------");
 //                       Object o =  this.authProxy.validateToken(authHeader);
-                            template.getForObject("http://auth-microservice/validate?token" + authHeader, Object.class);
+                            template.getForObject("http://auth-microservice/validate?token=" + authHeader, Object.class);
                 } catch (Exception e) {
                     System.out.println("invalid access...! "+e.getMessage());
                     throw new RuntimeException("un authorized access to application");

@@ -102,7 +102,6 @@ public class WorkerService {
                 .endDate(ed.getEndDate())
                 .school(ed.getSchool())
                 .location(ed.getLocation())
-                .skills(ed.getSkills().stream().map(this::mapToSkill).toList())
                 .build();
     }
 
@@ -151,7 +150,6 @@ public class WorkerService {
                 .endDate(ex.getEndDate())
                 .description(ex.getDescription())
                 .location(ex.getLocation())
-                .skills(ex.getSkills().stream().map(this::mapToSkill).toList())
                 .build();
     }
 

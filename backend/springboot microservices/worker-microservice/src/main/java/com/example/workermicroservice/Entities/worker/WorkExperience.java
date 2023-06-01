@@ -22,5 +22,4 @@ public class WorkExperience {
 
     private String type;
 
-    private Collection<Skill>  skills;
 }

@@ -10,10 +10,17 @@ spring:
             - RewritePath=/api/(?<s>.*), /${s}
             - AuthorizationFilter
 
-
         - id: auth-microservice
           uri: lb://auth-microservice
           predicates:
             - Path=/auth/**
           filters:
             - RewritePath=auth/(?<s>.*), /${s}
+
+        - id: storage-microservice
+          uri: lb://storage-microservice
+          predicates:
+            - Path=/storage/**
+          filters:
+            - RewritePath=auth/(?<s>.*), /${s}
+

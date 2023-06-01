@@ -52,23 +52,18 @@ public class KafkaListeners {
             Set<String> categories = new HashSet<>();
             Set<String> skills = new HashSet<>();
             categories.add(worker.getCategory());
-            worker.getSkills().stream().forEach((SkillDto s)->{
+            worker.getSkills().forEach((SkillDto s)->{
                 categories.add(s.getCategory());
                 skills.add(s.getName());
             });
-            worker.getEducationDetails().stream().forEach((EducationDetailDto ed)->{
-                ed.getSkills().stream().forEach((SkillDto s)->{
-                    categories.add(s.getCategory());
-                    skills.add(s.getName());
-                });
-            });
-            worker.getCertifications().stream().forEach((CertificationDto ce)->{
+
+            worker.getCertifications().forEach((CertificationDto ce)->{
                 categories.add(ce.getSkill().getCategory());
                 skills.add(ce.getSkill().getName());
             });
 
-            worker.getPortfolioProjects().stream().forEach((PortfolioProjectDto pf)->{
-                pf.getSkills().stream().forEach((SkillDto s)->{
+            worker.getPortfolioProjects().forEach((PortfolioProjectDto pf)->{
+                pf.getSkills().forEach((SkillDto s)->{
                     categories.add(s.getCategory());
                     skills.add(s.getName());
                 });

@@ -39,8 +39,6 @@ public class WorkExperienceDto {
     @NotBlank(message = "type is required")
     private String type;
 
-    @Valid
-    @NotEmpty(message = "one skill at least is required")
-    private Collection<SkillDto> skills;
+
 
 }

@@ -4,6 +4,8 @@ import com.example.authmicroservice.Entity.UserCredentials;
 import com.example.authmicroservice.Repository.UserCredentialsRepository;
 import com.example.authmicroservice.dto.RegisterUserDto;
 import com.example.authmicroservice.dto.UserCredentialsDto;
+import com.example.authmicroservice.dto.ValidateTokenResponse;
+import com.example.authmicroservice.exception.BadRequestException;
 import com.example.authmicroservice.types.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -27,10 +29,10 @@ public class UserCredentialsService {
   @Autowired
   private JwtService jwtService;
 
-    public String save(RegisterUserDto userData, Role role) throws HttpException {
+    public String save(RegisterUserDto userData, Role role) throws BadRequestException {
         System.out.println("PasswordEncoder: " + passwordEncoder.getClass().getName());
         Optional<UserCredentials> userOp = userCredentialsRepository.findByEmail(userData.getEmail());
-        if(userOp.isPresent()) throw new HttpException("Email already exist");
+        if(userOp.isPresent()) throw new BadRequestException("Email already exist");
        return  userCredentialsRepository.save(
                 UserCredentials.builder()
                         .email(userData.getEmail())
@@ -44,8 +46,17 @@ public class UserCredentialsService {
 
         return jwtService.generateToken(data.getEmail());
     }
-    public Jws<Claims> validateToken(final String token){
-        return jwtService.validateToken(token);
+    public ValidateTokenResponse validateToken(final String token){
+        Jws<Claims> claims =  jwtService.validateToken(token);
+        String email = (String) claims.getBody().get("sub");
+        System.out.println("email "+email);
+        Optional<UserCredentials> userOp = userCredentialsRepository.findByEmail(email);
+        if(userOp.isEmpty()) throw new BadRequestException("user not found");
+
+        return ValidateTokenResponse.builder()
+                .email(userOp.get().getEmail())
+                .role(userOp.get().getRole())
+                .build();
     }
 
     public Object[] getUsers(){

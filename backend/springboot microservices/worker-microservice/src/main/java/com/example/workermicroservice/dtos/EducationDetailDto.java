@@ -32,6 +32,5 @@ public class EducationDetailDto {
     @NotBlank(message = "field is required")
     private String field;
 
-    @Valid
-    private Collection<SkillDto> skills;
+
 }
