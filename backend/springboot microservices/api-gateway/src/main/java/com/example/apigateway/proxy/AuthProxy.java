@@ -1,15 +1,25 @@
 package com.example.apigateway.proxy;
 
-import com.example.apigateway.config.LBConfiguration;
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.HttpHeaders;
+import reactor.core.publisher.Mono;
+@Component
+public class AuthProxy {
+    private WebClient webClient;
 
-@FeignClient(name = "auth-microservice")
-@LoadBalancerClient(name = "auth-microservice",configuration = LBConfiguration.class)
-public interface AuthProxy {
-    @GetMapping("/validate-token")
-    public Object  validateToken(@RequestParam("token") String token);
+    @Autowired
+    public AuthProxy(@LoadBalanced WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder.build();
+    }
+
+    public Mono<Object> validateToken(String token) {
+        return webClient.get()
+                .uri("http://auth-microservice/validate-token?token={token}", token)
+                .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                .retrieve()
+                .bodyToMono(Object.class);
+    }
 }

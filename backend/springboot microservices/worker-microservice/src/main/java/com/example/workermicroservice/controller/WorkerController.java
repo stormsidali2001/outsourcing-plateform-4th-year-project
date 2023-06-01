@@ -38,5 +38,10 @@ public class WorkerController {
         return workerService.approveWorker(workerId);
     }
 
+    @GetMapping("worker-exist")
+    public boolean deosWorkerExist(@RequestParam("idWorker") String idWorker){
+        return workerService.deosWorkerExist(idWorker);
+    }
+
 
 }

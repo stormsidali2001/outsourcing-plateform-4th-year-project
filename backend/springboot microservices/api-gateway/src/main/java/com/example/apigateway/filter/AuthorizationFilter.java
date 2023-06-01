@@ -1,4 +1,5 @@
 package com.example.apigateway.filter;
+import com.example.apigateway.dto.ValidateTokenResponse;
 import com.example.apigateway.proxy.AuthProxy;
 import com.example.apigateway.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -21,8 +23,8 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
     @Autowired
     private JwtUtil jwtUtil;
 
-//    @Autowired @Lazy
-//    private AuthProxy authProxy;
+    @Autowired @Lazy
+    private AuthProxy authProxy;
         @Autowired
     private RestTemplate template;
 
@@ -47,8 +49,24 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                 try {
                     System.out.println("authenticating using token "+authHeader);
                     System.out.println("-------------------------------------------------------");
-//                       Object o =  this.authProxy.validateToken(authHeader);
-                            template.getForObject("http://auth-microservice/validate?token=" + authHeader, Object.class);
+                    Mono<Object> resultMono = authProxy.validateToken(authHeader);
+                    resultMono.subscribe(
+                            result -> {
+                                ValidateTokenResponse res = (ValidateTokenResponse) result;
+                                // Handle the result object here
+                                System.out.println("Received response: " + result.toString());
+                                exchange.getRequest().mutate()
+                                        .header("X-Email", res.email)
+                                        .header("X-Role", res.role)
+                                        .build();
+                            },
+                            error -> {
+                                // Handle any errors that occur during the call
+                                System.out.println("Error occurred: " + error.getMessage());
+                                throw new RuntimeException("un authorized access to application");
+                            }
+                    );
+
                 } catch (Exception e) {
                     System.out.println("invalid access...! "+e.getMessage());
                     throw new RuntimeException("un authorized access to application");
