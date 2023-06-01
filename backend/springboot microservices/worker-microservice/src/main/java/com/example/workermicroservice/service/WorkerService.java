@@ -42,6 +42,9 @@ public class WorkerService {
         workerRepository.save(w);
         return ResponseEntity.ok("worker approved");
     }
+    public boolean deosWorkerExist(String idWorker){
+        return workerRepository.findAllByUserIdIn(List.of(idWorker)).size() > 0;
+    }
     public List<PaginatedWorkerResponse> getAllWorkers (Integer page , Integer pageSize){
 
         Page<Worker> workers =  this.workerRepository.findAll(PageRequest.of(page, pageSize));

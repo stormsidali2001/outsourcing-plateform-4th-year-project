@@ -24,3 +24,10 @@ spring:
           filters:
             - RewritePath=auth/(?<s>.*), /${s}
 
+        - id: job-request-microservice
+          uri: lb://job-request-service
+          predicates:
+            - Path=/job-request/**
+          filters:
+            - RewritePath=auth/(?<s>.*), /${s}
+
