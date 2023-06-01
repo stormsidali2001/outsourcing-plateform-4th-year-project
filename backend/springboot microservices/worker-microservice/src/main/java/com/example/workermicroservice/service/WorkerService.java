@@ -7,6 +7,7 @@ import com.example.workermicroservice.types.WorkerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,7 +28,20 @@ public class WorkerService {
     private SkillRepository skillRepository;
 
 
+    public ResponseEntity<String> approveWorker(String workerId){
+        List<Optional<Worker>> allByUserIdIn = workerRepository.findAllByUserIdIn(List.of(workerId));
+        if(allByUserIdIn.size() ==0 ){
+            return ResponseEntity.badRequest().body("worker not found");
+        }
+        if( allByUserIdIn.get(0).isEmpty()){
+            return ResponseEntity.badRequest().body("worker not found");
+        }
+        Worker w = allByUserIdIn.get(0).get();
 
+        w.setStatus(WorkerStatus.APPROVED);
+        workerRepository.save(w);
+        return ResponseEntity.ok("worker approved");
+    }
     public List<PaginatedWorkerResponse> getAllWorkers (Integer page , Integer pageSize){
 
         Page<Worker> workers =  this.workerRepository.findAll(PageRequest.of(page, pageSize));

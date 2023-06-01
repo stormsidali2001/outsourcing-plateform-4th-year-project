@@ -6,6 +6,7 @@ import com.example.workermicroservice.dtos.PaginationFilterDto;
 import com.example.workermicroservice.dtos.WorkerExistsResponseDto;
 import com.example.workermicroservice.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,6 +31,11 @@ public class WorkerController {
     @GetMapping("")
     public List<PaginatedWorkerResponse> getAllWorkers( @RequestParam("page")  Integer page , @RequestParam("pageSize") Integer pageSize){
         return this.workerService.getAllWorkers(page,pageSize);
+    }
+
+    @PostMapping("{workerId}/approve")
+    public ResponseEntity<String> approveWorker(@PathVariable("workerId") String workerId){
+        return workerService.approveWorker(workerId);
     }
 
 
