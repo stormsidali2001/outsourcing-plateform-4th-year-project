@@ -2,6 +2,7 @@ package com.example.interactionmicroservice.service;
 
 import com.example.interactionmicroservice.Entities.Wish;
 import com.example.interactionmicroservice.dto.WishDto;
+import com.example.interactionmicroservice.proxy.WorkerProxy;
 import com.example.interactionmicroservice.repositories.WishRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,11 @@ import java.util.UUID;
 public class WishService {
   @Autowired
     WishRepo wishRepo;
+  @Autowired
+  private WorkerProxy workerProxy;
     public void newWish(WishDto wishDto){
+
+        if(workerProxy.workerExist(wishDto.getIdWorker())){
         String Id = UUID.randomUUID().toString();
         Wish wish= Wish.builder()
                 .idWish(Id)
@@ -24,6 +29,7 @@ public class WishService {
                 .build();
 
         wishRepo.save(wish);
+    }
     }
 
 

@@ -6,6 +6,7 @@ import com.example.interactionmicroservice.Entities.Wish;
 import com.example.interactionmicroservice.dto.ClickDto;
 import com.example.interactionmicroservice.dto.ImpressionDto;
 import com.example.interactionmicroservice.dto.WishDto;
+import com.example.interactionmicroservice.proxy.WorkerProxy;
 import com.example.interactionmicroservice.repositories.ClickRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,16 +20,20 @@ public class ClickService {
 
     @Autowired
     ClickRepo clickRepo;
+    @Autowired
+    private WorkerProxy workerProxy;
     public void newClick(ClickDto clickDto){
-        String Id = UUID.randomUUID().toString();
-        Click click= Click.builder()
-                .idClick(Id)
-                .idWorker(clickDto.getIdWorker())
-                .idCompany(clickDto.getIdCompany())
-                .createdAt(new Date())
-                .build();
+        if(workerProxy.workerExist(clickDto.getIdWorker())) {
+            String Id = UUID.randomUUID().toString();
+            Click click = Click.builder()
+                    .idClick(Id)
+                    .idWorker(clickDto.getIdWorker())
+                    .idCompany(clickDto.getIdCompany())
+                    .createdAt(new Date())
+                    .build();
 
-        clickRepo.save(click);
+            clickRepo.save(click);
+        }
     }
 
     public int getClicksCountByIdWorker(String idWorker){

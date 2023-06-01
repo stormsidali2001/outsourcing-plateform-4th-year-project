@@ -2,6 +2,7 @@ package com.example.interactionmicroservice.service;
 
 import com.example.interactionmicroservice.Entities.Impression;
 import com.example.interactionmicroservice.dto.ImpressionDto;
+import com.example.interactionmicroservice.proxy.WorkerProxy;
 import com.example.interactionmicroservice.repositories.ImpressionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,17 +16,22 @@ public class ImpressionService {
 
     @Autowired
     private ImpressionRepo impressionRepo;
-
+  @Autowired
+   private WorkerProxy workerProxy;
     public void newImpression(ImpressionDto impressionDto){
-        String Id = UUID.randomUUID().toString();
-        Impression impression= Impression.builder()
-                .idImpression(Id)
-                .idWorker(impressionDto.getIdWorker())
-                .idCompany(impressionDto.getIdCompany())
-                .createdAt(new Date())
-                .build();
 
-        impressionRepo.save(impression);
+        if(workerProxy.workerExist(impressionDto.getIdWorker())){
+            String Id = UUID.randomUUID().toString();
+            Impression impression= Impression.builder()
+                    .idImpression(Id)
+                    .idWorker(impressionDto.getIdWorker())
+                    .idCompany(impressionDto.getIdCompany())
+                    .createdAt(new Date())
+                    .build();
+
+            impressionRepo.save(impression);
+        }
+
     }
 
     public int getImpressionsCountByIdWorker(String idWorker){
