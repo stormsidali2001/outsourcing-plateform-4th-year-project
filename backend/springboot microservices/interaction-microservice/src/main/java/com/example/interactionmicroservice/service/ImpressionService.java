@@ -2,6 +2,8 @@ package com.example.interactionmicroservice.service;
 
 import com.example.interactionmicroservice.Entities.Impression;
 import com.example.interactionmicroservice.dto.ImpressionDto;
+import com.example.interactionmicroservice.dto.WishDto;
+import com.example.interactionmicroservice.proxy.CompanyProxy;
 import com.example.interactionmicroservice.proxy.WorkerProxy;
 import com.example.interactionmicroservice.repositories.ImpressionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class ImpressionService {
     private ImpressionRepo impressionRepo;
   @Autowired
    private WorkerProxy workerProxy;
+
+  @Autowired
+  private CompanyProxy companyProxy;
     public void newImpression(ImpressionDto impressionDto){
 
         if(workerProxy.workerExist(impressionDto.getIdWorker())){
@@ -48,6 +53,7 @@ public class ImpressionService {
       return impressionRepo.getImpressionCountByWorkers(List.of(ids));
 
   }
+
 
 
 }

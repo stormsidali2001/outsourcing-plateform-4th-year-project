@@ -6,6 +6,7 @@ import com.example.interactionmicroservice.Entities.Wish;
 import com.example.interactionmicroservice.dto.ClickDto;
 import com.example.interactionmicroservice.dto.ImpressionDto;
 import com.example.interactionmicroservice.dto.WishDto;
+import com.example.interactionmicroservice.proxy.CompanyProxy;
 import com.example.interactionmicroservice.proxy.WorkerProxy;
 import com.example.interactionmicroservice.repositories.ClickRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class ClickService {
     ClickRepo clickRepo;
     @Autowired
     private WorkerProxy workerProxy;
+
+    @Autowired
+    private CompanyProxy companyProxy;
     public void newClick(ClickDto clickDto){
         if(workerProxy.workerExist(clickDto.getIdWorker())) {
             String Id = UUID.randomUUID().toString();
@@ -50,6 +54,8 @@ public class ClickService {
         return clickRepo.getClickCountByWorkers(List.of(ids));
 
     }
+
+
 
 
 

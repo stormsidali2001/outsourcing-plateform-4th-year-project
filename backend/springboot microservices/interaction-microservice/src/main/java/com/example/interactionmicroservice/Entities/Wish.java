@@ -15,15 +15,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class Wish {
 
-    @Id
-    private String idWish;
 
-    private String idWorker;
-
-    private String idCompany;
-
-//    @EmbeddedId
-//    private InteractionId idWish;
+    @EmbeddedId
+    private InteractionId idWish;
 
     private Date createdAt;
 
