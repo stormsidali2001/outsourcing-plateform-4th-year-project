@@ -1,6 +1,7 @@
 package com.example.workermicroservice.controller;
 
 import com.example.workermicroservice.Entities.worker.Skill;
+import com.example.workermicroservice.Entities.worker.Worker;
 import com.example.workermicroservice.dtos.PaginatedWorkerResponse;
 import com.example.workermicroservice.dtos.PaginationFilterDto;
 import com.example.workermicroservice.dtos.WorkerExistsResponseDto;
@@ -45,6 +46,10 @@ public class WorkerController {
     @GetMapping("all-ids")
     public List<String> getWorkerIds(){
         return this.workerService.getWorkerIds();
+    }
+    @GetMapping("admin/workers")
+    public List<Worker> getWorkers(){
+        return this.workerService.getWorkers();
     }
 
 

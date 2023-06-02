@@ -63,6 +63,9 @@ public class WorkerService {
                     .build();
         }).toList();
     }
+    public List<Worker> getWorkers(){
+        return this.workerRepository.findAll();
+    }
 
 
     public void signUpWorker(SignUpRequestDto sq){
