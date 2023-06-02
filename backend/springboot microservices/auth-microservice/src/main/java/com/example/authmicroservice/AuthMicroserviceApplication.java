@@ -3,6 +3,7 @@ package com.example.authmicroservice;
 import com.example.authmicroservice.Repository.UserCredentialsRepository;
 import com.example.authmicroservice.controller.AuthController;
 import com.example.authmicroservice.dto.*;
+import com.example.authmicroservice.types.CompanyType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -125,5 +126,29 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 
 						.build()
 		);
+
+		authController.registerCompany(CompanySignUpDto.builder()
+				.user(RegisterUserDto.builder()
+						.email("company@gmail.com")
+						.password("123456")
+						.build())
+				.company(
+						CompanyDto.builder()
+								.name("Frigo Dz")
+								.size(255)
+								.field("Computer Science")
+								.website("http://localhost:8080")
+								.socialMediaLinks(
+										List.of(
+												SocialMediaLinkDto.builder()
+														.name("facebook")
+														.url("http://localhost")
+														.build()
+										)
+								)
+								.type(CompanyType.COMPANY)
+								.build()
+				)
+				.build());
 	}
 }
