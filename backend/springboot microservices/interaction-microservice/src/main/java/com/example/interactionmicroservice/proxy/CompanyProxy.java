@@ -11,7 +11,7 @@ import java.util.List;
 public interface CompanyProxy {
 
 //    get the IDs of the existing companies
-    @GetMapping("/companies")
+    @GetMapping("/all-ids")
     List<String> getCompanies();
 
 }

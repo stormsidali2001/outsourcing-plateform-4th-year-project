@@ -1,5 +1,6 @@
 package com.example.workermicroservice.service;
 import com.example.workermicroservice.Entities.worker.*;
+import com.example.workermicroservice.Proxy.InteractionProxy;
 import com.example.workermicroservice.dtos.*;
 import com.example.workermicroservice.repositpries.SkillRepository;
 import com.example.workermicroservice.repositpries.WorkerRepository;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -27,7 +29,8 @@ public class WorkerService {
     @Autowired
     private SkillRepository skillRepository;
 
-
+    @Autowired
+    private InteractionProxy interactionProxy;
     public ResponseEntity<String> approveWorker(String workerId){
         List<Optional<Worker>> allByUserIdIn = workerRepository.findAllByUserIdIn(List.of(workerId));
         if(allByUserIdIn.size() ==0 ){
@@ -171,29 +174,28 @@ public class WorkerService {
     }
 
 
-//    public Worker WorkerInteractions(String idWorker) {
-//        System.out.println("worker >>>>>> :: "+idWorker);
-//        Worker worker=workerRepository.findById(idWorker)
-//                .orElse(null);
-//        if (worker != null) {
-//            CompletableFuture<List<ImpressionModel>> impressionsFuture =
-//                    CompletableFuture.supplyAsync(() -> interactionProxy.getImpressions(idWorker, "toWorker"));
-//            CompletableFuture<List<WishModel>> wishesFuture =
-//                    CompletableFuture.supplyAsync(() -> interactionProxy.getWishes(idWorker, "WishToWorker"));
-//
-//            List<ClickModel> clicks = new ArrayList<>(interactionProxy.getClicks(idWorker, "ClickToWorker"));
-//            worker.setClicks(clicks);
-//
-//            // Wait for the impressions and wishes futures to complete
-//            List<ImpressionModel> impressions = impressionsFuture.join();
-//            List<WishModel> wishes = wishesFuture.join();
-//
-//            worker.setImpressions(impressions);
-//            worker.setWishes(wishes);
-//        }
-//           return worker;
-//
-//    }
+    public Worker WorkerWithNbrInteractions(String idWorker) {
+        System.out.println("worker >>>>>> :: "+idWorker);
+        Worker worker=workerRepository.findById(idWorker)
+                .orElse(null);
+        if (worker != null) {
+            CompletableFuture<Integer> impressionsFuture =
+                    CompletableFuture.supplyAsync(() -> interactionProxy.getNbrImpressions(idWorker));
+            CompletableFuture<Integer> wishesFuture =
+                    CompletableFuture.supplyAsync(() -> interactionProxy.getNbrWishes(idWorker));
+
+            int clicks = interactionProxy.getNbrClicks(idWorker);
+             worker.setNbrClicks(clicks);
+            // Wait for the impressions and wishes futures to complete
+            int impressions = impressionsFuture.join();
+            int wishes = wishesFuture.join();
+
+            worker.setNbrImpressions(impressions);
+            worker.setNbrWishes(wishes);
+        }
+           return worker;
+
+    }
 
 //   public List<Worker> getWorkersWithInteractions(String workerIds){
 //       // Split the comma-separated IDs into an array

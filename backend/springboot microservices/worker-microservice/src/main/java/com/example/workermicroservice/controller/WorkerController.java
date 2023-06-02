@@ -1,6 +1,7 @@
 package com.example.workermicroservice.controller;
 
 import com.example.workermicroservice.Entities.worker.Skill;
+import com.example.workermicroservice.Entities.worker.Worker;
 import com.example.workermicroservice.dtos.PaginatedWorkerResponse;
 import com.example.workermicroservice.dtos.PaginationFilterDto;
 import com.example.workermicroservice.dtos.WorkerExistsResponseDto;
@@ -42,6 +43,8 @@ public class WorkerController {
     public boolean deosWorkerExist(@RequestParam("idWorker") String idWorker){
         return workerService.deosWorkerExist(idWorker);
     }
+
+
 
 
 }
