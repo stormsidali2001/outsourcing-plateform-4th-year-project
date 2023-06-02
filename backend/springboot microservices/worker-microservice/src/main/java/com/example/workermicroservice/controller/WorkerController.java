@@ -43,6 +43,14 @@ public class WorkerController {
     public boolean deosWorkerExist(@RequestParam("idWorker") String idWorker){
         return workerService.deosWorkerExist(idWorker);
     }
+    @GetMapping("all-ids")
+    public List<String> getWorkerIds(){
+        return this.workerService.getWorkerIds();
+    }
+    @GetMapping("admin/workers")
+    public List<Worker> getWorkers(){
+        return this.workerService.getWorkers();
+    }
 
 
 

@@ -5,6 +5,7 @@ import com.example.interactionmicroservice.dto.ImpressionDto;
 import com.example.interactionmicroservice.dto.WishDto;
 import com.example.interactionmicroservice.proxy.CompanyProxy;
 import com.example.interactionmicroservice.proxy.WorkerProxy;
+import com.example.interactionmicroservice.repositories.ImpressionRepo;
 import com.example.interactionmicroservice.service.ClickService;
 import com.example.interactionmicroservice.service.ImpressionService;
 import com.example.interactionmicroservice.service.WishService;
@@ -36,9 +37,13 @@ public class InteractionMicroserviceApplication implements CommandLineRunner {
     private WishService wishService;
 
     @Autowired
+    private ImpressionRepo impressionRepo;
+
+    @Autowired
     private CompanyProxy companyProxy;
     @Override
     public void run(String... args) throws Exception {
+        if(impressionRepo.count() >0) return;
 
         List<String> workers=workerProxy.getWorkers();
         List<String> companies=companyProxy.getCompanies();

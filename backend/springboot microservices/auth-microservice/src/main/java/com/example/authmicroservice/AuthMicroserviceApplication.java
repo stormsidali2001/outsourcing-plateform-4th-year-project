@@ -3,6 +3,8 @@ package com.example.authmicroservice;
 import com.example.authmicroservice.Repository.UserCredentialsRepository;
 import com.example.authmicroservice.controller.AuthController;
 import com.example.authmicroservice.dto.*;
+import com.example.authmicroservice.types.CompanyType;
+import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,17 +32,52 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		if(userCredentialsRepository.count() > 0) return;
+		for(int i=0;i<10;i++){
+			newWorker("assoulsidali"+i+"@gmail.com","sidali"+i,"assoul"+i);
+			newCompany("Frigo dz"+i,"contact@frigodz.com");
+		}
+
+	}
+
+	// utility functions
+	public void newCompany(String name , String email) throws HttpException {
+		authController.registerCompany(CompanySignUpDto.builder()
+				.user(RegisterUserDto.builder()
+						.email(email)
+						.password("123456")
+						.build())
+				.company(
+						CompanyDto.builder()
+								.name(name)
+								.size(255)
+								.field("Computer Science")
+								.website("http://localhost:8080")
+								.socialMediaLinks(
+										List.of(
+												SocialMediaLinkDto.builder()
+														.name("facebook")
+														.url("http://localhost")
+														.build()
+										)
+								)
+								.type(CompanyType.COMPANY)
+								.build()
+				)
+				.build());
+
+	}
+	public void newWorker(String email ,String firstName,String lastName) throws HttpException {
 		authController.registerWorker(
 				WorkerSignUpRequestDto.builder()
 						.user(
 								RegisterUserDto.builder()
-										.email("assoulsidali@gmail.com")
+										.email(email)
 										.password("123456")
 										.build()
 						)
 						.worker(WorkerDto.builder()
-								.firstName("sid ali")
-								.lastName("assoul")
+								.firstName(firstName)
+								.lastName(lastName)
 								.address(AddressDto.builder()
 										.code_postal("06606")
 										.addressDomissile("khlil amran")
@@ -125,5 +162,7 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 
 						.build()
 		);
+
 	}
+
 }
