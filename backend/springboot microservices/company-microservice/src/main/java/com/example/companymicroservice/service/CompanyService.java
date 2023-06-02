@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,9 @@ public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    public List<String> findAllUserIds(){
+        return this.companyRepository.findAllUserIds();
+    }
     public String signupCompany(SignUpCompanyDto company) throws  Exception{
         Optional<Company> cOp = companyRepository.findByName(company.getName());
         if(cOp.isPresent()) throw new RuntimeException("companyExist");

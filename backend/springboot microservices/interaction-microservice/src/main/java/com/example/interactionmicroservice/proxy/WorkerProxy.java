@@ -19,7 +19,7 @@ public interface WorkerProxy {
 
 
     // bring the Ids of existing workers
-    @GetMapping("/workers")
+    @GetMapping("/all-ids")
     List<String> getWorkers();
 
 }

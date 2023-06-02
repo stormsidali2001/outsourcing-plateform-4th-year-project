@@ -45,6 +45,9 @@ public class WorkerService {
     public boolean deosWorkerExist(String idWorker){
         return workerRepository.findAllByUserIdIn(List.of(idWorker)).size() > 0;
     }
+    public List<String> getWorkerIds(){
+        return this.workerRepository.findAllUserIds();
+    }
     public List<PaginatedWorkerResponse> getAllWorkers (Integer page , Integer pageSize){
 
         Page<Worker> workers =  this.workerRepository.findAll(PageRequest.of(page, pageSize));

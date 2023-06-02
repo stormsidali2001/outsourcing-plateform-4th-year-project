@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class companyController {
     @Autowired
@@ -14,6 +16,10 @@ public class companyController {
     @GetMapping("company-exists/{userId}")
     boolean getCompanyExists(@PathVariable("userId") String userId){
         return  this.companyService.getCompanyExists(userId);
+    }
+    @GetMapping("all-ids")
+    List<String> findAllUserIds(){
+        return this.companyService.findAllUserIds();
     }
 
 }
