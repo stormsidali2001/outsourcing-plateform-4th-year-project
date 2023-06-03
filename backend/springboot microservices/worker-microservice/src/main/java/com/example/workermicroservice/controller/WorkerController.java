@@ -52,6 +52,11 @@ public class WorkerController {
         return this.workerService.getWorkers();
     }
 
+    @GetMapping("worker/{idWorker}")
+    public Worker getWorker(@PathVariable("idWorker") String idWorker){
+        return workerService.WorkerWithNbrInteractions(idWorker);
+    }
+
 
 
 

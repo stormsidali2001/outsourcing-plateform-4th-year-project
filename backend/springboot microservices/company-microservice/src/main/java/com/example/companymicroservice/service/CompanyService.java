@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -20,7 +21,13 @@ public class CompanyService {
     private CompanyRepository companyRepository;
 
     public List<String> findAllUserIds(){
-        return this.companyRepository.findAllUserIds();
+
+
+//        return this.companyRepository.findAllUserIds();
+        List<Company> companies = companyRepository.findAll();
+        return companies.stream()
+                .map(Company::getUserId)
+                .collect(Collectors.toList());
     }
     public String signupCompany(SignUpCompanyDto company) throws  Exception{
         Optional<Company> cOp = companyRepository.findByName(company.getName());
@@ -40,7 +47,9 @@ public class CompanyService {
         return "company registered succesfully";
     }
     public boolean getCompanyExists( String userId){
-        return this.companyRepository.findByUserId(userId).isPresent();
+        
+//        return this.companyRepository.findByUserId(userId).isPresent();
+        return this.companyRepository.existsCompanyByUserId(userId);
     }
     private SocialMediaLink mapToSocialMediaLink(SocialMediaLinkDto s){
         return SocialMediaLink.builder()

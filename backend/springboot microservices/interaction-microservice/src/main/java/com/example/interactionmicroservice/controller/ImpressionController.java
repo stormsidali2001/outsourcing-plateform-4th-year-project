@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api")
 public class ImpressionController {
 
     @Autowired
@@ -30,8 +29,8 @@ public class ImpressionController {
 //       return impressionService.getImpressionsCountByIdWorker(idWorker);
 //
 //    }
-    @GetMapping("/nbrOfImpressions/{idWorker}")
-    public int nbrOfImpressions(@PathVariable String idWorker){
+    @GetMapping("/nbrOfImpressions")
+    public int nbrOfImpressions(@RequestParam("idWorker") String idWorker){
         System.out.println("body>>>>>"+idWorker);
         return impressionService.getImpressionsCountByIdWorker(idWorker);
 

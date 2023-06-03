@@ -22,7 +22,7 @@ public class WishService {
 
   @Autowired
   private CompanyProxy companyProxy;
-    public void newWish(WishDto wishDto){
+    public String newWish(WishDto wishDto){
 
         if(workerProxy.workerExist(wishDto.getIdWorker())){
             InteractionId idWish=new InteractionId(wishDto.getIdCompany(),wishDto.getIdWorker());
@@ -35,8 +35,11 @@ public class WishService {
                 wishRepo.save(wish);
             }else {
                 wishRepo.deleteById(idWish);
+                return "deja existe";
             }
+
     }
+        return "added";
     }
 
 

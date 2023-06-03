@@ -14,4 +14,12 @@ public interface WorkerRepository extends MongoRepository<Worker,String> {
 
     @Query("SELECT w.userId FROM Worker w")
     List<String> findAllUserIds();
+
+    Worker findWorkerByUserId(String userId);
+
+
+    Boolean existsWorkerByUserId(String userId);
+
+
+
 }

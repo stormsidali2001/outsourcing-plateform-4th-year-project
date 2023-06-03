@@ -35,6 +35,8 @@ public class ImpressionService {
                     .build();
 
             impressionRepo.save(impression);
+        }else{
+            System.out.println("user don't exist"+workerProxy.workerExist(impressionDto.getIdWorker()));
         }
 
     }

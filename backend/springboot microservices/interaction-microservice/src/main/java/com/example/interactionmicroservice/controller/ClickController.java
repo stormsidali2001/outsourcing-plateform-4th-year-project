@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api")
+
 public class ClickController {
 
     @Autowired
@@ -32,15 +32,15 @@ public class ClickController {
 
 
 
-    @GetMapping("/nbrOfClicks/{idWorker}")
-    public int nbrOfClicks(@PathVariable String idWorker){
+    @GetMapping("/nbrOfClicks")
+    public int nbrOfClicks(@RequestParam("idWorker") String idWorker){
         System.out.println("body>>>>>"+idWorker);
         return clickService.getClicksCountByIdWorker(idWorker);
 
     }
 
     @GetMapping("/WorkersNbrClicks")
-    public List<Object[]> WorkerNbrClicks(@RequestParam String Workers){
+    public List<Object[]> WorkerNbrClicks(@RequestParam("idWorker") String Workers){
         return clickService.getWorkersNbrClicks(Workers);
 
     }

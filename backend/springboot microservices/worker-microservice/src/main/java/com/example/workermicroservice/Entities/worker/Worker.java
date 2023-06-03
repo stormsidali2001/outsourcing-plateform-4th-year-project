@@ -48,10 +48,10 @@ public class Worker {
 
     private String userId;
 
-//    @Transient
-//    private Collection<ImpressionModel> impressions;
-//    @Transient
-//    private Collection<WishModel> wishes;
-//    @Transient
-//    private Collection<ClickModel> clicks;
+    @Transient
+    private int nbrImpressions;
+    @Transient
+    private int nbrWishes;
+    @Transient
+    private int nbrClicks;
 }

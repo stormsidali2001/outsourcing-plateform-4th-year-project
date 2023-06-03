@@ -17,4 +17,7 @@ public interface CompanyRepository extends MongoRepository<Company,String> {
     @Query("SELECT c.userId FROM Company")
     List<String> findAllUserIds();
 
+    Boolean existsCompanyByUserId(String usetId);
+
+
 }

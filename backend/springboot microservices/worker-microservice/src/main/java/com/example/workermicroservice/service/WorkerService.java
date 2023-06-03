@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkerService {
@@ -46,10 +47,16 @@ public class WorkerService {
         return ResponseEntity.ok("worker approved");
     }
     public boolean deosWorkerExist(String idWorker){
-        return workerRepository.findAllByUserIdIn(List.of(idWorker)).size() > 0;
+        return workerRepository.existsWorkerByUserId(idWorker);
     }
     public List<String> getWorkerIds(){
-        return this.workerRepository.findAllUserIds();
+//        return this.workerRepository.findAllUserIds();
+
+            List<Worker> workers = workerRepository.findAll();
+            return workers.stream()
+                    .map(Worker::getUserId)
+                    .collect(Collectors.toList());
+
     }
     public List<PaginatedWorkerResponse> getAllWorkers (Integer page , Integer pageSize){
 
@@ -181,23 +188,26 @@ public class WorkerService {
 
 
     public Worker WorkerWithNbrInteractions(String idWorker) {
-        System.out.println("worker >>>>>> :: "+idWorker);
-        Worker worker=workerRepository.findById(idWorker)
-                .orElse(null);
+        Worker worker=workerRepository.findWorkerByUserId(idWorker);
+
         if (worker != null) {
             CompletableFuture<Integer> impressionsFuture =
                     CompletableFuture.supplyAsync(() -> interactionProxy.getNbrImpressions(idWorker));
             CompletableFuture<Integer> wishesFuture =
                     CompletableFuture.supplyAsync(() -> interactionProxy.getNbrWishes(idWorker));
+            CompletableFuture<Integer> clicksFuture =
+                    CompletableFuture.supplyAsync(() -> interactionProxy.getNbrClicks(idWorker));
 
-            int clicks = interactionProxy.getNbrClicks(idWorker);
-             worker.setNbrClicks(clicks);
+//            int clicks = interactionProxy.getNbrClicks(idWorker);
+//             worker.setNbrClicks(clicks);
             // Wait for the impressions and wishes futures to complete
             int impressions = impressionsFuture.join();
             int wishes = wishesFuture.join();
+            int clicks=clicksFuture.join();
 
             worker.setNbrImpressions(impressions);
             worker.setNbrWishes(wishes);
+            worker.setNbrClicks(clicks);
         }
            return worker;
 
