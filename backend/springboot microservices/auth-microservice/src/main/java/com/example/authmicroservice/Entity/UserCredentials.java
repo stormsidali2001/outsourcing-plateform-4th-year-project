@@ -2,11 +2,13 @@ package com.example.authmicroservice.Entity;
 
 
 import com.example.authmicroservice.types.Role;
+import com.example.authmicroservice.types.UserStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.el.parser.Token;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,11 +28,20 @@ public class UserCredentials implements UserDetails {
 
     private String password;
 
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
     @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private EmailToken emailToken;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

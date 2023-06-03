@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AuthController {
@@ -76,12 +77,24 @@ public class AuthController {
         }
         return userCredentialsService.generateToken(user);
     }
+    @PostMapping("registration/user")
+    public ResponseEntity<Map<String,Object>> registerUser(@RequestBody @Valid NewAccountDto user){
+        return this.userCredentialsService.registerUser(user);
+    }
 
     @GetMapping("validate-token")
     public ValidateTokenResponse validateToken(@RequestParam("token") String token ){
         return    this.userCredentialsService.validateToken(token);
     }
 
+    @PostMapping("validate-email")
+    public ResponseEntity<String> validateEmail(@RequestBody @Valid ValidateEmailDto data ){
+        return  userCredentialsService.validateEmail(data.getTokenId(),data.getOtp());
+    }
+//    @PostMapping("resend-otp")
+//    public ResponseEntity<String> resendOtp(){
+//
+//    }
     @GetMapping("users")
     public Object[] getUsers(){
         return this.userCredentialsService.getUsers();
