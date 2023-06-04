@@ -6,6 +6,7 @@ import com.example.authmicroservice.exception.BadRequestException;
 import com.example.authmicroservice.types.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.swagger.v3.oas.annotations.headers.Header;
 import jakarta.validation.Valid;
 import org.apache.http.HttpException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,7 @@ import java.util.Map;
 @RestController
 public class AuthController {
 
-    @Autowired
-    KafkaTemplate<Object,Object> kafkaTemplate;
+
 
 
     @Autowired
@@ -41,31 +41,12 @@ public class AuthController {
 
     @PostMapping("registration/worker")
     public ResponseEntity<String> registerWorker( @RequestBody @Valid WorkerSignUpRequestDto data) throws HttpException {
-        try{
-            String id = userCredentialsService.save(data.getUser(), Role.WORKER);
-            WorkerDto worker = data.getWorker();
-            worker.setUserId(id);
-            kafkaTemplate.send("worker-user-signed-up",worker);
-            return  ResponseEntity.ok("worker registered succesfully");
-
-        }catch(BadRequestException e){
-            return ResponseEntity.badRequest().body("User email already exist");
-        }
+      return this.userCredentialsService.registerWorker(data);
 
     }
     @PostMapping("registration/company")
     public ResponseEntity<String> registerCompany( @RequestBody @Valid CompanySignUpDto data) throws HttpException {
-        try{
-            String id = userCredentialsService.save(data.getUser(), Role.COMPANY);
-            CompanyDto company = data.getCompany();
-            company.setUserId(id);
-            kafkaTemplate.send("company-user-signed-up",company);
-            return  ResponseEntity.ok("worker registered succesfully");
-
-        }catch(BadRequestException e){
-            return ResponseEntity.badRequest().body("User email already exist");
-        }
-
+       return this.userCredentialsService.registerCompany(data);
 
     }
 
@@ -81,7 +62,14 @@ public class AuthController {
     public ResponseEntity<Map<String,Object>> registerUser(@RequestBody @Valid NewAccountDto user){
         return this.userCredentialsService.registerUser(user);
     }
-
+    @PostMapping("registration/user/worker")
+    public ResponseEntity<String> registerWorkerStep2(@RequestHeader("x_userId") String userId ,  @RequestBody @Valid WorkerSignUpRequestDto data) throws HttpException {
+        return userCredentialsService.registerWorkerStep2(userId,data);
+    }
+    @PostMapping("registration/user/company")
+    public ResponseEntity<String> registerCompanyStep2(@RequestHeader("x_userId") String userId ,  @RequestBody @Valid CompanySignUpDto data) throws HttpException {
+        return userCredentialsService.registerCompanyStep2(userId,data);
+    }
     @GetMapping("validate-token")
     public ValidateTokenResponse validateToken(@RequestParam("token") String token ){
         return    this.userCredentialsService.validateToken(token);
