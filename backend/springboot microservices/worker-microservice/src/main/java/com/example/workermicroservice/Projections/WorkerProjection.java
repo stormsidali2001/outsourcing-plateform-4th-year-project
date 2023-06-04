@@ -21,6 +21,6 @@ public interface WorkerProjection {
     String getId();
 //    @Value("#{target.}")
 //    String getId();
-    @Value("#{target.}")
-    String getCreatedAt();
+//    @Value("#{target.}")
+//    String getCreatedAt();
 }
