@@ -1,7 +1,0 @@
-@import './../mixins';
-@import './../variables';
-
-footer{
-    @include boxsize(50vh,100%);
-    background-color: $secondary-color;
-}
