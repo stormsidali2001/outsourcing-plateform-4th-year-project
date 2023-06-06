@@ -17,6 +17,7 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableWebMvc
+
 public class AuthMicroserviceApplication implements  CommandLineRunner{
 	@Autowired
 	private AuthController authController;

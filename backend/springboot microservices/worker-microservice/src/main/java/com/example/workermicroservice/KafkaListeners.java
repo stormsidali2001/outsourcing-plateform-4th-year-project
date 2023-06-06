@@ -73,7 +73,12 @@ public class KafkaListeners {
             List<Skill> skillsDb = skillRepository.findAllByNameIn(skills.stream().toList());
 
             if(categoriesDb.size() != categories.size() || skillsDb.size() != skills.size()){
-                kafkaTemplate.send("worker-unvalid",worker.getUserId());
+                if(worker.isNotAdmin()){
+                    kafkaTemplate.send("worker-unvalid",worker.getUserId());
+                }else{
+                    kafkaTemplate.send("worker-unvalid-not-admin",worker.getUserId());
+                }
+
                 System.out.println("worker-unvalid...");
                 System.out.println("request skills: "+skills.toString());
                 System.out.println("db skills: "+skillsDb.toString());

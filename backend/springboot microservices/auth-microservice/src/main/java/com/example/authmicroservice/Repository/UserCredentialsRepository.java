@@ -5,6 +5,7 @@ import com.example.authmicroservice.Entity.UserCredentials;
 import com.example.authmicroservice.dto.Statistics;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -27,6 +28,8 @@ public interface UserCredentialsRepository extends JpaRepository<UserCredentials
 
     @Query("SELECT COUNT(u) FROM UserCredentials u WHERE  u.role = 'WORKER' AND u.status = 'BANNED'")
     public int getBannedCount();
+    @Query("SELECT u FROM UserCredentials u JOIN FETCH u.emailToken t WHERE u.email = :email")
+    public Optional<UserCredentials> findByEmailWithToken(@Param("email") String email);
 
 
 

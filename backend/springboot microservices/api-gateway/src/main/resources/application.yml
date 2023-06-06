@@ -15,6 +15,7 @@ spring:
           predicates:
             - Path=/auth/**
           filters:
+            - AuthorizationFilter
             - RewritePath=auth/(?<s>.*), /${s}
 
         - id: storage-microservice

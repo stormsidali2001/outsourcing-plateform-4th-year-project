@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -44,26 +46,28 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
 
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                    authHeader = authHeader.substring(7);
+                    authHeader = authHeader.substring(7).trim();
                 }
                 try {
                     System.out.println("authenticating using token "+authHeader);
                     System.out.println("-------------------------------------------------------");
-                    Mono<Object> resultMono = authProxy.validateToken(authHeader);
+                    Mono<ValidateTokenResponse> resultMono = authProxy.validateToken(authHeader);
                     resultMono.subscribe(
-                            result -> {
-                                ValidateTokenResponse res = (ValidateTokenResponse) result;
+                            (  result) -> {
+
+
                                 // Handle the result object here
                                 System.out.println("Received response: " + result.toString());
                                 exchange.getRequest().mutate()
-                                        .header("X-Email", res.email)
-                                        .header("X-Role", res.role)
+                                        .header("X-email", result.getEmail())
+                                        .header("X-role", result.getRole())
+                                        .header("X-userId",result.getUserId())
                                         .build();
                             },
                             error -> {
                                 // Handle any errors that occur during the call
                                 System.out.println("Error occurred: " + error.getMessage());
-                                throw new RuntimeException("un authorized access to application");
+//                                throw new RuntimeException("un authorized access to application");
                             }
                     );
 

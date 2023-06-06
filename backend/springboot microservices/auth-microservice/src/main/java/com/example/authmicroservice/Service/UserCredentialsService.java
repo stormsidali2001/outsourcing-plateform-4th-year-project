@@ -40,6 +40,7 @@ public class UserCredentialsService {
     @Autowired
     private EmailTokenRepository emailTokenRepository;
 
+
   @Autowired
   private JwtService jwtService;
 
@@ -68,6 +69,7 @@ public class UserCredentialsService {
             String id = this.save(data.getUser(), Role.COMPANY);
             CompanyDto company = data.getCompany();
             company.setUserId(id);
+            company.setNotAdmin(false);
             kafkaTemplate.send("company-user-signed-up",company);
             return  ResponseEntity.ok("worker registered succesfully");
 
@@ -77,11 +79,15 @@ public class UserCredentialsService {
 
 
     }
+    public Object[] getTokens(){
+        return this.emailTokenRepository.findAll().toArray();
+    }
     public ResponseEntity<String> registerWorker( WorkerSignUpRequestDto data) throws HttpException {
         try{
             String id = this.save(data.getUser(), Role.WORKER);
             WorkerDto worker = data.getWorker();
             worker.setUserId(id);
+            worker.setNotAdmin(false);
             kafkaTemplate.send("worker-user-signed-up",worker);
             return  ResponseEntity.ok("worker registered succesfully");
 
@@ -93,18 +99,22 @@ public class UserCredentialsService {
 
 
     public ResponseEntity<Map<String,Object>> registerUser( NewAccountDto user){
-        Optional<UserCredentials> userDbOp = this.userCredentialsRepository.findByEmail(user.getEmail());
+        Map<String,Object> object = new HashMap<>();
+        Optional<UserCredentials> userDbOp = this.userCredentialsRepository.findByEmailWithToken(user.getEmail());
         if(userDbOp.isPresent()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            UserCredentials userDb = userDbOp.get();
+
+                object.put("message","email already exist");
+               return  ResponseEntity.ok(object);
         }
         String token = generateToken();
         emailService.sendEmail(user.getEmail(),"Email Verifications","Your Otp code is :"+token);
         String tokenId = createUserAndSaveToken(user,token);
-        Map<String,Object> object = new HashMap<>();
+
         object.put("tokenId",tokenId);
         return ResponseEntity.ok(object);
     }
-    public ResponseEntity<String> registerWorkerStep2(String userId, WorkerSignUpRequestDto data) throws HttpException {
+    public ResponseEntity<String> registerWorkerStep2(String userId, WorkerDto data) throws HttpException {
         Optional<UserCredentials> userDbOp = userCredentialsRepository.findById(userId);
         if(userDbOp.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -116,10 +126,12 @@ public class UserCredentialsService {
         if(userDb.getStatus().equals(UserStatus.EMAIL_NOT_VERIFIED)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("email not verified ");
         }
-        return this.registerWorker(data);
-
+        data.setUserId(userDb.getId());
+        data.setNotAdmin(true);
+        kafkaTemplate.send("worker-user-signed-up",data);
+        return  ResponseEntity.ok("worker registered succesfully");
     }
-    public ResponseEntity<String> registerCompanyStep2(String userId, CompanySignUpDto data) throws HttpException {
+    public ResponseEntity<String> registerCompanyStep2(String userId, CompanyDto data) throws HttpException {
         Optional<UserCredentials> userDbOp = userCredentialsRepository.findById(userId);
         if(userDbOp.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -131,11 +143,14 @@ public class UserCredentialsService {
         if(userDb.getStatus().equals(UserStatus.EMAIL_NOT_VERIFIED)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("email not verified ");
         }
-        return this.registerCompany(data);
+        data.setUserId(userDb.getId());
+        data.setNotAdmin(true);
+        kafkaTemplate.send("company-user-signed-up",data);
+        return  ResponseEntity.ok("worker registered succesfully");
     }
     @Transactional
     public ResponseEntity<String> validateEmail(String tokenId,String otp){
-        Optional<EmailToken> tokenDbOp = emailTokenRepository.findByTokenId(tokenId);
+        Optional<EmailToken> tokenDbOp = emailTokenRepository.findById(tokenId);
         if(tokenDbOp.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("can't find token");
         }
@@ -160,13 +175,16 @@ public class UserCredentialsService {
     }
     @Transactional
     private String createUserAndSaveToken(NewAccountDto user,String token  ){
+        System.out.println("user creation ..........");
         UserCredentials userDb = userCredentialsRepository.save(
                 UserCredentials.builder()
-                        .password(user.getPassword())
+                        .password(passwordEncoder.encode(user.getPassword()))
                         .email(user.getEmail())
                         .status(UserStatus.EMAIL_NOT_VERIFIED)
+                        .role(user.getRole())
                         .build()
         );
+        System.out.println("user created  .........."+userDb);
         EmailToken tokenDb = emailTokenRepository.save(
                 EmailToken.builder()
                         .token(token)
@@ -183,10 +201,11 @@ public class UserCredentialsService {
         System.out.println("email "+email);
         Optional<UserCredentials> userOp = userCredentialsRepository.findByEmail(email);
         if(userOp.isEmpty()) throw new BadRequestException("user not found");
-
+        UserCredentials userDb = userOp.get();
         return ValidateTokenResponse.builder()
-                .email(userOp.get().getEmail())
-                .role(userOp.get().getRole())
+                .email(userDb.getEmail())
+                .role(userDb.getRole())
+                .userId(userDb.getId())
                 .build();
     }
 
