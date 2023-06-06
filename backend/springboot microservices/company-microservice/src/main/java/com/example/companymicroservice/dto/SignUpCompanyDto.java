@@ -36,4 +36,6 @@ public class SignUpCompanyDto {
     @NotBlank(message = "type is required")
     private String userId;
 
+    private boolean isNotAdmin;
+
 }

@@ -50,6 +50,8 @@ public class SignUpRequestDto {
     @NotBlank(message = "userId is required")
     private String userId;
 
+    private boolean notAdmin;
+
     @NotBlank(message = "category is required")
     private String category;
 

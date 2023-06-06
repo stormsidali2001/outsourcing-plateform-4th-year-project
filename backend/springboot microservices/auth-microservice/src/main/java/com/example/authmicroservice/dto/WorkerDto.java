@@ -50,6 +50,8 @@ public class WorkerDto  {
 
     private String userId;
 
+    private boolean isNotAdmin = false;
+
     @NotBlank(message = "category is required")
     private String category;
 

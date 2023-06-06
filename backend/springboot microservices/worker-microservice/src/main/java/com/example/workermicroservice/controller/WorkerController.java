@@ -57,6 +57,11 @@ public class WorkerController {
         return workerService.WorkerWithNbrInteractions(idWorker);
     }
 
+    @GetMapping("test-route")
+    public String test(@RequestHeader("X-userId") String userId){
+        return userId;
+    }
+
 
 
 

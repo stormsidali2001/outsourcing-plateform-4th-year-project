@@ -9,7 +9,9 @@ import io.jsonwebtoken.Jws;
 import io.swagger.v3.oas.annotations.headers.Header;
 import jakarta.validation.Valid;
 import org.apache.http.HttpException;
+import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,23 +53,25 @@ public class AuthController {
     }
 
     @PostMapping("signin")
-    public String signinUser(@RequestBody UserCredentialsDto user){
+    public ResponseEntity<String> signinUser(@RequestBody @Valid UserCredentialsDto user){
+        System.out.println("login with "+user);
         Authentication authentication  = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
-        if(!authentication.isAuthenticated()){
-            throw new RuntimeException("invalide access");
+        if(!authentication.isAuthenticated())   {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("wrong credentials");
         }
-        return userCredentialsService.generateToken(user);
+        return ResponseEntity.ok(userCredentialsService.generateToken(user));
     }
     @PostMapping("registration/user")
     public ResponseEntity<Map<String,Object>> registerUser(@RequestBody @Valid NewAccountDto user){
         return this.userCredentialsService.registerUser(user);
     }
     @PostMapping("registration/user/worker")
-    public ResponseEntity<String> registerWorkerStep2(@RequestHeader("x_userId") String userId ,  @RequestBody @Valid WorkerSignUpRequestDto data) throws HttpException {
-        return userCredentialsService.registerWorkerStep2(userId,data);
+    public ResponseEntity<Object> registerWorkerStep2(@RequestParam("X-userId") String userId , @RequestBody @Valid WorkerDto data) throws HttpException {
+return ResponseEntity.ok(userId);
+        //        return userCredentialsService.registerWorkerStep2(headers.userId,data);
     }
     @PostMapping("registration/user/company")
-    public ResponseEntity<String> registerCompanyStep2(@RequestHeader("x_userId") String userId ,  @RequestBody @Valid CompanySignUpDto data) throws HttpException {
+    public ResponseEntity<String> registerCompanyStep2(@RequestHeader("X-userId") String userId ,  @RequestBody @Valid CompanyDto data) throws HttpException {
         return userCredentialsService.registerCompanyStep2(userId,data);
     }
     @GetMapping("validate-token")
@@ -86,6 +90,11 @@ public class AuthController {
     @GetMapping("users")
     public Object[] getUsers(){
         return this.userCredentialsService.getUsers();
+    }
+
+    @GetMapping("tokens")
+    public Object[] getTokens(){
+        return this.userCredentialsService.getTokens();
     }
 
 

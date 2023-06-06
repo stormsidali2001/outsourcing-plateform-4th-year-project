@@ -52,8 +52,14 @@ public class KafkaListeners {
               }
 
           }catch (Exception e){
-              System.out.println("company-unvalid ------> kafka");
-              kafkaTemplate.send("company-unvalid",company.getUserId());
+              if(company.isNotAdmin()){
+                  System.out.println("company-unvalid ------> kafka");
+                  kafkaTemplate.send("company-unvalid-not-admin-",company.getUserId());
+              }else{
+                  System.out.println("company-unvalid ------> kafka");
+                  kafkaTemplate.send("company-unvalid",company.getUserId());
+              }
+
               e.printStackTrace();
           }
 
