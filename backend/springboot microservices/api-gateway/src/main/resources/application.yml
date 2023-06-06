@@ -24,7 +24,6 @@ spring:
           filters:
             - AuthorizationFilter
             - RewritePath=auth/(?<s>.*), /${s}
-
         - id: storage-microservice
           uri: lb://storage-microservice
           predicates:
