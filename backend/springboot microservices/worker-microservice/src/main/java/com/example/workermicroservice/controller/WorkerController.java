@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class WorkerController {
@@ -57,8 +58,12 @@ public class WorkerController {
     }
 
     @GetMapping("test-route")
-    public String test(@RequestHeader("X-userId") String userId){
-        return userId;
+    public String test(@RequestHeader(value = "X-userId", required = false) String userId) {
+        if (userId != null) {
+            return userId;
+        } else {
+            return "NO headers found";
+        }
     }
 
 

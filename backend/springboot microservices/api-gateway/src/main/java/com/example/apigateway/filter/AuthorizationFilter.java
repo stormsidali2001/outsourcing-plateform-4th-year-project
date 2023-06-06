@@ -7,8 +7,10 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
@@ -45,31 +47,34 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                 }
 
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
+
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                    System.out.println("iam here >>>>>>>> "+authHeader);
                     authHeader = authHeader.substring(7).trim();
                 }
                 try {
                     System.out.println("authenticating using token "+authHeader);
                     System.out.println("-------------------------------------------------------");
                     Mono<ValidateTokenResponse> resultMono = authProxy.validateToken(authHeader);
-                    resultMono.subscribe(
-                            (  result) -> {
+                    return resultMono.flatMap(result -> {
 
 
                                 // Handle the result object here
                                 System.out.println("Received response: " + result.toString());
-                                exchange.getRequest().mutate()
+                                ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
                                         .header("X-email", result.getEmail())
                                         .header("X-role", result.getRole())
-                                        .header("X-userId",result.getUserId())
+                                        .header("X-userId", result.getUserId())
                                         .build();
-                            },
-                            error -> {
-                                // Handle any errors that occur during the call
-                                System.out.println("Error occurred: " + error.getMessage());
-//                                throw new RuntimeException("un authorized access to application");
-                            }
-                    );
+                                ServerWebExchange modifiedExchange = exchange.mutate().request(modifiedRequest).build();
+                                return chain.filter(modifiedExchange);
+//                                return chain.filter(exchange.mutate().request(modifiedRequest).build());
+                            }).onErrorResume(error -> {
+                        // Handle any errors that occur during the call
+                        System.out.println("Error occurred: " + error.getMessage());
+                        throw new RuntimeException("unauthorized access to application");
+                    });
+
 
                 } catch (Exception e) {
                     System.out.println("invalid access...! "+e.getMessage());

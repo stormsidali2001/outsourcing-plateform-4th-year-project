@@ -35,7 +35,7 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 		if(userCredentialsRepository.count() > 0) return;
 		for(int i=0;i<10;i++){
 			newWorker("assoulsidali"+i+"@gmail.com","sidali"+i,"assoul"+i);
-			newCompany("Frigo dz"+i,"contact@frigodz.com");
+			newCompany("Frigo dz"+i,"contact"+i+"@frigodz.com");
 		}
 
 	}
