@@ -205,4 +205,29 @@ public class UserCredentialsService {
 
         return otp.toString();
     }
+
+
+    public List<Email> getEmails(String ids){
+        List<String> workers= Arrays.stream(ids.split(",")).toList();
+        System.out.println("<<<"+workers);
+             List<Email> emails=new ArrayList<>();
+
+        for (String id:workers) {
+            String em=userCredentialsRepository.findById(id).get().getEmail();
+            System.out.println(id+"||||"+em);
+
+           emails.add(new Email(id,em));
+
+        }
+        return emails;
+    }
+
+    public Statistics getStatistics(){
+        Statistics statistics=new Statistics();
+        statistics.setNb_clients(userCredentialsRepository.getCompanyCount());
+        statistics.setNb_admins(userCredentialsRepository.getAdminCount());
+        statistics.setNb_workers(userCredentialsRepository.getWorkerCount());
+        statistics.setNb_workers_baned(userCredentialsRepository.getBannedCount());
+        return statistics;
+    }
 }

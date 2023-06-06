@@ -88,6 +88,14 @@ public class AuthController {
         return this.userCredentialsService.getUsers();
     }
 
+     @GetMapping("workers/emails")
+    public List<Email> getEmails(@RequestParam("ids") String ids){
+        return userCredentialsService.getEmails(ids);
+     }
 
+     @GetMapping("admin/statistics")
+    public Statistics getStatistics(){
+        return userCredentialsService.getStatistics();
+     }
 
 }
