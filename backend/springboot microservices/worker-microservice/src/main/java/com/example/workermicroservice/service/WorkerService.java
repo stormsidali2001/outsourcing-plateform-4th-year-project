@@ -1,5 +1,8 @@
 package com.example.workermicroservice.service;
 import com.example.workermicroservice.Entities.worker.*;
+import com.example.workermicroservice.Projections.Email;
+import com.example.workermicroservice.Projections.WorkerProjection;
+import com.example.workermicroservice.Proxy.AuthProxy;
 import com.example.workermicroservice.Proxy.InteractionProxy;
 import com.example.workermicroservice.dtos.*;
 import com.example.workermicroservice.repositpries.SkillRepository;
@@ -16,6 +19,7 @@ import java.awt.print.Pageable;
 import java.util.List;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,6 +36,8 @@ public class WorkerService {
 
     @Autowired
     private InteractionProxy interactionProxy;
+    @Autowired
+    private AuthProxy authProxy;
     public ResponseEntity<String> approveWorker(String workerId){
         List<Optional<Worker>> allByUserIdIn = workerRepository.findAllByUserIdIn(List.of(workerId));
         if(allByUserIdIn.size() ==0 ){
@@ -65,16 +71,36 @@ public class WorkerService {
             return PaginatedWorkerResponse.builder()
                     .firstName(w.getFirstName())
                     .lastName(w.getLastName())
-                    .status(w.getStatus())
-                    .phoneNumber(w.getPhoneNumber())
-                    .signUpDate(w.getSignUpDate())
+//                    .status(w.getStatus())
+//                    .phoneNumber(w.getPhoneNumber())
+                    .skills(w.getSkills())
+                    .userId(w.getUserId())
+//                    .signUpDate(w.getSignUpDate())
                     .publicPrice(w.getPublicPrice())
                     .category(w.getCategory())
                     .build();
         }).toList();
     }
-    public List<Worker> getWorkers(){
-        return this.workerRepository.findAll();
+    public List<WorkerProjection> getWorkers(){
+
+        List<WorkerProjection> workers = this.workerRepository.getWorkers();
+        List<String> userIds = workers.stream()
+                .map(WorkerProjection::getUserId)
+                .collect(Collectors.toList());
+        String ids=  String.join(",", userIds);
+        List<Email> emails=authProxy.getWorkerEmail(ids);
+
+        for (WorkerProjection worker : workers) {
+            for (Email email : emails) {
+                if (email.getUserId().equals(worker.getUserId())) {
+                    worker.setEmail(email.getEmail());
+                    break;
+                }
+            }
+        }
+
+return workers;
+
     }
 
 

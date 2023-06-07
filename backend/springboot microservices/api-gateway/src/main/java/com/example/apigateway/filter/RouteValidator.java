@@ -9,6 +9,7 @@ public class RouteValidator {
 
     public static final List<String> openApiEndpoints = List.of(
             "/auth/signin",
+            "workers/",
             "/auth/registeration/user/worker",
             "/auth/registration/user",
             "/eureka"

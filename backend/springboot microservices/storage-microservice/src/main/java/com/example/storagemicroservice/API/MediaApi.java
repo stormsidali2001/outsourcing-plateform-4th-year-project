@@ -62,7 +62,7 @@ public class MediaApi {
     @PostMapping("/upload/{type}")
     public ResponseEntity<String> uploadFile(@PathVariable String type , @RequestParam("File") MultipartFile file) {
         try {
-//            put the uploaded file in this location(client to server)
+///     put the uploaded file in this location(client to server)
 
             // Generate a unique filename for the uploaded file
             String filename = UUID.randomUUID().toString();
@@ -73,7 +73,7 @@ public class MediaApi {
             Path filePath = Paths.get("F:\\Media\\" + filename);
             media media=new media(null,filename,type);
             Files.write(filePath, file.getBytes());
-//http://localhost:7777/storage/files/filename
+                     //http://localhost:7777/storage/files/filename
             mediaRepo.save(media);
             return ResponseEntity.ok("http://localhost:8081/storage/files/"+filename);
         } catch (IOException e) {
@@ -98,7 +98,7 @@ public class MediaApi {
 
 
 
-    @RequestMapping("/files/{filename:.+}")
+    @GetMapping("/files/{filename:.+}")
     public void getImage(@PathVariable String filename, HttpServletResponse response) throws IOException {
         File file = new File("F:\\Media\\" + filename);
         if (file.exists()) {

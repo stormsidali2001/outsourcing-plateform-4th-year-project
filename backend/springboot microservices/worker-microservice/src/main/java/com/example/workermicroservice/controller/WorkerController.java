@@ -2,16 +2,16 @@ package com.example.workermicroservice.controller;
 
 import com.example.workermicroservice.Entities.worker.Skill;
 import com.example.workermicroservice.Entities.worker.Worker;
+import com.example.workermicroservice.Projections.WorkerProjection;
 import com.example.workermicroservice.dtos.PaginatedWorkerResponse;
-import com.example.workermicroservice.dtos.PaginationFilterDto;
 import com.example.workermicroservice.dtos.WorkerExistsResponseDto;
 import com.example.workermicroservice.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class WorkerController {
@@ -48,7 +48,7 @@ public class WorkerController {
         return this.workerService.getWorkerIds();
     }
     @GetMapping("admin/workers")
-    public List<Worker> getWorkers(){
+    public List<WorkerProjection> getWorkers(){
         return this.workerService.getWorkers();
     }
 
@@ -58,8 +58,12 @@ public class WorkerController {
     }
 
     @GetMapping("test-route")
-    public String test(@RequestHeader("X-userId") String userId){
-        return userId;
+    public String test(@RequestHeader(value = "X-userId", required = false) String userId) {
+        if (userId != null) {
+            return userId;
+        } else {
+            return "NO headers found";
+        }
     }
 
 

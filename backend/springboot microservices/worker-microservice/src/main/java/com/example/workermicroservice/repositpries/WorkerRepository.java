@@ -1,5 +1,6 @@
 package com.example.workermicroservice.repositpries;
 import com.example.workermicroservice.Entities.worker.Worker;
+import com.example.workermicroservice.Projections.WorkerProjection;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,10 @@ public interface WorkerRepository extends MongoRepository<Worker,String> {
 
 
     Boolean existsWorkerByUserId(String userId);
+
+
+    @Query(value = "{}", fields = "{ 'firstName' : 1, 'lastName' : 1,'userId': 1}")
+    List<WorkerProjection> getWorkers();
 
 
 

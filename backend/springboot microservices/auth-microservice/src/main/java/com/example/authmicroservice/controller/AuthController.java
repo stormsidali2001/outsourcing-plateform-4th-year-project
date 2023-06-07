@@ -1,6 +1,8 @@
 package com.example.authmicroservice.controller;
 
+import com.example.authmicroservice.Entity.EmailDetails;
 import com.example.authmicroservice.Service.UserCredentialsService;
+import com.example.authmicroservice.config.EmailServiceGeeks;
 import com.example.authmicroservice.dto.*;
 import com.example.authmicroservice.exception.BadRequestException;
 import com.example.authmicroservice.types.Role;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+
 public class AuthController {
 
 
@@ -40,7 +43,18 @@ public class AuthController {
 //        kafkaTemplate.send("worker-user-signed-up","hiiiiiiiiiiiiiiiiiiii worker");
 //        return "user registered succesfully";
 //    }
+@Autowired private EmailServiceGeeks emailService;
 
+    // Sending a simple Email
+    @PostMapping("/sendMail")
+    public String
+    sendMail(@RequestBody EmailDetails details)
+    {
+        String status
+                = emailService.sendSimpleMail(details);
+
+        return status;
+    }
     @PostMapping("registration/worker")
     public ResponseEntity<String> registerWorker( @RequestBody @Valid WorkerSignUpRequestDto data) throws HttpException {
       return this.userCredentialsService.registerWorker(data);
@@ -92,11 +106,20 @@ return ResponseEntity.ok(userId);
         return this.userCredentialsService.getUsers();
     }
 
+     @GetMapping("workers/emails")
+    public List<Email> getEmails(@RequestParam("ids") String ids){
+        return userCredentialsService.getEmails(ids);
+     }
+
     @GetMapping("tokens")
     public Object[] getTokens(){
         return this.userCredentialsService.getTokens();
     }
 
 
+     @GetMapping("admin/statistics")
+    public Statistics getStatistics(){
+        return userCredentialsService.getStatistics();
+     }
 
 }
