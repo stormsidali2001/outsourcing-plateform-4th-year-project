@@ -1,9 +1,11 @@
 package com.example.authmicroservice.Service;
 
+import com.example.authmicroservice.Entity.EmailDetails;
 import com.example.authmicroservice.Entity.EmailToken;
 import com.example.authmicroservice.Entity.UserCredentials;
 import com.example.authmicroservice.Repository.EmailTokenRepository;
 import com.example.authmicroservice.Repository.UserCredentialsRepository;
+import com.example.authmicroservice.config.EmailServiceGeeks;
 import com.example.authmicroservice.dto.*;
 import com.example.authmicroservice.exception.BadRequestException;
 import com.example.authmicroservice.types.Role;
@@ -34,8 +36,8 @@ public class UserCredentialsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private EmailService emailService;
+//    @Autowired
+//    private EmailService emailService;
 
     @Autowired
     private EmailTokenRepository emailTokenRepository;
@@ -43,6 +45,8 @@ public class UserCredentialsService {
 
   @Autowired
   private JwtService jwtService;
+    @Autowired
+    private EmailServiceGeeks emailServiceGeeks;
 
     @Autowired
     KafkaTemplate<Object,Object> kafkaTemplate;
@@ -108,7 +112,7 @@ public class UserCredentialsService {
                return  ResponseEntity.ok(object);
         }
         String token = generateToken();
-        emailService.sendEmail(user.getEmail(),"Email Verifications","Your Otp code is :"+token);
+        emailServiceGeeks.sendSimpleMail(new EmailDetails(user.getEmail(),"Your Otp code is :"+token,"Email Verifications",null) );
         String tokenId = createUserAndSaveToken(user,token);
 
         object.put("tokenId",tokenId);
@@ -169,6 +173,7 @@ public class UserCredentialsService {
         UserCredentials userDb = tokenDb.getUser();
         userDb.setStatus(UserStatus.EMAIL_VERIFIED);
         this.emailTokenRepository.delete(tokenDb);
+
         userCredentialsRepository.save(userDb);
 
         return ResponseEntity.ok("user created succesfullly");
