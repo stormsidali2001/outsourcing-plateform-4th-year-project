@@ -27,7 +27,7 @@ spring:
           predicates:
             - Path=/storage/**
           filters:
-            - RewritePath=storage/(?<s>.*), /${s}
+            - AuthorizationFilter
 
         - id: job-request-microservice
           uri: lb://job-request-service

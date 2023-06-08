@@ -11,9 +11,7 @@ class WorkerDto{
 
 }
 export class JobRequestDto{
-   
-
-    
+     
     @ApiProperty({type:Array,example:[
         {
             workerId:"id",

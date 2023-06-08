@@ -66,9 +66,9 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                                 System.out.println("Received response: " + result.toString());
                                 ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
                                         .path(index == -1?"/":path.substring(index))
-                                        .header("X-email", result.getEmail())
-                                        .header("X-role", result.getRole())
-                                        .header("X-userId", result.getUserId())
+                                        .header("x-email", result.getEmail())
+                                        .header("x-role", result.getRole())
+                                        .header("x-userid", result.getUserId())
                                         .build();
                                 ServerWebExchange modifiedExchange = exchange.mutate().request(modifiedRequest).build();
                                 return chain.filter(modifiedExchange);
