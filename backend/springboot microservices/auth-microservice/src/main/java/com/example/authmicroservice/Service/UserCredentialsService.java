@@ -148,6 +148,8 @@ public class UserCredentialsService {
         data.setUserId(userDb.getId());
         data.setNotAdmin(true);
         kafkaTemplate.send("worker-user-signed-up",data);
+        userDb.setStatus(UserStatus.ACTIVE);
+        this.userCredentialsRepository.save(userDb);
 
         return  ResponseEntity.ok("worker registered succesfully");
     }
@@ -166,6 +168,8 @@ public class UserCredentialsService {
         data.setUserId(userDb.getId());
         data.setNotAdmin(true);
         kafkaTemplate.send("company-user-signed-up",data);
+        userDb.setStatus(UserStatus.ACTIVE);
+        this.userCredentialsRepository.save(userDb);
         return  ResponseEntity.ok("worker registered succesfully");
     }
     @Transactional
