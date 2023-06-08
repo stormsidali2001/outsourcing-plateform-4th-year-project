@@ -118,6 +118,7 @@ return workers;
                 .address(mapToAddress(sq.getAddress()))
                 .publicPrice(sq.getPublicPrice())
                 .skills(sq.getSkills().stream().map(this::mapToSkill).toList())
+                .title(sq.getTitle())
                 .phoneNumber(sq.getPhoneNumber())
                 .portfolioProjects(sq.getPortfolioProjects().stream().map(this::mapToPortfolioProject).toList())
                 .certifications(sq.getCertifications().stream().map(this::mapToCertification).toList())

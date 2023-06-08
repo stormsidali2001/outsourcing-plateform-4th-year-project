@@ -22,6 +22,8 @@ public class Worker {
 
     private String category;
 
+    private String title;
+
     private String lastName;
 
     private String phoneNumber;

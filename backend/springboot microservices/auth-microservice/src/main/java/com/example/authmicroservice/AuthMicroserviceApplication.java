@@ -77,6 +77,7 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 										.build()
 						)
 						.worker(WorkerDto.builder()
+								.title("Full stack developer")
 								.firstName(firstName)
 								.lastName(lastName)
 								.address(AddressDto.builder()
