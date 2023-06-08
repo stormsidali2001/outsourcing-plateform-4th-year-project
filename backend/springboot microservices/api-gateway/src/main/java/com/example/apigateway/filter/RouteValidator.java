@@ -26,10 +26,10 @@ public class RouteValidator {
                     .noneMatch(
 
                             uri -> {
-                                System.out.println(request.getURI().getPath()+"validating uri : "+request.getPath()+ " ==  " + uri+" validation result :"+request.getURI().getPath().startsWith(uri));
+                                System.out.println(request.getURI().getPath()+"validating uri : "+request.getPath()+ " ==  " + uri+" validation result :"+request.getURI().getPath().equals(uri));
 //                                return request.getURI().getPath().contains(uri);
 //                                return uri.contains(request.getURI().getPath());
-                              return   request.getURI().getPath().startsWith(uri);
+                              return   request.getURI().getPath().equals(uri);
 
                             }
 

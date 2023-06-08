@@ -40,6 +40,10 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
+            System.out.println("-------------------------------------------------------");
+            String path = exchange.getRequest().getPath().toString();
+            System.out.println("----------- path = "+exchange.getRequest().getPath());
+            System.out.println("-------------------------------------------------------");
             if (validator.isSecured.test(exchange.getRequest())) {
                 //header contains token or not
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
@@ -53,15 +57,14 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                     authHeader = authHeader.substring(7).trim();
                 }
                 try {
-                    System.out.println("authenticating using token "+authHeader);
-                    System.out.println("-------------------------------------------------------");
+
                     Mono<ValidateTokenResponse> resultMono = authProxy.validateToken(authHeader);
                     return resultMono.flatMap(result -> {
-
-
+                                System.out.println("---------------------------------------");
                                 // Handle the result object here
                                 System.out.println("Received response: " + result.toString());
                                 ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
+                                        .path(path.substring(path.indexOf("/",1)))
                                         .header("X-email", result.getEmail())
                                         .header("X-role", result.getRole())
                                         .header("X-userId", result.getUserId())
