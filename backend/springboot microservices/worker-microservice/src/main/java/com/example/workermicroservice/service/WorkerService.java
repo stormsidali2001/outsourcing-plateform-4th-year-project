@@ -104,11 +104,11 @@ return workers;
     }
 
 
-    public void signUpWorker(SignUpRequestDto sq){
+    public void signUpWorker(SignUpRequestDto sq,boolean isAdmin){
         Worker worker = Worker.builder()
                 .firstName(sq.getFirstName())
                 .lastName(sq.getLastName())
-                .status(WorkerStatus.PENDING)
+                .status(isAdmin ? WorkerStatus.APPROVED:WorkerStatus.PENDING)
                 .signUpDate(new Date())
                 .educationDetails(sq.getEducationDetails().stream().map(this::mapEducationDetail).toList())
                 .address(mapToAddress(sq.getAddress()))

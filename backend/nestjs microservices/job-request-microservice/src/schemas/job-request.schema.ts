@@ -9,20 +9,13 @@ class Worker{
     workerId: string;
 
     @Prop({required:true})
-    startDate: Date;
-
-    @Prop({required:true})
-    endDate: Date;
-
-    @Prop({enum:HiringType,required:true})
-    hiringType: HiringType;
+    nbHours:number;
 
     @Prop({required:true})
     publicPrice: number;
 
     @Prop()
     removed?:Date;
-
 }
 
 @Schema()

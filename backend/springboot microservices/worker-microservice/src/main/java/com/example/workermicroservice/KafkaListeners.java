@@ -88,7 +88,8 @@ public class KafkaListeners {
 
                         return;
             }
-            workerService.signUpWorker(worker);
+
+            workerService.signUpWorker(worker,!worker.isNotAdmin());
             System.out.println("data saved in db...");
 
         } catch (Exception e) {

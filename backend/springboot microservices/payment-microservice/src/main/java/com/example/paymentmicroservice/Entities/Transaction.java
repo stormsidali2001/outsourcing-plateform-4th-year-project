@@ -24,6 +24,7 @@ public class Transaction {
   private double amount;
 
   private Date createdAt;
+
   @ManyToOne
   @JoinColumn(name = "billing_id")
   private Billing billing;

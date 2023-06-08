@@ -35,7 +35,7 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async create({ companyId, workers }: JobRequestDto) {
+  async create({ workers }: JobRequestDto,companyId:string) {
     const workerInstanceId = this.loadBalancerService.getInstanceId(
       'WORKER-MICROSERVICE',
     );
@@ -66,14 +66,15 @@ export class AppService {
         'http://' + companyInstanceId + `/company-exists/${companyId}`;
       const res1 = await this.httpService.axiosRef.get(companyUrl);
       console.log('company ', res1.data);
+      if(!res1.data){
+        throw new BadRequestException("company does not exist")
+      }
 
       return await this.jobRequestModel.create({
         companyId: companyId,
         workers: workers.map((w) => ({
           workerId: w.workerId,
-          startDate: w.startDate,
-          endDate: w.endDate,
-          hiringType: w.hiringType,
+          nbHours:w.nbHours,
           publicPrice: workersStatus.find((ws) => ws.workerId === w.workerId)
             ?.publicPrice,
         })),
@@ -101,7 +102,7 @@ export class AppService {
     ).exec();
   }
 
-  async accepteJobRequest(jobRequestId:string,{accepted,companyId}:AcceptJobRequestDto){
+  async accepteJobRequest(jobRequestId:string,{accepted}:AcceptJobRequestDto,companyId:string){
     const jobRequest = await this.jobRequestModel.findById(jobRequestId).exec()
     if(!jobRequest){
       throw new BadRequestException("could not find job request");
@@ -121,12 +122,20 @@ export class AppService {
     const contracts = jobRequest.workers.map(worker => ({
       companyId: jobRequest.companyId,
       workerId: worker.workerId,
-      startDate: worker.startDate,
-      endDate: worker.endDate,
-      hiringType: worker.hiringType,
+      publicPrice:worker.publicPrice,
+      nbHours:worker.nbHours,
+      createdAt:new Date()
     }));
   
     if(accepted) return await this.contractModel.insertMany(contracts)
     else return "rejected"
   } 
+  async getJobRequests(){
+    const jobRequests = await  this.jobRequestModel.find().exec()
+
+    const payementMicroserviceInstanceId = this.loadBalancerService.getInstanceId(
+      'PAYMENT-MICROSERVICE',
+    );
+    return jobRequests;
+  }
 }

@@ -16,10 +16,14 @@ export class Contract{
     status:ContractStatus;
 
     @Prop({required:true})
-    startDate:Date;
+    nbHours:number;
 
     @Prop({required:true})
-    endDate:Date;
+    publicPrice:number;
+
+    @Prop({required:true})
+    createdAt:Date;
+
 }
 
 export const ContractSchema = SchemaFactory.createForClass(Contract)

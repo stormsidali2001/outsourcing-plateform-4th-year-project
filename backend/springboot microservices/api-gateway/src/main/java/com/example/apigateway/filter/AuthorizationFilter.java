@@ -49,7 +49,7 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
 
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                    System.out.println("iam here >>>>>>>> "+authHeader);
+                    System.out.println("iam here >>>>>>>> " + authHeader);
                     authHeader = authHeader.substring(7).trim();
                 }
                 try {
@@ -57,8 +57,6 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                     System.out.println("-------------------------------------------------------");
                     Mono<ValidateTokenResponse> resultMono = authProxy.validateToken(authHeader);
                     return resultMono.flatMap(result -> {
-
-
                                 // Handle the result object here
                                 System.out.println("Received response: " + result.toString());
                                 ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()

@@ -1,4 +1,4 @@
-import { Body, Controller, Get , Post,Param, ParseBoolPipe} from '@nestjs/common';
+import { Body, Controller, Get , Post,Param, ParseBoolPipe, Header, Req, BadRequestException, UnauthorizedException, ForbiddenException} from '@nestjs/common';
 import { AppService } from './app.service';
 import { JobRequestDto } from './dto/create-job-request.dto';
 import { ReviewJobRequestDto } from './dto/review-job-request.dto';
@@ -10,17 +10,40 @@ export class AppController {
 
 
   @Post()
-  async create(@Body() data:JobRequestDto){
-    return this.appService.create(data);
+  async create(@Body() data:JobRequestDto , @Req() req:Request){
+    const userId = req.headers["X-userId"];
+    const role = req.headers["X-role"];
+    if(role !== "COMPANY"){
+      throw new ForbiddenException("can't access the aendpoint")
+    }
+    if(!userId){
+      throw new UnauthorizedException("user header is missing");
+    }
+  
+    return this.appService.create(data,userId);
   }
   
   @Post("review-job-request/:id")
-  async reviewJobRequest(@Param("id")  jobRequestId:string , @Body() data:ReviewJobRequestDto){
+  async reviewJobRequest(@Param("id")  jobRequestId:string , @Body() data:ReviewJobRequestDto, @Req() req:Request){
+    const role = req.headers["X-role"];
+    if(role !== "ADMIN"){
+      throw new ForbiddenException("can't access the aendpoint")
+    }
+   
     return await this.appService.reviewJobRequest(jobRequestId,data);
   }
   @Post("accept-job-request/:id")
-  async accepteJobRequst(@Param("id")  jobRequestId:string,@Body() data:AcceptJobRequestDto){
-    return await this.appService.accepteJobRequest(jobRequestId,data)
+  async accepteJobRequst(@Param("id")  jobRequestId:string,@Body() data:AcceptJobRequestDto, @Req() req:Request){
+    const userId = req.headers["X-userId"];
+    const role = req.headers["X-role"];
+    if(role !== "COMPANY"){
+      throw new ForbiddenException("can't access the aendpoint")
+    }
+    if(!userId){
+      throw new UnauthorizedException("user header is missing");
+    }
+  
+    return await this.appService.accepteJobRequest(jobRequestId,data,userId)
   }
   
 }

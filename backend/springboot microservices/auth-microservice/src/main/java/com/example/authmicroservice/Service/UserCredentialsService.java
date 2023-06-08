@@ -59,6 +59,7 @@ public class UserCredentialsService {
                 UserCredentials.builder()
                         .email(userData.getEmail())
                         .password(passwordEncoder.encode(userData.getPassword()))
+                        .status(UserStatus.ACTIVE)
                         .role(role)
                         .build()
         ).getId();
