@@ -48,6 +48,10 @@ public class Worker {
 
     private String userId;
 
+    private String photo;
+    private String cv;
+    private String carteIdentity;
+
     @Transient
     private int nbrImpressions;
     @Transient

@@ -1,5 +1,6 @@
 package com.example.workermicroservice.controller;
 
+import com.example.workermicroservice.Entities.category.Category;
 import com.example.workermicroservice.Entities.worker.Skill;
 import com.example.workermicroservice.Entities.worker.Worker;
 import com.example.workermicroservice.Projections.WorkerProjection;
@@ -22,6 +23,10 @@ public class WorkerController {
     @GetMapping("skills")
     public List<Skill> getSkills(){
         return this.workerService.getSkills();
+    }
+    @GetMapping("categories")
+    public List<Category> getCategories(){
+        return this.workerService.getCategories();
     }
 
     @GetMapping("workers-exist")

@@ -106,6 +106,7 @@ public class UserCredentialsService {
     public ResponseEntity<Map<String,Object>> registerUser( NewAccountDto user){
         Map<String,Object> object = new HashMap<>();
         Optional<UserCredentials> userDbOp = this.userCredentialsRepository.findByEmailWithToken(user.getEmail());
+//        System.out.println("iam>>>>>>>>."+userDbOp);
         if(userDbOp.isPresent()){
             UserCredentials userDb = userDbOp.get();
 
@@ -117,6 +118,7 @@ public class UserCredentialsService {
         String tokenId = createUserAndSaveToken(user,token);
 
         object.put("tokenId",tokenId);
+
         return ResponseEntity.ok(object);
     }
     public ResponseEntity<String> registerWorkerStep2(String userId, WorkerDto data) throws HttpException {
@@ -134,6 +136,7 @@ public class UserCredentialsService {
         data.setUserId(userDb.getId());
         data.setNotAdmin(true);
         kafkaTemplate.send("worker-user-signed-up",data);
+
         return  ResponseEntity.ok("worker registered succesfully");
     }
     public ResponseEntity<String> registerCompanyStep2(String userId, CompanyDto data) throws HttpException {
@@ -177,11 +180,14 @@ public class UserCredentialsService {
 
         userCredentialsRepository.save(userDb);
 
-        return ResponseEntity.ok("user created succesfullly");
+        return ResponseEntity.ok(userDb.getId());
     }
     @Transactional
     private String createUserAndSaveToken(NewAccountDto user,String token  ){
         System.out.println("user creation ..........");
+        Optional<UserCredentials> userOp = userCredentialsRepository.findByEmail(user.getEmail());
+        System.out.println("user creation >>>>>>>>>>>"+userOp.toString());
+
         UserCredentials userDb = userCredentialsRepository.save(
                 UserCredentials.builder()
                         .password(passwordEncoder.encode(user.getPassword()))

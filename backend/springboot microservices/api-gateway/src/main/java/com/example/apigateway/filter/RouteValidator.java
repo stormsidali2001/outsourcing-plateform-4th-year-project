@@ -9,9 +9,14 @@ public class RouteValidator {
 
     public static final List<String> openApiEndpoints = List.of(
             "/auth/signin",
-            "workers/",
-            "/auth/registeration/user/worker",
+            "/workers",
+            "/workers/workers-exist",
+//            "/auth/registration/user/worker",
+            "/workers/skills",
+            "/workers/categories",
+            "/workers/worker/**",
             "/auth/registration/user",
+            "/auth/validate-email",
             "/eureka"
     );
 
@@ -21,10 +26,13 @@ public class RouteValidator {
                     .noneMatch(
 
                             uri -> {
-                                System.out.println("validating uri : "+request.getPath()+ " ==  " + uri+" validation result :"+request.getURI().getPath().contains(uri));
-                                return request.getURI().getPath().contains(uri);
+                                System.out.println(request.getURI().getPath()+"validating uri : "+request.getPath()+ " ==  " + uri+" validation result :"+request.getURI().getPath().startsWith(uri));
+//                                return request.getURI().getPath().contains(uri);
+//                                return uri.contains(request.getURI().getPath());
+                              return   request.getURI().getPath().startsWith(uri);
+
                             }
 
-                    );
 
+                    );
 }

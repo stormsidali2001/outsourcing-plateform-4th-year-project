@@ -1,10 +1,12 @@
 package com.example.workermicroservice.service;
+import com.example.workermicroservice.Entities.category.Category;
 import com.example.workermicroservice.Entities.worker.*;
 import com.example.workermicroservice.Projections.Email;
 import com.example.workermicroservice.Projections.WorkerProjection;
 import com.example.workermicroservice.Proxy.AuthProxy;
 import com.example.workermicroservice.Proxy.InteractionProxy;
 import com.example.workermicroservice.dtos.*;
+import com.example.workermicroservice.repositpries.CategoryRepository;
 import com.example.workermicroservice.repositpries.SkillRepository;
 import com.example.workermicroservice.repositpries.WorkerRepository;
 import com.example.workermicroservice.types.WorkerStatus;
@@ -30,6 +32,8 @@ public class WorkerService {
 
     @Autowired
     private WorkerRepository workerRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     private SkillRepository skillRepository;
@@ -129,7 +133,7 @@ return workers;
         return skillRepository.findAll();
     }
 
-
+      public List<Category> getCategories(){return categoryRepository.findAll();}
     public List<WorkerExistsResponseDto> getWorkersExist( List<String> workerIds){
         AtomicInteger i = new AtomicInteger();
         List<Optional<Worker>> workers =   this.workerRepository.findAllByUserIdIn(workerIds);

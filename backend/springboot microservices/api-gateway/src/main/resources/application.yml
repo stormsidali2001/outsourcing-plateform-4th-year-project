@@ -7,9 +7,10 @@ spring:
           predicates:
             - Path=/workers/**
           filters:
-            - RewritePath=/workers/(?<segment>.*), /${segment}
             - AuthorizationFilter
-        - id: client
+            - RewritePath=workers/(?<segment>.*), /${segment}
+
+        - id: client3
           uri: lb://company-microservice
           predicates:
             - Path=/clients/**
@@ -29,7 +30,7 @@ spring:
           predicates:
             - Path=/storage/**
           filters:
-            - RewritePath=auth/(?<s>.*), /${s}
+            - RewritePath=storage/(?<s>.*), /${s}
 
         - id: job-request-microservice
           uri: lb://job-request-service
