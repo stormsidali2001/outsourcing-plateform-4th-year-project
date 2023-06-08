@@ -4,6 +4,7 @@ import com.example.workermicroservice.Entities.category.Category;
 import com.example.workermicroservice.Entities.worker.Skill;
 import com.example.workermicroservice.repositpries.CategoryRepository;
 import com.example.workermicroservice.repositpries.SkillRepository;
+import com.example.workermicroservice.repositpries.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,12 +24,17 @@ public class WorkerMicroserviceApplication implements CommandLineRunner {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	@Autowired
+	private WorkerRepository workerRepository;
+
+
 	public static void main(String[] args) {
 		SpringApplication.run(WorkerMicroserviceApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+		workerRepository.deleteAll();
 		if(categoryRepository.count() ==  0) {
 			categoryRepository.saveAll(
 					List.of(

@@ -74,6 +74,13 @@ public class UserCredentialsService {
         claims.put("status",user.getStatus());
         return jwtService.generateToken(user.getEmail(),claims);
     }
+    public String generateToken(UserCredentials user){
+
+        Map<String,Object> claims = new HashMap<>();
+        claims.put("role",user.getRole());
+        claims.put("status",user.getStatus());
+        return jwtService.generateToken(user.getEmail(),claims);
+    }
     public ResponseEntity<String> registerCompany( CompanySignUpDto data) throws HttpException {
         try{
             String id = this.save(data.getUser(), Role.COMPANY);
@@ -185,7 +192,7 @@ public class UserCredentialsService {
 
         userCredentialsRepository.save(userDb);
 
-        return ResponseEntity.ok(userDb.getId());
+        return ResponseEntity.ok(this.generateToken(userDb));
     }
     @Transactional
     private String createUserAndSaveToken(NewAccountDto user,String token  ){
