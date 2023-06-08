@@ -84,7 +84,12 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                     throw new RuntimeException("un authorized access to application");
                 }
             }
-            return chain.filter(exchange);
+            ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
+                    .path(path.substring(path.indexOf("/",1)))
+
+                    .build();
+            ServerWebExchange modifiedExchange = exchange.mutate().request(modifiedRequest).build();
+            return chain.filter(modifiedExchange);
         });
     }
 
