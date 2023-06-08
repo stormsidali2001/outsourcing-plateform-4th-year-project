@@ -29,8 +29,7 @@ public class JwtService {
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
-    public String generateToken(String username){
-        Map<String , Object> claims = new HashMap<>();
+    public String generateToken(String username,Map<String , Object> claims){
         return createToken(claims,username);
     }
 

@@ -17,6 +17,7 @@ public class RouteValidator {
             "/workers/worker/**",
             "/auth/registration/user",
             "/auth/validate-email",
+            "/auth/validate-token",
             "/eureka"
     );
 

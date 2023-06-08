@@ -18,6 +18,9 @@ public class SignUpRequestDto {
     @NotBlank(message = "FirstName is required")
     private String firstName;
 
+    @NotBlank(message = "title is required")
+    private String title;
+
     @NotBlank(message = "LastName is required")
     private String lastName;
 

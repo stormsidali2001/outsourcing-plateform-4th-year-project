@@ -1,6 +1,7 @@
 package com.example.authmicroservice.controller;
 
 import com.example.authmicroservice.Entity.EmailDetails;
+import com.example.authmicroservice.Entity.UserCredentials;
 import com.example.authmicroservice.Service.UserCredentialsService;
 import com.example.authmicroservice.config.EmailServiceGeeks;
 import com.example.authmicroservice.dto.*;
@@ -27,10 +28,6 @@ import java.util.Map;
 @RestController
 
 public class AuthController {
-
-
-
-
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -44,7 +41,6 @@ public class AuthController {
 //        return "user registered succesfully";
 //    }
 @Autowired private EmailServiceGeeks emailService;
-
     // Sending a simple Email
     @PostMapping("/sendMail")
     public String
@@ -73,7 +69,7 @@ public class AuthController {
         if(!authentication.isAuthenticated())   {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("wrong credentials");
         }
-        return ResponseEntity.ok(userCredentialsService.generateToken(user));
+        return ResponseEntity.ok(userCredentialsService.generateToken(user.getEmail()));
     }
     @PostMapping("registration/user")
     public ResponseEntity<Map<String,Object>> registerUser(@RequestBody @Valid NewAccountDto user){

@@ -15,6 +15,9 @@ import java.util.Collection;
 
 @Builder @Data @NoArgsConstructor @AllArgsConstructor
 public class WorkerDto  {
+    @NotBlank(message = "title is required")
+    private String title;
+
     @NotBlank(message = "FirstName is required")
     private String firstName;
 

@@ -65,9 +65,14 @@ public class UserCredentialsService {
         ).getId();
     }
 
-    public String generateToken(UserCredentialsDto data){
-
-        return jwtService.generateToken(data.getEmail());
+    public String generateToken(String email){
+        Optional<UserCredentials> userOp = this.userCredentialsRepository.findByEmail(email);
+        if(userOp.isEmpty()) throw new RuntimeException("not found");
+        UserCredentials user = userOp.get();
+        Map<String,Object> claims = new HashMap<>();
+        claims.put("role",user.getRole());
+        claims.put("status",user.getStatus());
+        return jwtService.generateToken(user.getEmail(),claims);
     }
     public ResponseEntity<String> registerCompany( CompanySignUpDto data) throws HttpException {
         try{
