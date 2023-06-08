@@ -62,9 +62,10 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                     return resultMono.flatMap(result -> {
                                 System.out.println("---------------------------------------");
                                 // Handle the result object here
+                                Integer index = path.indexOf("/",1);
                                 System.out.println("Received response: " + result.toString());
                                 ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
-                                        .path(path.substring(path.indexOf("/",1)))
+                                        .path(index == -1?"/":path.substring(index))
                                         .header("X-email", result.getEmail())
                                         .header("X-role", result.getRole())
                                         .header("X-userId", result.getUserId())
@@ -84,9 +85,9 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                     throw new RuntimeException("un authorized access to application");
                 }
             }
+            Integer index = path.indexOf("/",1);
             ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
-                    .path(path.substring(path.indexOf("/",1)))
-
+                    .path(index == -1?"/":path.substring(index))
                     .build();
             ServerWebExchange modifiedExchange = exchange.mutate().request(modifiedRequest).build();
             return chain.filter(modifiedExchange);
