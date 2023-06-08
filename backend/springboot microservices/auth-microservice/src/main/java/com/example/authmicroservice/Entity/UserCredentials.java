@@ -32,7 +32,7 @@ public class UserCredentials implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String email;
 
     @Enumerated(EnumType.STRING)

@@ -80,9 +80,9 @@ public class AuthController {
         return this.userCredentialsService.registerUser(user);
     }
     @PostMapping("registration/user/worker")
-    public ResponseEntity<Object> registerWorkerStep2(@RequestParam("X-userId") String userId , @RequestBody @Valid WorkerDto data) throws HttpException {
-return ResponseEntity.ok(userId);
-        //        return userCredentialsService.registerWorkerStep2(headers.userId,data);
+    public ResponseEntity<String> registerWorkerStep2(@RequestHeader("X-userId") String userId , @RequestBody @Valid WorkerDto data) throws HttpException {
+//return ResponseEntity.ok(userId);
+                return userCredentialsService.registerWorkerStep2(userId,data);
     }
     @PostMapping("registration/user/company")
     public ResponseEntity<String> registerCompanyStep2(@RequestHeader("X-userId") String userId ,  @RequestBody @Valid CompanyDto data) throws HttpException {

@@ -14,10 +14,12 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.file.*;
 import java.io.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("storage")
+//@RequestMapping("storage")
 public class MediaApi {
     @Autowired
     MediaRepo mediaRepo;
@@ -67,15 +69,21 @@ public class MediaApi {
             // Generate a unique filename for the uploaded file
             String filename = UUID.randomUUID().toString();
             String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-            if (!StringUtils.isEmpty(extension)) {
-                filename += "." + extension;
-            }
-            Path filePath = Paths.get("F:\\Media\\" + filename);
-            media media=new media(null,filename,type);
-            Files.write(filePath, file.getBytes());
-                     //http://localhost:7777/storage/files/filename
-            mediaRepo.save(media);
-            return ResponseEntity.ok("http://localhost:8081/storage/files/"+filename);
+          if (check_file_extension(extension,type)) {
+              if (!StringUtils.isEmpty(extension)) {
+                  filename += "." + extension;
+              }
+
+              Path filePath = Paths.get("D:\\Media\\" + filename);
+              media media=new media(null,filename,type);
+              Files.write(filePath, file.getBytes());
+              //http://localhost:7777/storage/files/filename
+              mediaRepo.save(media);
+              return ResponseEntity.ok("http://localhost:7777/storage/files/"+filename);
+          }
+            else {
+              return ResponseEntity.ok("file with wrong format");
+          }
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload file.");
@@ -99,15 +107,33 @@ public class MediaApi {
 
 
     @GetMapping("/files/{filename:.+}")
-    public void getImage(@PathVariable String filename, HttpServletResponse response) throws IOException {
+    public String getImage(@PathVariable String filename, HttpServletResponse response) throws IOException {
         File file = new File("F:\\Media\\" + filename);
         if (file.exists()) {
             InputStream inputStream = new FileInputStream(file);
-            IOUtils.copy(inputStream, response.getOutputStream());
+            IOUtils.copy(inputStream,response.getOutputStream());
             response.flushBuffer();
         }
+        else
+            return "file not found";
+        return "";
     }
 
+
+    private Boolean check_file_extension(String extension,String type_of_file){
+        switch (type_of_file) {
+            case "cv" -> {
+                return Objects.equals(extension, "pdf");
+            }
+            case "photo" -> {
+                List<String> allowedExtensions = List.of("png", "jpeg");
+                return allowedExtensions.contains(extension.toLowerCase());
+            }
+        }
+
+
+        return false;
+    }
 
 
 }

@@ -58,7 +58,6 @@ public class AuthorizationFilter  extends AbstractGatewayFilterFactory<Authoriza
                     Mono<ValidateTokenResponse> resultMono = authProxy.validateToken(authHeader);
                     return resultMono.flatMap(result -> {
 
-
                                 // Handle the result object here
                                 System.out.println("Received response: " + result.toString());
                                 ServerHttpRequest modifiedRequest = exchange.getRequest().mutate()
