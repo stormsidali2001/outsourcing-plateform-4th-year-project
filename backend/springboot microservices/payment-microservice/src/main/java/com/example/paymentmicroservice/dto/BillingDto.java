@@ -15,16 +15,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class BillingDto {
 
-    private Long idBill;
-
 
     @NotBlank(message = "Company is required")
     private String idCompany;
 
- @NotBlank(message = "the Bill Amount is required")
+    @NotBlank(message = "jobRequestId is required")
+    private String jobRequestId;
+
+    @NotBlank(message = "the Bill Amount is required")
     private double billAmount;
-
-    private Date createdAt;
-
 
 }

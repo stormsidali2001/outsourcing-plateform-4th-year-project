@@ -1,6 +1,7 @@
 package com.example.authmicroservice;
 
 import com.example.authmicroservice.Repository.UserCredentialsRepository;
+import com.example.authmicroservice.Service.UserCredentialsService;
 import com.example.authmicroservice.controller.AuthController;
 import com.example.authmicroservice.dto.*;
 import com.example.authmicroservice.types.CompanyType;
@@ -25,6 +26,9 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 	@Autowired
 	private UserCredentialsRepository userCredentialsRepository;
 
+	@Autowired
+	private UserCredentialsService userCredentialsService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(AuthMicroserviceApplication.class, args);
 	}
@@ -36,8 +40,8 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 		for(int i=0;i<10;i++){
 			newWorker("assoulsidali"+i+"@gmail.com","sidali"+i,"assoul"+i);
 			newCompany("Frigo dz"+i,"contact"+i+"@frigodz.com");
+			userCredentialsService.addAdminAccount("admin"+i+"@gmail.com","123456");
 		}
-
 	}
 
 	// utility functions
@@ -78,6 +82,9 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 						)
 						.worker(WorkerDto.builder()
 								.title("Full stack developer")
+								.pictureUrl("https://picsum.photos/200/300")
+								.cvUrl("https://picsum.photos/200/300")
+								.cardIdUrl("https://picsum.photos/200/300")
 								.firstName(firstName)
 								.lastName(lastName)
 								.address(AddressDto.builder()
@@ -107,11 +114,14 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 												CertificationDto.builder()
 														.companyName("mongodb")
 														.issuedAt(Date.valueOf("2023-01-02"))
-														.skill(
+														.skills(
+																List.of(
 																SkillDto.builder()
 																		.name("CSS")
 																		.category("Developement")
 																		.build()
+
+																)
 														)
 														.title("Mongodb Associate")
 														.url("http://www.someRandomUrl.com")
@@ -156,6 +166,7 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 																		.category("Developement")
 																		.build()
 														))
+														.imageUrl("https://picsum.photos/200/300")
 														.build()
 										)
 								)

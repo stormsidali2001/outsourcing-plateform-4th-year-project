@@ -31,4 +31,6 @@ public class PortfolioProjectDto {
     @NotEmpty(message = "you should at least add one skill")
     @Valid
     private Collection<SkillDto> skills;
+
+    private String imageUrl;
 }

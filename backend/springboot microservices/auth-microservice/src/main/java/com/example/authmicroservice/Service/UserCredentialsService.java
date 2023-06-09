@@ -277,4 +277,15 @@ public class UserCredentialsService {
         statistics.setNb_workers_baned(userCredentialsRepository.getBannedCount());
         return statistics;
     }
+
+    public void addAdminAccount(String email , String password){
+        userCredentialsRepository.save(
+                UserCredentials.builder()
+                        .role(Role.ADMIN)
+                        .email(email)
+                        .status(UserStatus.ACTIVE)
+                        .password(passwordEncoder.encode(password))
+                        .build()
+        );
+    }
 }

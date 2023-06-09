@@ -21,6 +21,12 @@ public class SignUpRequestDto {
     @NotBlank(message = "title is required")
     private String title;
 
+    private String cvUrl;
+
+    private String pictureUrl;
+
+    private String cardIdUrl;
+
     @NotBlank(message = "LastName is required")
     private String lastName;
 

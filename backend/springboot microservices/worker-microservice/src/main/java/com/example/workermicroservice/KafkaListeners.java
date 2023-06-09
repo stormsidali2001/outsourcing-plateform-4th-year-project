@@ -58,8 +58,10 @@ public class KafkaListeners {
             });
 
             worker.getCertifications().forEach((CertificationDto ce)->{
-                categories.add(ce.getSkill().getCategory());
-                skills.add(ce.getSkill().getName());
+                ce.getSkills().forEach((SkillDto s)->{
+                    categories.add(s.getCategory());
+                    skills.add(s.getName());
+                });
             });
 
             worker.getPortfolioProjects().forEach((PortfolioProjectDto pf)->{

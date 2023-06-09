@@ -24,7 +24,9 @@ public class Billing {
 
     private String idCompany;
 
-    private double billAmount;
+    private String jobRequestId;
+
+    private Double billAmount;
 
     private Date createdAt;
 

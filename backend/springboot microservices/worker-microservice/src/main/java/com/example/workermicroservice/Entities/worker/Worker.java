@@ -24,6 +24,12 @@ public class Worker {
 
     private String title;
 
+    private String cvUrl;
+
+    private String pictureUrl;
+
+    private String cardIdUrl;
+
     private String lastName;
 
     private String phoneNumber;
@@ -50,9 +56,6 @@ public class Worker {
 
     private String userId;
 
-    private String photo;
-    private String cv;
-    private String carteIdentity;
 
     @Transient
     private int nbrImpressions;

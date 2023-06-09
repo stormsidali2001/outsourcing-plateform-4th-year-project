@@ -119,6 +119,9 @@ return workers;
                 .publicPrice(sq.getPublicPrice())
                 .skills(sq.getSkills().stream().map(this::mapToSkill).toList())
                 .title(sq.getTitle())
+                .cvUrl(sq.getCvUrl())
+                .cardIdUrl(sq.getCardIdUrl())
+                .pictureUrl(sq.getPictureUrl())
                 .phoneNumber(sq.getPhoneNumber())
                 .portfolioProjects(sq.getPortfolioProjects().stream().map(this::mapToPortfolioProject).toList())
                 .certifications(sq.getCertifications().stream().map(this::mapToCertification).toList())
@@ -193,12 +196,13 @@ return workers;
                 .role(pp.getRole())
                 .skills(pp.getSkills().stream().map(this::mapToSkill).toList())
                 .title(pp.getTitle())
+                .imageUrl(pp.getImageUrl())
                 .build();
     }
     public Certification mapToCertification(CertificationDto certification){
         return Certification.builder()
                 .url(certification.getUrl())
-                .skill(mapToSkill(certification.getSkill()))
+                .skills(certification.getSkills().stream().map(this::mapToSkill).toList())
                 .title(certification.getTitle())
                 .companyName(certification.getCompanyName())
                 .issuedAt(certification.getIssuedAt())

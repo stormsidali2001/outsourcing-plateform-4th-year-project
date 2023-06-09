@@ -21,6 +21,7 @@ import { JobRequestStatus } from './types/job-request-status.enum';
 import { Contract, ContractDocument } from './schemas/contract.schema';
 import { ContractStatus } from './types/contract-status.enum';
 import { AcceptJobRequestDto } from './dto/accept-job-request.dto';
+import { JobRequestPayementResponse } from './types/job-request-payement-response';
 
 @Injectable()
 export class AppService {
@@ -86,18 +87,30 @@ export class AppService {
   }
   async reviewJobRequest(
     jobRequestId: string,
-    {  removedWorkerIds }: ReviewJobRequestDto,
+    {  removedWorkerIds,observation }: ReviewJobRequestDto,
   ) {
     const jobRequest = await this.jobRequestModel.findById(jobRequestId).exec();
     if(!jobRequest){
       throw new BadRequestException("could not find the job request");
     }
+    removedWorkerIds.forEach(rw=>{
+      if(!jobRequest.workers.find(w=>w.workerId === rw)){
+        throw new BadRequestException("worker not found in job request")
+      }
+    })
     if(jobRequest.workers.length  === 1 && removedWorkerIds.length >=1){
       throw new BadRequestException("can't remove the worker cuz its the only worker")
     }
+
+    jobRequest.workers.forEach((w,i,wArr)=>{
+      if(removedWorkerIds.includes(w.workerId)){
+        wArr[i].removed = new Date();
+      }
+    })
+    console.log("reviewing ",JSON.stringify(jobRequest))
     return this.jobRequestModel.updateOne(
-      { _id: jobRequestId, 'workers.workerId': { $in: removedWorkerIds } },
-      { $set: { 'workers.$.removed': new Date() ,status:JobRequestStatus.REVIEWED} },
+      { _id: jobRequestId },
+      { $set: {status:JobRequestStatus.REVIEWED,workers:jobRequest.workers,observation} },
       { new: true },
     ).exec();
   }
@@ -114,28 +127,79 @@ export class AppService {
       throw new BadRequestException("job request not reviewed yet by an admin")
     }
 
-    await this.jobRequestModel.updateOne({_id:jobRequestId},{
-      $set:{
-        status:accepted ?JobRequestStatus.ACCEPTED:JobRequestStatus.REJECTED
-      }
-    }).exec()
-    const contracts = jobRequest.workers.map(worker => ({
-      companyId: jobRequest.companyId,
-      workerId: worker.workerId,
-      publicPrice:worker.publicPrice,
-      nbHours:worker.nbHours,
-      createdAt:new Date()
-    }));
   
-    if(accepted) return await this.contractModel.insertMany(contracts)
-    else return "rejected"
-  } 
-  async getJobRequests(){
-    const jobRequests = await  this.jobRequestModel.find().exec()
-
+    if(accepted){
+      
     const payementMicroserviceInstanceId = this.loadBalancerService.getInstanceId(
       'PAYMENT-MICROSERVICE',
     );
-    return jobRequests;
+      const newBillingurl =
+      'http://' + payementMicroserviceInstanceId + `/payment/new-billing`;
+      console.log("http request to : "+newBillingurl)
+      let total = 0;
+      jobRequest.workers.forEach(w=>{
+        if(w.removed) return;
+        total+=w.nbHours*w.publicPrice;
+      })
+      try{
+        const res1 = await this.httpService.axiosRef.post(newBillingurl,{
+          idCompany:jobRequest.companyId,
+          jobRequestId:jobRequest.id,
+          billAmount:total,
+    
+        });
+        await this.jobRequestModel.updateOne({_id:jobRequestId},{
+          $set:{
+            status:accepted ?JobRequestStatus.ACCEPTED:JobRequestStatus.REJECTED
+          }
+        }).exec()
+        const contracts = jobRequest.workers.map(worker => ({
+          companyId: jobRequest.companyId,
+          workerId: worker.workerId,
+          publicPrice:worker.publicPrice,
+          nbHours:worker.nbHours,
+          createdAt:new Date()
+        }));
+      
+        
+        return  await this.contractModel.insertMany(contracts)
+      }catch(err){
+        throw err;
+      }
+      }
+    else {
+      await this.jobRequestModel.updateOne({_id:jobRequestId},{
+        $set:{
+          status:accepted ?JobRequestStatus.ACCEPTED:JobRequestStatus.REJECTED
+        }
+      }).exec()
+      return "rejected"
+    }
+  } 
+  async getJobRequests(){
+    const jobRequests = await  this.jobRequestModel.find().exec()
+    const payementMicroserviceInstanceId = this.loadBalancerService.getInstanceId(
+      'PAYMENT-MICROSERVICE',
+    );
+      const billingUrl =
+      'http://' + payementMicroserviceInstanceId + `/payment?jobRequestIds=${jobRequests.map(j=>j.id).join(",")}`;
+      console.log("http request to : "+billingUrl)
+      let total = 0;
+    
+      try{
+        const res1 = await this.httpService.axiosRef.get(billingUrl)
+        const jobRequestPayment = res1.data as JobRequestPayementResponse[];
+
+    return jobRequests.map(j=>({
+      id:j.id,
+      workers:j.workers,
+      payement:jobRequestPayment.find(p=>p.jobRequestId === j.id)
+    }));
+      }catch(err){
+        throw err;
+      }
+  }
+  async getAllContracts(){
+    return this.contractModel.find()
   }
 }
