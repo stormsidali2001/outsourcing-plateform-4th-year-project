@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
 import java.util.Date;
 
 @Builder @Data @AllArgsConstructor @NoArgsConstructor
@@ -25,7 +26,7 @@ public class CertificationDto {
     @NotBlank(message = "company name is required")
     private String companyName;
 
-    @NotNull(message = "skill  is required")
+    @NotNull(message = "skills  are required")
     @Valid
-    private SkillDto skill;
+    private Collection<SkillDto> skills;
 }

@@ -18,6 +18,12 @@ public class WorkerDto  {
     @NotBlank(message = "title is required")
     private String title;
 
+    private String cvUrl;
+
+    private String pictureUrl;
+
+    private String cardIdUrl;
+
     @NotBlank(message = "FirstName is required")
     private String firstName;
 

@@ -13,6 +13,8 @@ public class PortfolioProject {
 
     private String projectGoal;
 
+    private String imageUrl;
+
     private String projectSolution;
 
     private Collection<Skill> skills;

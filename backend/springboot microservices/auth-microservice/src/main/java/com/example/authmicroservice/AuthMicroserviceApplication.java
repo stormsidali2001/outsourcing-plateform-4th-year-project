@@ -82,6 +82,9 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 						)
 						.worker(WorkerDto.builder()
 								.title("Full stack developer")
+								.pictureUrl("https://picsum.photos/200/300")
+								.cvUrl("https://picsum.photos/200/300")
+								.cardIdUrl("https://picsum.photos/200/300")
 								.firstName(firstName)
 								.lastName(lastName)
 								.address(AddressDto.builder()
@@ -111,11 +114,14 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 												CertificationDto.builder()
 														.companyName("mongodb")
 														.issuedAt(Date.valueOf("2023-01-02"))
-														.skill(
+														.skills(
+																List.of(
 																SkillDto.builder()
 																		.name("CSS")
 																		.category("Developement")
 																		.build()
+
+																)
 														)
 														.title("Mongodb Associate")
 														.url("http://www.someRandomUrl.com")
@@ -160,6 +166,7 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 																		.category("Developement")
 																		.build()
 														))
+														.imageUrl("https://picsum.photos/200/300")
 														.build()
 										)
 								)
