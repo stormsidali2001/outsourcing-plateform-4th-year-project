@@ -50,7 +50,7 @@ export class AppController {
     return await this.appService.accepteJobRequest(jobRequestId,data,userId)
   }
 
-  @Get("")
+  @Get("all")
   async getJobRequests(){
     return this.appService.getJobRequests();
   }

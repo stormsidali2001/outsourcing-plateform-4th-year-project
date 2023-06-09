@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PaymentService {
@@ -53,6 +54,7 @@ public class PaymentService {
                 .billAmount(billingDto.getBillAmount())
                 .transactions(null)
                 .createdAt(new Date())
+                .jobRequestId(billingDto.getJobRequestId())
                 .build();
 
      billingRepo.save(billing);
@@ -65,6 +67,9 @@ public class PaymentService {
          double companyBillAmount=billingRepo.getBillAmount(idCompany);
 
         return companyBillAmount-transactionRepo.getPaymentStatus(idCompany);
+    }
+    public List<Billing> getBillings() {
+        return billingRepo.findAll();
     }
 }
 

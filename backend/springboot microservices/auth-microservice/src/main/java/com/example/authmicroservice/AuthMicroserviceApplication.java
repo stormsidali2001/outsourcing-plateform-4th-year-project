@@ -1,6 +1,7 @@
 package com.example.authmicroservice;
 
 import com.example.authmicroservice.Repository.UserCredentialsRepository;
+import com.example.authmicroservice.Service.UserCredentialsService;
 import com.example.authmicroservice.controller.AuthController;
 import com.example.authmicroservice.dto.*;
 import com.example.authmicroservice.types.CompanyType;
@@ -25,6 +26,9 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 	@Autowired
 	private UserCredentialsRepository userCredentialsRepository;
 
+	@Autowired
+	private UserCredentialsService userCredentialsService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(AuthMicroserviceApplication.class, args);
 	}
@@ -36,8 +40,8 @@ public class AuthMicroserviceApplication implements  CommandLineRunner{
 		for(int i=0;i<10;i++){
 			newWorker("assoulsidali"+i+"@gmail.com","sidali"+i,"assoul"+i);
 			newCompany("Frigo dz"+i,"contact"+i+"@frigodz.com");
+			userCredentialsService.addAdminAccount("admin"+i+"@gmail.com","123456");
 		}
-
 	}
 
 	// utility functions

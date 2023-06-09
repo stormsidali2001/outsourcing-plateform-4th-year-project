@@ -5,7 +5,6 @@ export class ReviewJobRequestDto{
    
 
     @ApiProperty({example:["id","id"]})
-    @IsUUID(4,{each:true})
     removedWorkerIds:string[];
 
     @IsOptional()
