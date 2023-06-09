@@ -199,4 +199,7 @@ export class AppService {
         throw err;
       }
   }
+  async getAllContracts(){
+    return this.contractModel.find()
+  }
 }

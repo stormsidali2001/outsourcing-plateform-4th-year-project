@@ -54,5 +54,10 @@ export class AppController {
   async getJobRequests(){
     return this.appService.getJobRequests();
   }
+
+  @Get("contracts")
+  async getAllContracts(){
+    return this.appService.getAllContracts()
+  }
   
 }
