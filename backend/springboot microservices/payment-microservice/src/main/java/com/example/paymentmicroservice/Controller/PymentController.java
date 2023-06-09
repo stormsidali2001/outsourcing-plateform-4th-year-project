@@ -35,6 +35,11 @@ public class PymentController {
         return this.paymentService.getBillings();
     }
 
+    @GetMapping("")
+    public List<Billing> getBillings(@RequestParam("jobRequestIds") List<String> jobRequestIds){
+        return this.paymentService.getBillingsByJobRequests(jobRequestIds);
+    }
+
     @GetMapping("status/{idCompany}")
     public double getStatus(@PathVariable("idCompany") String idCompany)
     {

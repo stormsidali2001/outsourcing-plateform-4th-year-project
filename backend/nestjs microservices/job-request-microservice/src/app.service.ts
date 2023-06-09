@@ -21,6 +21,7 @@ import { JobRequestStatus } from './types/job-request-status.enum';
 import { Contract, ContractDocument } from './schemas/contract.schema';
 import { ContractStatus } from './types/contract-status.enum';
 import { AcceptJobRequestDto } from './dto/accept-job-request.dto';
+import { JobRequestPayementResponse } from './types/job-request-payement-response';
 
 @Injectable()
 export class AppService {
@@ -177,8 +178,25 @@ export class AppService {
   } 
   async getJobRequests(){
     const jobRequests = await  this.jobRequestModel.find().exec()
+    const payementMicroserviceInstanceId = this.loadBalancerService.getInstanceId(
+      'PAYMENT-MICROSERVICE',
+    );
+      const billingUrl =
+      'http://' + payementMicroserviceInstanceId + `/payment?jobRequestIds=${jobRequests.map(j=>j.id).join(",")}`;
+      console.log("http request to : "+billingUrl)
+      let total = 0;
+    
+      try{
+        const res1 = await this.httpService.axiosRef.get(billingUrl)
+        const jobRequestPayment = res1.data as JobRequestPayementResponse[];
 
-
-    return jobRequests;
+    return jobRequests.map(j=>({
+      id:j.id,
+      workers:j.workers,
+      payement:jobRequestPayment.find(p=>p.jobRequestId === j.id)
+    }));
+      }catch(err){
+        throw err;
+      }
   }
 }

@@ -26,7 +26,7 @@ public class Billing {
 
     private String jobRequestId;
 
-    private double billAmount;
+    private Double billAmount;
 
     private Date createdAt;
 

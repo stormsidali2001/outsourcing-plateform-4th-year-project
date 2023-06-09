@@ -64,12 +64,15 @@ public class PaymentService {
 
     public double getPaymentStatus(String idCompany){
 
-         double companyBillAmount=billingRepo.getBillAmount(idCompany);
+         Double companyBillAmount=billingRepo.getBillAmount(idCompany);
 
         return companyBillAmount-transactionRepo.getPaymentStatus(idCompany);
     }
     public List<Billing> getBillings() {
         return billingRepo.findAll();
+    }
+    public List<Billing> getBillingsByJobRequests(List<String> jobRequestIds) {
+        return billingRepo.findAllByJobRequestIdIn(jobRequestIds);
     }
 }
 
