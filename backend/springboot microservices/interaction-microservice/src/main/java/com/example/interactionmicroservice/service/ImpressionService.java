@@ -3,11 +3,14 @@ package com.example.interactionmicroservice.service;
 import com.example.interactionmicroservice.Entities.Impression;
 import com.example.interactionmicroservice.dto.ImpressionDto;
 import com.example.interactionmicroservice.dto.WishDto;
+import com.example.interactionmicroservice.events.InteractionAddedEvent;
 import com.example.interactionmicroservice.proxy.CompanyProxy;
 import com.example.interactionmicroservice.proxy.WorkerProxy;
 import com.example.interactionmicroservice.repositories.ImpressionRepo;
+import com.example.interactionmicroservice.types.InteractionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,6 +26,9 @@ public class ImpressionService {
 
   @Autowired
   private CompanyProxy companyProxy;
+
+    @Autowired
+    private KafkaTemplate<Object, Object> kafkaTemplate;
     public void newImpression(ImpressionDto impressionDto,String companyId){
 
         if(workerProxy.workerExist(impressionDto.getIdWorker())){
@@ -34,7 +40,12 @@ public class ImpressionService {
                     .createdAt(new Date())
                     .build();
 
-            impressionRepo.save(impression);
+            Impression impressionDb = impressionRepo.save(impression);
+            kafkaTemplate.send("interaction_added", InteractionAddedEvent.builder()
+                    .companyId(impressionDb.getIdCompany())
+                    .workerId(impressionDb.getIdWorker())
+                    .interactionType(InteractionType.IMPRESSION)
+                    .build());
         }else{
             System.out.println("user don't exist"+workerProxy.workerExist(impressionDto.getIdWorker()));
         }

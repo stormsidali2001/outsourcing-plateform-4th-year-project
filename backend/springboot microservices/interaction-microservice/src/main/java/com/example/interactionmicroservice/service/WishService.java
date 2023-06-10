@@ -2,13 +2,16 @@ package com.example.interactionmicroservice.service;
 
 import com.example.interactionmicroservice.Entities.Wish;
 import com.example.interactionmicroservice.dto.WishDto;
+import com.example.interactionmicroservice.events.InteractionAddedEvent;
 import com.example.interactionmicroservice.proxy.CompanyProxy;
 import com.example.interactionmicroservice.proxy.WorkerProxy;
 import com.example.interactionmicroservice.repositories.WishRepo;
 import com.example.interactionmicroservice.types.InteractionId;
+import com.example.interactionmicroservice.types.InteractionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,6 +27,9 @@ public class WishService {
 
   @Autowired
   private CompanyProxy companyProxy;
+
+    @Autowired
+    private KafkaTemplate<Object, Object> kafkaTemplate;
     public ResponseEntity<String> newWish(WishDto wishDto, String companyId){
 
         if(workerProxy.workerExist(wishDto.getIdWorker())){
@@ -34,7 +40,12 @@ public class WishService {
                         .createdAt(new Date())
                         .build();
 
-                wishRepo.save(wish);
+                Wish w =  wishRepo.save(wish);
+                kafkaTemplate.send("interaction_added", InteractionAddedEvent.builder()
+                        .companyId(w.getIdWish().getIdCompany())
+                        .workerId(w.getIdWish().getIdWorker())
+                        .interactionType(InteractionType.WISH)
+                        .build());
             }else {
                 wishRepo.deleteById(idWish);
                 return ResponseEntity.ok("deja existe");
