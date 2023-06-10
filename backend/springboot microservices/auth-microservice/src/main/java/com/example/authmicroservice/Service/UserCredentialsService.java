@@ -186,7 +186,6 @@ public class UserCredentialsService {
             return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token expired");
         }
         if(!otp.equals(tokenDb.getToken())){
-
             return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("wrong otp");
         }
 

@@ -43,7 +43,7 @@ public class InteractionMicroserviceApplication implements CommandLineRunner {
     private CompanyProxy companyProxy;
     @Override
     public void run(String... args) throws Exception {
-//        if(impressionRepo.count() >0) return;
+        if(impressionRepo.count() >0) return;
         List<String> workers=workerProxy.getWorkers();
         List<String> companies=companyProxy.getCompanies();
 

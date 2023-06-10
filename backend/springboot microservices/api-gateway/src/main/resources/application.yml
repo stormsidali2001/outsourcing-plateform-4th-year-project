@@ -35,17 +35,16 @@ spring:
             - Path=/job-request/**
           filters:
             - AuthorizationFilter
-<<<<<<< HEAD
 
         - id: interactions-route
           uri: lb://interaction-microservice
           predicates:
             - Path=/interactions/**
-=======
+
         - id: chat-microservice
           uri: lb://chat-microservice
           predicates:
             - Path=/chat/**
->>>>>>> aeb9f1bc4fd75d4ab25b8e136d0456992db7d59e
+
           filters:
             - AuthorizationFilter
