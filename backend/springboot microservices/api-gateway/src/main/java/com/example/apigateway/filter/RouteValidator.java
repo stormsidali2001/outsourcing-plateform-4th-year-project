@@ -19,6 +19,7 @@ public class RouteValidator {
             "/auth/validate-email",
             "/auth/validate-token",
             "/eureka",
+            "/chat/discussion",
             "/job-request/all"
     );
 

@@ -17,7 +17,23 @@ public class CardService {
 
     @Autowired
     CardRepository cardRepository;
+public String newCard(List<CartItemDto> cartItemDtos,String companyId){
 
+
+//        List<CartItemDto> cartItemDtos = new ArrayList<>(); // List of CartItemDto objects
+//        cartItemDtos.add(cartItemDto);
+        List<CardItem> cardItems = cartItemDtos.stream()
+                .map(this::mapToCardItem)
+                .toList();
+        Card card=Card.builder()
+                .companyId(companyId)
+                .cardItems(cardItems)
+                .build();
+        cardRepository.save(card);
+
+
+    return "Worker added to Pannier";
+}
 
     public String newCardItem(CartItemDto cartItemDto,String companyId){
         Card card=cardRepository.findCardByCompanyId(companyId);
