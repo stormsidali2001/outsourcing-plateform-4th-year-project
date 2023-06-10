@@ -26,13 +26,13 @@ public class ClickService {
 
     @Autowired
     private CompanyProxy companyProxy;
-    public void newClick(ClickDto clickDto){
+    public void newClick(ClickDto clickDto,String userId){
         if(workerProxy.workerExist(clickDto.getIdWorker())) {
             String Id = UUID.randomUUID().toString();
             Click click = Click.builder()
                     .idClick(Id)
                     .idWorker(clickDto.getIdWorker())
-                    .idCompany(clickDto.getIdCompany())
+                    .idCompany(userId)
                     .createdAt(new Date())
                     .build();
 

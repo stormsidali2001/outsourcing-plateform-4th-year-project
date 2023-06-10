@@ -54,21 +54,18 @@ public class InteractionMicroserviceApplication implements CommandLineRunner {
                 System.out.println("<<<<< "+company);
                 WishDto wishDto = new WishDto();
                 wishDto.setIdWorker(worker);
-                wishDto.setIdCompany(company);
 
                 ClickDto clickDto = new ClickDto();
                 clickDto.setIdWorker(worker);
-                clickDto.setIdCompany(company);
 
                 ImpressionDto impressionDto = new ImpressionDto();
                 impressionDto.setIdWorker(worker);
-                impressionDto.setIdCompany(company);
 
-                impressionService.newImpression(impressionDto);
+                impressionService.newImpression(impressionDto,company);
 
-                clickService.newClick(clickDto);
+                clickService.newClick(clickDto,company);
 
-                wishService.newWish(wishDto);
+                wishService.newWish(wishDto,company);
             }
         }
     }

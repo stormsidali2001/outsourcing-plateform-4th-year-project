@@ -7,6 +7,7 @@ import com.example.interactionmicroservice.dto.ClickDto;
 import com.example.interactionmicroservice.dto.WishDto;
 import com.example.interactionmicroservice.service.ClickService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +21,11 @@ public class ClickController {
     ClickService clickService;
 
     @PostMapping("new-click")
-    public ResponseEntity<String> newWish(@RequestBody ClickDto clickDto){
-        clickService.newClick(clickDto);
+    public ResponseEntity<String> newWish(@RequestHeader("x-userid") String userId,@RequestHeader("x-role") String role,@RequestBody ClickDto clickDto){
+        if(!role.equals("COMPANY") ){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("should be a company");
+        }
+        clickService.newClick(clickDto,userId);
         return  ResponseEntity.ok("Click added successfully");
     }
 //    @GetMapping("/click")

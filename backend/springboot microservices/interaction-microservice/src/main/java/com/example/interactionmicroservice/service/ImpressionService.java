@@ -23,14 +23,14 @@ public class ImpressionService {
 
   @Autowired
   private CompanyProxy companyProxy;
-    public void newImpression(ImpressionDto impressionDto){
+    public void newImpression(ImpressionDto impressionDto,String companyId){
 
         if(workerProxy.workerExist(impressionDto.getIdWorker())){
             String Id = UUID.randomUUID().toString();
             Impression impression= Impression.builder()
                     .idImpression(Id)
                     .idWorker(impressionDto.getIdWorker())
-                    .idCompany(impressionDto.getIdCompany())
+                    .idCompany(companyId)
                     .createdAt(new Date())
                     .build();
 
