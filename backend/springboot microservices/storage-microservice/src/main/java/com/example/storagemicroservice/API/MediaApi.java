@@ -75,11 +75,17 @@ public class MediaApi {
               }
 
               Path filePath = Paths.get("D:\\Media\\" + filename);
-              media media=new media(null,filename,type);
+
               Files.write(filePath, file.getBytes());
               //http://localhost:7777/storage/files/filename
-              mediaRepo.save(media);
-              return ResponseEntity.ok("http://localhost:7777/storage/files/"+filename);
+              // Check if the file was successfully saved
+              if (Files.exists(filePath)) {
+                  media media = new media(null, filename, type);
+                  mediaRepo.save(media);
+                  return ResponseEntity.ok("http://localhost:7777/storage/files/" + filename);
+              } else {
+                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save file.");
+              }
           }
             else {
               return ResponseEntity.ok("file with wrong format");
@@ -108,7 +114,7 @@ public class MediaApi {
 
     @GetMapping("/files/{filename:.+}")
     public String getImage(@PathVariable String filename, HttpServletResponse response) throws IOException {
-        File file = new File("F:\\Media\\" + filename);
+        File file = new File("D:\\Media\\" + filename);
         if (file.exists()) {
             InputStream inputStream = new FileInputStream(file);
             IOUtils.copy(inputStream,response.getOutputStream());
@@ -126,7 +132,7 @@ public class MediaApi {
                 return Objects.equals(extension, "pdf");
             }
             case "photo" -> {
-                List<String> allowedExtensions = List.of("png", "jpeg");
+                List<String> allowedExtensions = List.of("png", "jpeg","jpg");
                 return allowedExtensions.contains(extension.toLowerCase());
             }
         }
@@ -134,6 +140,4 @@ public class MediaApi {
 
         return false;
     }
-
-
 }
