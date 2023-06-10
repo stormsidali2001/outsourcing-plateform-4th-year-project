@@ -36,3 +36,9 @@ spring:
           filters:
             - AuthorizationFilter
 
+        - id: interactions-route
+          uri: lb://interaction-microservice
+          predicates:
+            - Path=/interactions/**
+          filters:
+            - AuthorizationFilter

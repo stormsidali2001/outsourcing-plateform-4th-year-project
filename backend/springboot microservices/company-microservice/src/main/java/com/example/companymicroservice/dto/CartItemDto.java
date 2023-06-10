@@ -24,10 +24,7 @@ public class CartItemDto {
     private String lastName;
     @NotBlank(message = "price is required")
     private float publicPrice;
-    @NotBlank(message = "number of etoiles is required")
-    private int nbEtoile;
-    @NotBlank(message = "number of hours is required")
-    private int nbHours;
+
     @NotBlank(message = "Category is required")
     private  String category;
     @NotBlank(message = "skills is required")

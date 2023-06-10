@@ -26,7 +26,10 @@ public class CompanyMicroserviceApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		this.companyRepository.deleteAll();
+		if(this.companyRepository.count() > 0){
+			return;
+		}
+		;
 		if(companyFieldRepository.count() > 0) return;
 		companyFieldRepository.saveAll(
 				List.of(

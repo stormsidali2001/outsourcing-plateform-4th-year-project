@@ -7,6 +7,8 @@ import com.example.companymicroservice.dto.CartItemDto;
 import com.example.companymicroservice.dto.skillDto;
 import com.example.companymicroservice.repositpries.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class CardService {
     CardRepository cardRepository;
 
 
-    public String newCardItem(CartItemDto cartItemDto,String companyId){
+    public ResponseEntity<String>  newCardItem(CartItemDto cartItemDto, String companyId){
         Card card=cardRepository.findCardByCompanyId(companyId);
         if(card != null){
             CardItem cardItem = mapToCardItem(cartItemDto); // Convert CartItemDto to CardItem
@@ -29,9 +31,9 @@ public class CardService {
                 cardItems.add(cardItem); // Add the new cardItem to the list
                 card.setCardItems(cardItems); // Update the cardItems list in the card
                 cardRepository.save(card); // Save the updated card
-                return "worker added to Pannier";
+                return ResponseEntity.status(HttpStatus.CREATED).body("worker added to Pannier");
             } else {
-                return "this worker is already selected";
+                return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("this worker is already selected");
             }
 
 
@@ -49,7 +51,7 @@ public class CardService {
             cardRepository.save(card1);
         }
 
-     return "Worker added to Pannier";
+     return ResponseEntity.status(HttpStatus.CREATED).body("Worker added to Pannier");
     }
 
     private CardItem mapToCardItem(CartItemDto cartItemDto) {
@@ -58,8 +60,7 @@ public class CardService {
                 .firstName(cartItemDto.getFirstName())
                 .lastName(cartItemDto.getLastName())
                 .category(cartItemDto.getCategory())
-                .nbEtoile(cartItemDto.getNbEtoile())
-                .nbHours(cartItemDto.getNbHours())
+                .nbHours(1)
                 .publicPrice(cartItemDto.getPublicPrice())
                 .skills(cartItemDto.getSkills().stream().map(this::mapToSkill).toList())
                 .build();
@@ -71,26 +72,26 @@ public class CardService {
                 .build();
     }
 
-    public Card getCardByIdCompany(String companyId){
+    public ResponseEntity<Object> getCardByIdCompany(String companyId){
 
-        return cardRepository.findCardByCompanyId(companyId);
+        return ResponseEntity.ok(cardRepository.findCardByCompanyId(companyId));
 
     }
 
-    public String deleteCardItem(String idWorker,String idCompany){
+    public ResponseEntity<String> deleteCardItem(String idWorker,String idCompany){
         Card card=cardRepository.findCardByCompanyId(idCompany);
         if(card!=null){
             if (this.doesCardItemExist(idWorker, card)) {
 
                 card.getCardItems().removeIf(cardItem -> cardItem.getWorkerId().equals(idWorker));
                 cardRepository.save(card);
-                return "item deleted";
+                return ResponseEntity.ok("item deleted");
             }else {
-                return "item not found !";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("item not found !");
             }
 
         }else {
-          return "no Card found !";
+          return ResponseEntity.status(HttpStatus.NOT_FOUND).body("item not found !");
         }
 
     }

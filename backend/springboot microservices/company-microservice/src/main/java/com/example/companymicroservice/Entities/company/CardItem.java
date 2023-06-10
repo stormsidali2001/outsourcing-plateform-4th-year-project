@@ -22,7 +22,6 @@ public class CardItem {
     private String firstName;
     private String lastName;
     private float publicPrice;
-    private int nbEtoile;
     private int nbHours;
     private  String category;
     private List<Skill> skills=new ArrayList<>();;

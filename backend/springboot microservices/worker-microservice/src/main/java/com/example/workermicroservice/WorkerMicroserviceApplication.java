@@ -34,7 +34,9 @@ public class WorkerMicroserviceApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		workerRepository.deleteAll();
+		if(workerRepository.count() > 0){
+			return;
+		}
 		if(categoryRepository.count() ==  0) {
 			categoryRepository.saveAll(
 					List.of(

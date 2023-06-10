@@ -4,6 +4,8 @@ import com.example.companymicroservice.Entities.company.Card;
 import com.example.companymicroservice.dto.CartItemDto;
 import com.example.companymicroservice.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,24 +17,35 @@ public class CardController {
 
 
     @PostMapping("new-cardItem")
-    public String newCard(@RequestBody CartItemDto cardDto, @RequestHeader("X-userId") String companyId) {
-        return cardService.newCardItem(cardDto,companyId);
+    public ResponseEntity<String> newCard(@RequestBody CartItemDto cardDto, @RequestHeader("x-userid") String userId  , @RequestHeader("x-role") String role) {
+        System.out.println("role "+role+" id "+userId);
+       if(!role.equals("COMPANY")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not a company khy");
+       }
+        return cardService.newCardItem(cardDto,userId);
     }
 
 
     //get a card by IdCompany
- @GetMapping("card/{companyId}")
-    public Card getCard(@PathVariable("companyId") String companyId){
-        return cardService.getCardByIdCompany(companyId);
+ @GetMapping("card")
+    public ResponseEntity<Object> getCard( @RequestHeader("x-userid") String userId  , @RequestHeader("x-role") String role){
+        System.out.println("role "+role+" id "+userId);
+        if(!role.equals("COMPANY")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not a company khy");
+        }
+    return cardService.getCardByIdCompany(userId);
  }
 
  @DeleteMapping("card/cardItem/delete/{idWorker}")
-    public String deleteCardItem(@PathVariable("idWorker")String idWorker ,@RequestHeader("X-userId") String companyId){
-       return cardService.deleteCardItem(idWorker,companyId);
+    public ResponseEntity<Object> deleteCardItem(@PathVariable("idWorker")String idWorker  ,@RequestHeader("x-userid") String userId  , @RequestHeader("x-role") String role){
+     if(!role.equals("COMPANY")){
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not a company khy");
+     }
+        return ResponseEntity.ok(cardService.deleteCardItem(idWorker,userId));
     }
-@PutMapping("card/cardItem/update/{idWorker}")
-    public String updateCardItemHours(@PathVariable("idWorker")String idWorker ,@RequestHeader("X-userId")String companyId,@RequestBody int newHours){
-        return cardService.updateItemHours(idWorker,companyId,newHours);
+@PutMapping("card/cardItem/update/{idWorker}/nbHours/{nbHours}")
+    public ResponseEntity<String> updateCardItemHours(@PathVariable("idWorker") String idWorker ,@RequestHeader("x-userid") String userId,@PathVariable("nbHours") int newHours){
+        return ResponseEntity.ok(cardService.updateItemHours(idWorker,userId,newHours));
 }
 
 
