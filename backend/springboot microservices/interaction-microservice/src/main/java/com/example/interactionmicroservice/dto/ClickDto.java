@@ -18,8 +18,6 @@ public class ClickDto {
 
     @NotBlank(message = "worker  is required")
     private String idWorker;
-    @NotBlank(message = "company  is required")
-    private String idCompany;
 
 //    private Date createdAt;
 }

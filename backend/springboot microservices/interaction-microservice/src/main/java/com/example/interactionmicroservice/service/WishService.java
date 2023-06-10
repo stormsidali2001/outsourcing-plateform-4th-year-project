@@ -7,6 +7,8 @@ import com.example.interactionmicroservice.proxy.WorkerProxy;
 import com.example.interactionmicroservice.repositories.WishRepo;
 import com.example.interactionmicroservice.types.InteractionId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,10 +24,10 @@ public class WishService {
 
   @Autowired
   private CompanyProxy companyProxy;
-    public String newWish(WishDto wishDto){
+    public ResponseEntity<String> newWish(WishDto wishDto, String companyId){
 
         if(workerProxy.workerExist(wishDto.getIdWorker())){
-            InteractionId idWish=new InteractionId(wishDto.getIdCompany(),wishDto.getIdWorker());
+            InteractionId idWish=new InteractionId(companyId,wishDto.getIdWorker());
             if(!wishRepo.existsById(idWish)) {
                 Wish wish = Wish.builder()
                         .idWish(idWish)
@@ -35,11 +37,11 @@ public class WishService {
                 wishRepo.save(wish);
             }else {
                 wishRepo.deleteById(idWish);
-                return "deja existe";
+                return ResponseEntity.ok("deja existe");
             }
 
     }
-        return "added";
+         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 
