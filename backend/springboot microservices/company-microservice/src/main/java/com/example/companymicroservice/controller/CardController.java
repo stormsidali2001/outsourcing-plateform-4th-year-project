@@ -16,28 +16,18 @@ public class CardController {
     CardService cardService;
 
 
-@PostMapping("new-card")
-public String newCard(@RequestBody List<CartItemDto> cardDto, @RequestHeader("X-userId") String companyId) {
-    return cardService.newCard(cardDto,companyId);
-}
 
     @PostMapping("new-cardItem")
-<<<<<<< HEAD
     public ResponseEntity<String> newCard(@RequestBody CartItemDto cardDto, @RequestHeader("x-userid") String userId  , @RequestHeader("x-role") String role) {
         System.out.println("role "+role+" id "+userId);
        if(!role.equals("COMPANY")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not a company khy");
        }
         return cardService.newCardItem(cardDto,userId);
-=======
-    public String newCardItem(@RequestBody CartItemDto cardDto, @RequestHeader("X-userId") String companyId) {
-        return cardService.newCardItem(cardDto,companyId);
->>>>>>> aeb9f1bc4fd75d4ab25b8e136d0456992db7d59e
     }
 
 
     //get a card by IdCompany
-<<<<<<< HEAD
  @GetMapping("card")
     public ResponseEntity<Object> getCard( @RequestHeader("x-userid") String userId  , @RequestHeader("x-role") String role){
         System.out.println("role "+role+" id "+userId);
@@ -45,11 +35,6 @@ public String newCard(@RequestBody List<CartItemDto> cardDto, @RequestHeader("X-
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("not a company khy");
         }
     return cardService.getCardByIdCompany(userId);
-=======
-  @GetMapping("card/{companyId}")
-    public Card getCard(@PathVariable("companyId") String companyId){
-        return cardService.getCardByIdCompany(companyId);
->>>>>>> aeb9f1bc4fd75d4ab25b8e136d0456992db7d59e
  }
 
  @DeleteMapping("card/cardItem/delete/{idWorker}")

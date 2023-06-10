@@ -19,7 +19,6 @@ public class CardService {
 
     @Autowired
     CardRepository cardRepository;
-public String newCard(List<CartItemDto> cartItemDtos,String companyId){
 
 
     public ResponseEntity<String>  newCardItem(CartItemDto cartItemDto, String companyId){
@@ -54,6 +53,8 @@ public String newCard(List<CartItemDto> cartItemDtos,String companyId){
 
      return ResponseEntity.status(HttpStatus.CREATED).body("Worker added to Pannier");
     }
+
+
 
     private CardItem mapToCardItem(CartItemDto cartItemDto) {
         return CardItem.builder()
@@ -125,3 +126,4 @@ public String newCard(List<CartItemDto> cartItemDtos,String companyId){
 
 
 }
+
