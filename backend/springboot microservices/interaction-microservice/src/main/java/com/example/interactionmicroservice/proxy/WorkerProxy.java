@@ -9,7 +9,6 @@ import java.util.List;
 
 @FeignClient(name = "worker-microservice")
 @LoadBalancerClient(name = "worker-microservice")
-
 public interface WorkerProxy {
 
     @GetMapping("/worker-exist")

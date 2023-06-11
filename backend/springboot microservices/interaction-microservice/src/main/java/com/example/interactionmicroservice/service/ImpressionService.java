@@ -41,7 +41,7 @@ public class ImpressionService {
                     .build();
 
             Impression impressionDb = impressionRepo.save(impression);
-            kafkaTemplate.send("interaction_added", InteractionAddedEvent.builder()
+            kafkaTemplate.send("interaction-added", InteractionAddedEvent.builder()
                     .companyId(impressionDb.getIdCompany())
                     .workerId(impressionDb.getIdWorker())
                     .interactionType(InteractionType.IMPRESSION)

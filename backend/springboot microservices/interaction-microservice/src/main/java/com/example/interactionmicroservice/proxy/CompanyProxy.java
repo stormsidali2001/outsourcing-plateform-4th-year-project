@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "company-microservice",url = "localhost:5005")
-//@LoadBalancerClient(name = "company-microservice")
+@FeignClient(name = "company-microservice")
+@LoadBalancerClient(name = "company-microservice")
 public interface CompanyProxy {
 
 //    get the IDs of the existing companies

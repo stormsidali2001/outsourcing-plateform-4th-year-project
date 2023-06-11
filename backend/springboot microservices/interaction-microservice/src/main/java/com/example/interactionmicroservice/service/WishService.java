@@ -41,7 +41,7 @@ public class WishService {
                         .build();
 
                 Wish w =  wishRepo.save(wish);
-                kafkaTemplate.send("interaction_added", InteractionAddedEvent.builder()
+                kafkaTemplate.send("interaction-added", InteractionAddedEvent.builder()
                         .companyId(w.getIdWish().getIdCompany())
                         .workerId(w.getIdWish().getIdWorker())
                         .interactionType(InteractionType.WISH)

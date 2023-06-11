@@ -44,7 +44,7 @@ public class ClickService {
                     .build();
 
             clickRepo.save(click);
-            kafkaTemplate.send("interaction_added", InteractionAddedEvent.builder()
+            kafkaTemplate.send("interaction-added", InteractionAddedEvent.builder()
                             .companyId(click.getIdCompany())
                             .workerId(click.getIdWorker())
                             .interactionType(InteractionType.CLICK)
