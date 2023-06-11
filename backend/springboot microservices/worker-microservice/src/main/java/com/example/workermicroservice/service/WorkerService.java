@@ -88,6 +88,7 @@ public class WorkerService {
     public List<WorkerProjection> getWorkers(){
 
         List<WorkerProjection> workers = this.workerRepository.getWorkers();
+        System.out.println("worker "+workers.get(0));
         List<String> userIds = workers.stream()
                 .map(WorkerProjection::getUserId)
                 .collect(Collectors.toList());

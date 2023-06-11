@@ -18,8 +18,11 @@ public class RouteValidator {
             "/auth/registration/user",
             "/auth/validate-email",
             "/auth/validate-token",
+            "/auth/admin/statistics",
             "/eureka",
-            "/chat/discussion",
+//            "/chat/discussion",
+            "/workers/admin/workers",
+
             "/job-request/all"
     );
 

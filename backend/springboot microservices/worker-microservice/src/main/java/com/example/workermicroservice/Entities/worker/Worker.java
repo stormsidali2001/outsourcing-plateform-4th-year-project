@@ -55,8 +55,6 @@ public class Worker {
     private Collection<Skill> skills;
 
     private String userId;
-
-
     @Transient
     private int nbrImpressions;
     @Transient

@@ -22,7 +22,7 @@ public interface WorkerRepository extends MongoRepository<Worker,String> {
     Boolean existsWorkerByUserId(String userId);
 
 
-    @Query(value = "{}", fields = "{ 'firstName' : 1, 'lastName' : 1,'userId': 1}")
+    @Query(value = "{}", fields = "{ 'firstName' : 1, 'lastName' : 1,'userId': 1,'status': 1,'signUpDate': 1}")
     List<WorkerProjection> getWorkers();
 
 
