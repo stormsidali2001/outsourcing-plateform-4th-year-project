@@ -7,7 +7,21 @@ import { AcceptJobRequestDto } from './dto/accept-job-request.dto';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
+  @Post("/admin/accept")
+  async accepteJobRequstAdmin(@Body() data:AcceptJobRequestDto, @Req() req:Request){
+    console.log("data",JSON.stringify(data))
+    const userId = req.headers["x-userid"];
+    const role = req.headers["x-role"];
+    console.log({role,userId,h:req.headers})
+    if(role !== "ADMIN"){
+      throw new ForbiddenException("can't access the endpoint")
+    }
+    if(!userId){
+      throw new UnauthorizedException("user header is missing");
+    }
+    return this.appService.accepteJobRequstAdmin(data)
+  
+  }
 
   @Post()
   async create(@Body() data:JobRequestDto , @Req() req:Request){
@@ -50,20 +64,7 @@ export class AppController {
   //   return await this.appService.accepteJobRequest(jobRequestId,data,userId)
   // }
 
-    @Post(":id/accept")
-  async accepteJobRequstAdmin(@Param("id")  jobRequestId:string,@Body() data:AcceptJobRequestDto, @Req() req:Request){
-    const userId = req.headers["x-userid"];
-    const role = req.headers["x-role"];
-    console.log({role,userId,h:req.headers})
-    if(role !== "ADMIN"){
-      throw new ForbiddenException("can't access the endpoint")
-    }
-    if(!userId){
-      throw new UnauthorizedException("user header is missing");
-    }
-    return this.appService.accepteJobRequstAdmin(jobRequestId,data)
-  
-  }
+
 
 
   @Get("all")

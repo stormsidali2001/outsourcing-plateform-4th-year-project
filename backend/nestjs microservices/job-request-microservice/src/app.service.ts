@@ -210,10 +210,9 @@ export class AppService {
     return this.jobRequestModel.findOne({ id: jobRequestId });
   }
   async accepteJobRequstAdmin(
-    jobRequestId: string,
-    { accepted }: AcceptJobRequestDto,
+    { accepted ,jobRequestId}: AcceptJobRequestDto,
   ) {
-    const jobRequest = await this.jobRequestModel.findOne({ id: jobRequestId });
+    const jobRequest = await this.jobRequestModel.findById(jobRequestId).exec();
     if (!jobRequest) {
       throw new BadRequestException('job request not found');
     }
