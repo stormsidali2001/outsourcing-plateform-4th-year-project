@@ -61,6 +61,7 @@ export class AppController {
     if(!userId){
       throw new UnauthorizedException("user header is missing");
     }
+    return this.appService.accepteJobRequstAdmin(jobRequestId,data)
   
   }
 
