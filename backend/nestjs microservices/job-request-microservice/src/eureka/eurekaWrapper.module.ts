@@ -11,7 +11,7 @@ import { EurekaModule } from 'nestjs-eureka';
       port: 8888,
       registryFetchInterval: 1000,
       servicePath: '/eureka/apps/',
-      maxRetries: 3,
+      maxRetries: 10,
     },
     service: {
       name: 'job-request-service',

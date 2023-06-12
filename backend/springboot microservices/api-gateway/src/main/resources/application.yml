@@ -40,10 +40,4 @@ spring:
           uri: lb://interaction-microservice
           predicates:
             - Path=/interactions/**
-        - id: chat-microservice
-          uri: lb://chat-microservice
-          predicates:
-            - Path=/chat/**
-#          filters:
-#            - AuthorizationFilter
-#
+

@@ -69,3 +69,4 @@ public class InteractionMicroserviceApplication implements CommandLineRunner {
         }
     }
 }
+

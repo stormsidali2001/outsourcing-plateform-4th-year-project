@@ -21,5 +21,4 @@ public class Wish {
 
     private Date createdAt;
 
-
 }

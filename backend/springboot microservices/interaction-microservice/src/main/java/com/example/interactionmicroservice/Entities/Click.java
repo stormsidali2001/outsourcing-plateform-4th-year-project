@@ -24,5 +24,4 @@ public class Click {
 
     private Date createdAt;
 
-
 }
