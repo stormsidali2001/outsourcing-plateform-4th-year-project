@@ -1,13 +1,25 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsUUID,IsArray } from "class-validator";
+import { IsUUID,IsArray, IsEnum, IsNumber, Min, IsDateString, ValidateNested } from "class-validator";
+class WorkerDto{
+    @ApiProperty({example:"id"})
+    @IsUUID(4)
+    workerId: string;
 
+    @ApiProperty()
+    @IsNumber()
+    nbHours: number;
+
+}
 export class JobRequestDto{
-    @ApiProperty({example:"companyId"})
-    @IsUUID()
-    companyId:string;
+     
+    @ApiProperty({type:Array,example:[
+        {
+            workerId:"id",
+            nbHours:5
 
-    @ApiProperty({example:["id1","id2"],type:Array})
+        }
+    ]})
     @IsArray()
-    @IsUUID(4,{each:true})
-    workerIds:string[];
+    @ValidateNested()
+    workers:WorkerDto[];
 }

@@ -2,9 +2,15 @@ package com.example.interactionmicroservice.service;
 
 import com.example.interactionmicroservice.Entities.Impression;
 import com.example.interactionmicroservice.dto.ImpressionDto;
+import com.example.interactionmicroservice.dto.WishDto;
+import com.example.interactionmicroservice.events.InteractionAddedEvent;
+import com.example.interactionmicroservice.proxy.CompanyProxy;
+import com.example.interactionmicroservice.proxy.WorkerProxy;
 import com.example.interactionmicroservice.repositories.ImpressionRepo;
+import com.example.interactionmicroservice.types.InteractionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,25 +21,51 @@ public class ImpressionService {
 
     @Autowired
     private ImpressionRepo impressionRepo;
+  @Autowired
+   private WorkerProxy workerProxy;
 
-    public void newImpression(ImpressionDto impressionDto){
-        String Id = UUID.randomUUID().toString();
-        Impression impression= Impression.builder()
-                .idImpression(Id)
-                .idWorker(impressionDto.getIdWorker())
-                .idCompany(impressionDto.getIdCompany())
-                .createdAt(new Date())
-                .build();
+  @Autowired
+  private CompanyProxy companyProxy;
 
-        impressionRepo.save(impression);
+    @Autowired
+    private KafkaTemplate<Object, Object> kafkaTemplate;
+    public void newImpression(ImpressionDto impressionDto,String companyId){
+
+        if(workerProxy.workerExist(impressionDto.getIdWorker())){
+            String Id = UUID.randomUUID().toString();
+            Impression impression= Impression.builder()
+                    .idImpression(Id)
+                    .idWorker(impressionDto.getIdWorker())
+                    .idCompany(companyId)
+                    .createdAt(new Date())
+                    .build();
+
+            Impression impressionDb = impressionRepo.save(impression);
+            kafkaTemplate.send("interaction-added", InteractionAddedEvent.builder()
+                    .companyId(impressionDb.getIdCompany())
+                    .workerId(impressionDb.getIdWorker())
+                    .interactionType(InteractionType.IMPRESSION)
+                    .build());
+        }else{
+            System.out.println("user don't exist"+workerProxy.workerExist(impressionDto.getIdWorker()));
+        }
+
     }
 
-    public List<Impression> getImpressionsByIdWorker(String idWorker){
+    public int getImpressionsCountByIdWorker(String idWorker){
 
-        List<Impression> impressions= impressionRepo.findImpressionsByIdWorker(idWorker) ;
-        System.out.println("size"+impressions.size());
-        return impressions;
+        int NbrImpressions= impressionRepo.countImpressionByIdWorker(idWorker) ;
+        System.out.println("size"+NbrImpressions);
+        return NbrImpressions;
     }
+  public List<Object[]> getWorkersNbrImpressions(String workerIds){
+
+      // Split the comma-separated IDs into an array
+      String[] ids = workerIds.split(",");
+
+      return impressionRepo.getImpressionCountByWorkers(List.of(ids));
+
+  }
 
 
 

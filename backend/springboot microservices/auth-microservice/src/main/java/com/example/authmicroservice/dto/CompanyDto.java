@@ -39,4 +39,6 @@ public class CompanyDto {
 
     private String userId;
 
+    private boolean isNotAdmin = false;
+
 }

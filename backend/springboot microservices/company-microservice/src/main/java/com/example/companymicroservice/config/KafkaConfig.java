@@ -19,4 +19,10 @@ public class KafkaConfig {
                 .name("company-unvalid")
                 .build();
     }
+    @Bean
+    public NewTopic getTopic2(){
+        return TopicBuilder
+                .name("company-unvalid-not-admin")
+                .build();
+    }
 }

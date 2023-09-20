@@ -1,5 +1,6 @@
 package com.example.workermicroservice.dtos;
 
+import com.example.workermicroservice.Entities.worker.Skill;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import java.util.Collection;
 import java.util.Date;
 
 @Builder @Data @AllArgsConstructor @NoArgsConstructor
@@ -25,7 +27,7 @@ public class CertificationDto {
     @NotBlank(message = "company name is required")
     private String companyName;
 
-    @NotNull(message = "skill  is required")
+    @NotNull(message = "skills  are required")
     @Valid
-    private SkillDto skill;
+    private Collection<SkillDto> skills;
 }

@@ -52,23 +52,20 @@ public class KafkaListeners {
             Set<String> categories = new HashSet<>();
             Set<String> skills = new HashSet<>();
             categories.add(worker.getCategory());
-            worker.getSkills().stream().forEach((SkillDto s)->{
+            worker.getSkills().forEach((SkillDto s)->{
                 categories.add(s.getCategory());
                 skills.add(s.getName());
             });
-            worker.getEducationDetails().stream().forEach((EducationDetailDto ed)->{
-                ed.getSkills().stream().forEach((SkillDto s)->{
+
+            worker.getCertifications().forEach((CertificationDto ce)->{
+                ce.getSkills().forEach((SkillDto s)->{
                     categories.add(s.getCategory());
                     skills.add(s.getName());
                 });
             });
-            worker.getCertifications().stream().forEach((CertificationDto ce)->{
-                categories.add(ce.getSkill().getCategory());
-                skills.add(ce.getSkill().getName());
-            });
 
-            worker.getPortfolioProjects().stream().forEach((PortfolioProjectDto pf)->{
-                pf.getSkills().stream().forEach((SkillDto s)->{
+            worker.getPortfolioProjects().forEach((PortfolioProjectDto pf)->{
+                pf.getSkills().forEach((SkillDto s)->{
                     categories.add(s.getCategory());
                     skills.add(s.getName());
                 });
@@ -78,7 +75,12 @@ public class KafkaListeners {
             List<Skill> skillsDb = skillRepository.findAllByNameIn(skills.stream().toList());
 
             if(categoriesDb.size() != categories.size() || skillsDb.size() != skills.size()){
-                kafkaTemplate.send("worker-unvalid",worker.getUserId());
+                if(worker.isNotAdmin()){
+                    kafkaTemplate.send("worker-unvalid",worker.getUserId());
+                }else{
+                    kafkaTemplate.send("worker-unvalid-not-admin",worker.getUserId());
+                }
+
                 System.out.println("worker-unvalid...");
                 System.out.println("request skills: "+skills.toString());
                 System.out.println("db skills: "+skillsDb.toString());
@@ -88,7 +90,8 @@ public class KafkaListeners {
 
                         return;
             }
-            workerService.signUpWorker(worker);
+
+            workerService.signUpWorker(worker,!worker.isNotAdmin());
             System.out.println("data saved in db...");
 
         } catch (Exception e) {

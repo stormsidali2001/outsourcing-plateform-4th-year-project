@@ -15,6 +15,15 @@ import java.util.Collection;
 
 @Builder @Data @NoArgsConstructor @AllArgsConstructor
 public class WorkerDto  {
+    @NotBlank(message = "title is required")
+    private String title;
+
+    private String cvUrl;
+
+    private String pictureUrl;
+
+    private String cardIdUrl;
+
     @NotBlank(message = "FirstName is required")
     private String firstName;
 
@@ -49,6 +58,8 @@ public class WorkerDto  {
     private Collection<SkillDto> skills;
 
     private String userId;
+
+    private boolean isNotAdmin = false;
 
     @NotBlank(message = "category is required")
     private String category;

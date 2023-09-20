@@ -7,13 +7,37 @@ spring:
           predicates:
             - Path=/workers/**
           filters:
-            - RewritePath=/api/(?<s>.*), /${s}
             - AuthorizationFilter
 
+        - id: client3
+          uri: lb://company-microservice
+          predicates:
+            - Path=/clients/**
+          filters:
+            - AuthorizationFilter
 
         - id: auth-microservice
           uri: lb://auth-microservice
           predicates:
             - Path=/auth/**
           filters:
-            - RewritePath=auth/(?<s>.*), /${s}
+            - AuthorizationFilter
+        - id: storage-microservice
+          uri: lb://storage-microservice
+          predicates:
+            - Path=/storage/**
+          filters:
+            - AuthorizationFilter
+
+        - id: job-request-microservice
+          uri: lb://job-request-service
+          predicates:
+            - Path=/job-request/**
+          filters:
+            - AuthorizationFilter
+
+        - id: interactions-route
+          uri: lb://interaction-microservice
+          predicates:
+            - Path=/interactions/**
+

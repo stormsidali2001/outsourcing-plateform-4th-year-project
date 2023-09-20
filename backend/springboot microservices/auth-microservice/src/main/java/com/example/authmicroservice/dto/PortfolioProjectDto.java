@@ -20,6 +20,8 @@ public class PortfolioProjectDto {
     @NotBlank(message = "role is required")
     private String role;
 
+    private String imageUrl;
+
     @NotBlank(message= "project gloal is required")
     @Length(min = 2000,message = "the project goal description should have at least 2000 characters")
     private String projectGoal;

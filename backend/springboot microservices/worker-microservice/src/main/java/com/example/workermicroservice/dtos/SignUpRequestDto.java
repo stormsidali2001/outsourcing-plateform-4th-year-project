@@ -18,6 +18,15 @@ public class SignUpRequestDto {
     @NotBlank(message = "FirstName is required")
     private String firstName;
 
+    @NotBlank(message = "title is required")
+    private String title;
+
+    private String cvUrl;
+
+    private String pictureUrl;
+
+    private String cardIdUrl;
+
     @NotBlank(message = "LastName is required")
     private String lastName;
 
@@ -49,6 +58,8 @@ public class SignUpRequestDto {
 
     @NotBlank(message = "userId is required")
     private String userId;
+
+    private boolean notAdmin;
 
     @NotBlank(message = "category is required")
     private String category;

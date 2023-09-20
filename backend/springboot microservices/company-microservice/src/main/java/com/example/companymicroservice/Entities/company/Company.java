@@ -3,13 +3,14 @@ package com.example.companymicroservice.Entities.company;
 import com.example.companymicroservice.types.CompanyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Collection;
 
-@Document(value = "company") @Builder
+@Document(value = "company") @Builder@Data
 @NoArgsConstructor @AllArgsConstructor
 public class Company {
     @Id
@@ -27,6 +28,9 @@ public class Company {
 
     private Collection<SocialMediaLink> socialMediaLinks;
 
-    private String userdId;
+    private String userId;
+//    public String getId() {
+//        return id;
+//    }
 
 }

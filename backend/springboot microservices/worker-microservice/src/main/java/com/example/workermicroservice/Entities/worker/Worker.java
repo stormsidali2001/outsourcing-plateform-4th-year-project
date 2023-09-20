@@ -1,6 +1,6 @@
 package com.example.workermicroservice.Entities.worker;
 
-import com.example.companymicroservice.types.WorkerStatus;
+import com.example.workermicroservice.types.WorkerStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +21,14 @@ public class Worker {
     private String firstName;
 
     private String category;
+
+    private String title;
+
+    private String cvUrl;
+
+    private String pictureUrl;
+
+    private String cardIdUrl;
 
     private String lastName;
 
@@ -47,11 +55,10 @@ public class Worker {
     private Collection<Skill> skills;
 
     private String userId;
-
-//    @Transient
-//    private Collection<ImpressionModel> impressions;
-//    @Transient
-//    private Collection<WishModel> wishes;
-//    @Transient
-//    private Collection<ClickModel> clicks;
+    @Transient
+    private int nbrImpressions;
+    @Transient
+    private int nbrWishes;
+    @Transient
+    private int nbrClicks;
 }

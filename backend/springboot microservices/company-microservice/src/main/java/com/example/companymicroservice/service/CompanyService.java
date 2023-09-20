@@ -7,9 +7,12 @@ import com.example.companymicroservice.dto.SocialMediaLinkDto;
 import com.example.companymicroservice.repositpries.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -17,6 +20,15 @@ public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    public List<String> findAllUserIds(){
+
+
+//        return this.companyRepository.findAllUserIds();
+        List<Company> companies = companyRepository.findAll();
+        return companies.stream()
+                .map(Company::getUserId)
+                .collect(Collectors.toList());
+    }
     public String signupCompany(SignUpCompanyDto company) throws  Exception{
         Optional<Company> cOp = companyRepository.findByName(company.getName());
         if(cOp.isPresent()) throw new RuntimeException("companyExist");
@@ -27,14 +39,18 @@ public class CompanyService {
                         .website(company.getWebsite())
                         .type(company.getType())
                         .size(company.getSize())
-                        .userdId(company.getUserId())
+                        .userId(company.getUserId())
                         .socialMediaLinks(company.getSocialMediaLinks().stream().map(this::mapToSocialMediaLink).toList())
                 .build()
         );
 
         return "company registered succesfully";
     }
-
+    public boolean getCompanyExists( String userId){
+        
+//        return this.companyRepository.findByUserId(userId).isPresent();
+        return this.companyRepository.existsCompanyByUserId(userId);
+    }
     private SocialMediaLink mapToSocialMediaLink(SocialMediaLinkDto s){
         return SocialMediaLink.builder()
                 .name(s.getName())

@@ -14,12 +14,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClickDto {
-    private String idClick;
 
     @NotBlank(message = "worker  is required")
     private String idWorker;
-    @NotBlank(message = "company  is required")
-    private String idCompany;
 
 //    private Date createdAt;
 }

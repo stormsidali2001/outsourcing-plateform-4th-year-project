@@ -1,0 +1,5 @@
+-- create databases
+CREATE DATABASE IF NOT EXISTS `auth`;
+CREATE DATABASE IF NOT EXISTS `storage`;
+CREATE DATABASE IF NOT EXISTS `interactions`;
+CREATE DATABASE IF NOT EXISTS `payement`;
